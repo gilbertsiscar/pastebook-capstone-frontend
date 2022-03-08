@@ -33,7 +33,8 @@ const appRoutes: Routes = [
     NotFoundComponent,
     SettingsComponent,
     EditProfileComponent,
-    EditSecurityComponent
+    EditSecurityComponent,
+    LoginFormComponent
   ],
   imports: [
     BrowserModule,
