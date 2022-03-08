@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -11,6 +12,8 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   login(email: string, password: string) {
+    const debug = true;
+    if (debug) return of({ email, password });
     return this.http.post(`${this.baseUrl}/login`, { email, password });
   }
 }
