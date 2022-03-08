@@ -1,6 +1,6 @@
 <div class="card w-25 p-4">
   <h3 class="card-title text-center">Log In</h3>
-  <form (ngSubmit)="onSubmit()">
+  <form [formGroup]="credentials" (ngSubmit)="onSubmit()">
     <div class="mb-3">
       <label for="email" class="form-label">Email</label>
       <input
@@ -8,11 +8,17 @@
         class="form-control"
         id="email"
         aria-describedby="emailHelp"
+        formControlName="email"
       />
     </div>
     <div class="mb-3">
       <label for="password" class="form-label">Password</label>
-      <input type="password" class="form-control" id="password" />
+      <input
+        type="password"
+        class="form-control"
+        id="password"
+        formControlName="password"
+      />
     </div>
     <div class="mb-4 form-check">
       <input type="checkbox" class="form-check-input" id="remember" />
