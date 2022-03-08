@@ -30,6 +30,7 @@ const appRoutes: Routes = [
     NavbarComponent,
     RegisterComponent,
     LoginComponent,
+    LoginFormComponent,
     NotFoundComponent,
     SettingsComponent,
     EditProfileComponent,
