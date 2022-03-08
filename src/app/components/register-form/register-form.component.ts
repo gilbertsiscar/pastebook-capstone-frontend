@@ -95,14 +95,3 @@ export class RegisterFormComponent implements OnInit {
     return this.registerForm.get('mobileNumber');
   }
 }
-
-function emailAndMobileNumberValidator(
-  control: AbstractControl
-): ValidationErrors | null {
-  const email = control.get('email');
-  const mobileNumber = control.get('mobileNumber');
-
-  return email?.value && mobileNumber?.value
-    ? { emailAndMobileNumber: true }
-    : null;
-}
