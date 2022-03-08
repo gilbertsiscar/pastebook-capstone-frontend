@@ -16,18 +16,15 @@ import Swal from 'sweetalert2';
 export class RegisterFormComponent implements OnInit {
   submitted: boolean = false;
 
-  registerForm = this.formBuilder.group(
-    {
-      firstName: [null, Validators.required],
-      lastName: [null, Validators.required],
-      email: [null, Validators.email],
-      password: [null, Validators.required],
-      birthday: [null, Validators.required],
-      gender: [null],
-      mobileNumber: [null],
-    },
-    { validators: emailAndMobileNumberValidator }
-  );
+  registerForm = this.formBuilder.group({
+    firstName: [null, Validators.required],
+    lastName: [null, Validators.required],
+    email: [null, Validators.email],
+    password: [null, Validators.required],
+    birthday: [null, Validators.required],
+    gender: [null],
+    mobileNumber: [null],
+  });
 
   constructor(private formBuilder: FormBuilder, private router: Router) {}
 
@@ -35,8 +32,9 @@ export class RegisterFormComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
+    console.log(this.registerForm.valid);
     if (this.registerForm.valid) {
-      this.successfulRegister({ data: 'test' });
+      return this.successfulRegister({ data: 'test' });
     }
   }
 
@@ -59,6 +57,18 @@ export class RegisterFormComponent implements OnInit {
         'error'
       );
     }
+  }
+
+  mobileNumberValidation(): string {
+    if (this.submitted && (this.email?.value || this.mobileNumber?.value)) {
+      return 'is-valid';
+    } else if (this.submitted && !this.email?.value) {
+      return 'is-invalid';
+    } else if (this.submitted && this.mobileNumber) {
+      return 'is-valid';
+    }
+
+    return '';
   }
 
   get email() {

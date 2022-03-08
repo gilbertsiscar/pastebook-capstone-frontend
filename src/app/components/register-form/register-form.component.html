@@ -78,13 +78,7 @@
             id="mobileNumber"
             formControlName="mobileNumber"
             required
-            [ngClass]="
-              submitted
-                ? mobileNumber?.invalid
-                  ? 'is-invalid'
-                  : 'is-valid'
-                : ''
-            "
+            [ngClass]="mobileNumberValidation()"
           />
           <span *ngIf="!email?.value" class="invalid-feedback">
             Phone Number is required
