@@ -1,6 +1,10 @@
 <div class="card p-4" style="width: 40%">
   <h3 class="card-title text-center mb-3">Register</h3>
-  <form [formGroup]="registerForm" class="needs-validation">
+  <form
+    [formGroup]="registerForm"
+    (ngSubmit)="onSubmit()"
+    class="needs-validation"
+  >
     <div class="mb-3 row">
       <div class="col">
         <label for="firstName" class="form-label">First Name</label>
@@ -10,7 +14,16 @@
           id="firstName"
           formControlName="firstName"
           required
+          [ngClass]="
+            submitted ? (firstName?.invalid ? 'is-invalid' : 'is-valid') : ''
+          "
         />
+        <span
+          *ngIf="firstName?.errors?.['required'] && firstName?.invalid && submitted"
+          class="invalid-feedback"
+        >
+          First Name is required
+        </span>
       </div>
       <div class="col">
         <label for="lastName" class="form-label">Last Name</label>
@@ -20,7 +33,16 @@
           id="lastName"
           formControlName="lastName"
           required
+          [ngClass]="
+            submitted ? (lastName?.invalid ? 'is-invalid' : 'is-valid') : ''
+          "
         />
+        <span
+          *ngIf="lastName?.errors?.['required'] && lastName?.invalid && submitted"
+          class="invalid-feedback"
+        >
+          Last Name is required
+        </span>
       </div>
     </div>
     <div class="mb-3 row">
@@ -34,8 +56,16 @@
             id="email"
             formControlName="email"
             required
+            [ngClass]="
+              submitted && email?.value ? (email?.errors?.['email'] ? 'is-invalid' : 'is-valid') : ''
+            "
           />
-          <div class="invalid-feedback">Please provide a valid city.</div>
+          <span
+            *ngIf="email?.errors?.['email'] && email?.invalid && submitted"
+            class="invalid-feedback"
+          >
+            Invalid email format
+          </span>
         </div>
       </div>
       <div class="col">
@@ -48,7 +78,17 @@
             id="mobileNumber"
             formControlName="mobileNumber"
             required
+            [ngClass]="
+              submitted
+                ? mobileNumber?.invalid
+                  ? 'is-invalid'
+                  : 'is-valid'
+                : ''
+            "
           />
+          <span *ngIf="!email?.value" class="invalid-feedback">
+            Phone Number is required
+          </span>
         </div>
       </div>
     </div>
@@ -60,7 +100,16 @@
         id="password"
         formControlName="password"
         required
+        [ngClass]="
+          submitted ? (password?.invalid ? 'is-invalid' : 'is-valid') : ''
+        "
       />
+      <span
+        *ngIf="password?.errors?.['required'] && password?.invalid && submitted"
+        class="invalid-feedback"
+      >
+        Password is required
+      </span>
     </div>
 
     <div class="mb-3 row">
@@ -72,7 +121,16 @@
           id="birthday"
           formControlName="birthday"
           required
+          [ngClass]="
+            submitted ? (birthday?.invalid ? 'is-invalid' : 'is-valid') : ''
+          "
         />
+        <span
+          *ngIf="birthday?.errors?.['required'] && birthday?.invalid && submitted"
+          class="invalid-feedback"
+        >
+          Birthday is required
+        </span>
       </div>
       <div class="col">
         <label for="gender" class="form-label">Gender</label>

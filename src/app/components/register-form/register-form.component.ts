@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
@@ -9,44 +14,48 @@ import Swal from 'sweetalert2';
   styleUrls: ['./register-form.component.css'],
 })
 export class RegisterFormComponent implements OnInit {
-  registerForm = this.formBuilder.group({
-    firstName: [null, Validators.required],
-    lastName: [null, Validators.required],
-    email: [null, Validators.required],
-    password: [null, Validators.required],
-    birthday: [null, Validators.required],
-    gender: [null, Validators.required],
-    mobileNumber: [null, Validators.required],
-  });
+  submitted: boolean = false;
+
+  registerForm = this.formBuilder.group(
+    {
+      firstName: [null, Validators.required],
+      lastName: [null, Validators.required],
+      email: [null, Validators.email],
+      password: [null, Validators.required],
+      birthday: [null, Validators.required],
+      gender: [null],
+      mobileNumber: [null],
+    },
+    { validators: emailAndMobileNumberValidator }
+  );
 
   constructor(private formBuilder: FormBuilder, private router: Router) {}
 
   ngOnInit(): void {}
 
-  onSubmit() {}
+  onSubmit() {
+    this.submitted = true;
+    if (this.registerForm.valid) {
+      this.successfulRegister({ data: 'test' });
+    }
+  }
 
-  successfulLogin(response: Record<string, any>) {
+  successfulRegister(response: Record<string, any>) {
     Swal.fire(
-      'Login Successful',
-      'You have successfully logged in.',
+      'Account Created',
+      'Your account has been created successfully, please login to continue',
       'success'
     );
     this.router.navigate(['']);
   }
 
-  failedLogin(result: Record<string, any>) {
+  failedRegister(result: Record<string, any>) {
     const data = result['error'];
 
-    if (data.result === 'incorrect_credentials') {
+    if (data.result === 'user_exists') {
       Swal.fire(
-        'Login Failed',
-        'You have entered incorrect credentials, please try again',
-        'error'
-      );
-    } else if (data.result === 'user_not_found') {
-      Swal.fire(
-        'Login Failed',
-        'User does not exist, please try again.',
+        'Registration Failed',
+        'Email or mobile number already exists',
         'error'
       );
     }
@@ -59,4 +68,31 @@ export class RegisterFormComponent implements OnInit {
   get password() {
     return this.registerForm.get('password');
   }
+
+  get firstName() {
+    return this.registerForm.get('firstName');
+  }
+
+  get lastName() {
+    return this.registerForm.get('lastName');
+  }
+
+  get birthday() {
+    return this.registerForm.get('birthday');
+  }
+
+  get mobileNumber() {
+    return this.registerForm.get('mobileNumber');
+  }
+}
+
+function emailAndMobileNumberValidator(
+  control: AbstractControl
+): ValidationErrors | null {
+  const email = control.get('email');
+  const mobileNumber = control.get('mobileNumber');
+
+  return email?.value && mobileNumber?.value
+    ? { emailAndMobileNumber: true }
+    : null;
 }
