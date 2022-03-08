@@ -11,6 +11,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { LoginComponent } from './pages/login/login.component';
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { RegisterFormComponent } from './components/register-form/register-form.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent }, // http://localhost:4200/,
@@ -26,6 +27,7 @@ const appRoutes: Routes = [
     LoginComponent,
     NotFoundComponent,
     LoginFormComponent,
+    RegisterFormComponent,
   ],
   imports: [
     BrowserModule,
