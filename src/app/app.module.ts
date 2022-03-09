@@ -15,30 +15,29 @@ import { RegisterFormComponent } from './components/register-form/register-form.
 import { SettingsComponent } from './pages/settings/settings.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import { EditSecurityComponent } from './components/edit-security/edit-security.component';
+import { CreatePostComponent } from './components/create-post/create-post.component';
 
 const appRoutes: Routes = [
-
-  { path: '', component: HomeComponent}, // http://localhost:4200/,
-  { path: 'register', component: RegisterComponent},
-  { path: 'login', component: LoginComponent},
-  { path: 'settings', component: SettingsComponent},
-  { path: '**', component: NotFoundComponent}
-
+  { path: '', component: HomeComponent }, // http://localhost:4200/,
+  { path: 'register', component: RegisterComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'settings', component: SettingsComponent },
+  { path: '**', component: NotFoundComponent },
 ];
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent,
-    RegisterComponent,
-    LoginComponent,
-    LoginFormComponent,
-    NotFoundComponent,
-    LoginFormComponent,
-    RegisterFormComponent,
-    SettingsComponent,
+    CreatePostComponent,
     EditProfileComponent,
     EditSecurityComponent,
-    LoginFormComponent
+    HomeComponent,
+    LoginComponent,
+    LoginFormComponent,
+    NavbarComponent,
+    NotFoundComponent,
+    RegisterComponent,
+    RegisterFormComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,

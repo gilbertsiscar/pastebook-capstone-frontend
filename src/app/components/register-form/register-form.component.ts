@@ -3,10 +3,21 @@ import {
   AbstractControl,
   FormBuilder,
   ValidationErrors,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
+
+const emailMobileNumberValidator: ValidatorFn = (
+  control: AbstractControl
+): ValidationErrors | null => {
+  const email = control.get('email')?.value;
+  const mobileNumber = control.get('mobileNumber')?.value;
+
+  return email || mobileNumber ? null : { invalid: true };
+};
 
 @Component({
   selector: 'app-register-form',
@@ -16,24 +27,36 @@ import Swal from 'sweetalert2';
 export class RegisterFormComponent implements OnInit {
   submitted: boolean = false;
 
-  registerForm = this.formBuilder.group({
-    firstName: [null, Validators.required],
-    lastName: [null, Validators.required],
-    email: [null, Validators.email],
-    password: [null, Validators.required],
-    birthday: [null, Validators.required],
-    gender: [null],
-    mobileNumber: [null],
-  });
+  registerForm = this.formBuilder.group(
+    {
+      firstName: [null, Validators.required],
+      lastName: [null, Validators.required],
+      email: [null, Validators.email],
+      password: [null, Validators.required],
+      birthday: [null, Validators.required],
+      gender: [null],
+      mobileNumber: null,
+    },
+    {
+      validators: emailMobileNumberValidator,
+    }
+  );
 
-  constructor(private formBuilder: FormBuilder, private router: Router) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private userService: UserService
+  ) {}
 
   ngOnInit(): void {}
 
   onSubmit() {
     this.submitted = true;
-    console.log(this.registerForm.valid);
     if (this.registerForm.valid) {
+      this.userService.register(this.registerForm.value).subscribe({
+        next: this.successfulRegister.bind(this),
+        error: this.failedRegister.bind(this),
+      });
       return this.successfulRegister({ data: 'test' });
     }
   }
@@ -59,15 +82,31 @@ export class RegisterFormComponent implements OnInit {
     }
   }
 
-  mobileNumberValidation(): string {
-    if (this.submitted && (this.email?.value || this.mobileNumber?.value)) {
+  emailFieldDisplayValid(): string {
+    if (this.submitted && this.email?.valid && this.email?.value) {
+      return 'is-valid';
+    } else if (
+      this.submitted &&
+      !this.email?.valid &&
+      this.mobileNumber?.value
+    ) {
+      return '';
+    } else if (
+      this.submitted &&
+      !this.email?.valid &&
+      !this.mobileNumber?.value
+    ) {
+      return 'is-invalid';
+    }
+    return '';
+  }
+
+  mobileNumberFieldDisplayValid(): string {
+    if (this.submitted && this.mobileNumber?.value) {
       return 'is-valid';
     } else if (this.submitted && !this.email?.value) {
       return 'is-invalid';
-    } else if (this.submitted && this.mobileNumber) {
-      return 'is-valid';
     }
-
     return '';
   }
 
