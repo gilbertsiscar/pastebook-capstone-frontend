@@ -1,5 +1,10 @@
 import { EventEmitter, Injectable, Output } from '@angular/core';
 
+/**
+ * Todo:
+ * [] Manage multiple local user/tokens
+ */
+
 @Injectable({
   providedIn: 'root',
 })
@@ -18,20 +23,28 @@ export class SessionService {
     return localStorage.getItem('token')!;
   }
 
+  getUserId(): string | null {
+    return localStorage.getItem('user_id');
+  }
+
   getEmail(): string {
     return localStorage.getItem('email')!;
   }
 
-  setToken(value: string): void {
+  setToken(token: string) {
     this.hasToken.emit(true);
-    localStorage.setItem('token', value);
+    localStorage.setItem('token', token);
   }
 
-  setEmail(value: string): void {
-    localStorage.setItem('email', value);
+  setUserId(id: string) {
+    localStorage.setItem('user_id', id);
   }
 
-  clear(): void {
+  setEmail(email: string) {
+    localStorage.setItem('email', email);
+  }
+
+  clear() {
     localStorage.clear();
     this.hasToken.emit(false);
   }
