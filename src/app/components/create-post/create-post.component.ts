@@ -8,7 +8,9 @@ import { FormBuilder } from '@angular/forms';
 })
 export class CreatePostComponent implements OnInit {
   postForm = this.formBuilder.group({
+    title: '',
     body: '',
+    img: '',
   });
 
   constructor(private formBuilder: FormBuilder) {}
