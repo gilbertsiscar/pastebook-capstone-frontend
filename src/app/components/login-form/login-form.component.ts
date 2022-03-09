@@ -55,6 +55,7 @@ export class LoginFormComponent implements OnInit {
     );
     this.sessionService.setEmail(response['email']);
     this.sessionService.setToken(response['token']);
+    this.sessionService.setUserId(response['user_id']);
     this.router.navigate(['']);
   }
 
