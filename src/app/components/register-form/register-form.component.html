@@ -1,11 +1,11 @@
 <div class="card p-4" style="width: 40%">
-  <h3 class="card-title text-center mb-3">Register</h3>
+  <h3 class="card-title text-center mb-4">Register</h3>
   <form
     [formGroup]="registerForm"
     (ngSubmit)="onSubmit()"
-    class="needs-validation"
+    class="d-grid gap-3 needs-validation"
   >
-    <div class="mb-3 row">
+    <div class="row">
       <div class="col">
         <label for="firstName" class="form-label">First Name</label>
         <input
@@ -45,48 +45,45 @@
         </span>
       </div>
     </div>
-    <div class="mb-3 row">
-      <div class="col">
-        <label for="email" class="form-label">Email</label>
-        <div class="input-group">
-          <span class="input-group-text">@</span>
-          <input
-            type="email"
-            class="form-control"
-            id="email"
-            formControlName="email"
-            required
-            [ngClass]="
-              submitted && email?.value ? (email?.errors?.['email'] ? 'is-invalid' : 'is-valid') : ''
-            "
-          />
-          <span
-            *ngIf="email?.errors?.['email'] && email?.invalid && submitted"
-            class="invalid-feedback"
-          >
-            Invalid email format
-          </span>
-        </div>
-      </div>
-      <div class="col">
-        <label for="mobileNumber" class="form-label">Mobile Number</label>
-        <div class="input-group">
-          <span class="input-group-text">+63</span>
-          <input
-            type="tel"
-            class="form-control"
-            id="mobileNumber"
-            formControlName="mobileNumber"
-            required
-            [ngClass]="mobileNumberValidation()"
-          />
-          <span *ngIf="!email?.value" class="invalid-feedback">
-            Phone Number is required
-          </span>
-        </div>
+    <div>
+      <label for="email" class="form-label">Email</label>
+      <div class="input-group">
+        <span class="input-group-text">@</span>
+        <input
+          type="email"
+          class="form-control"
+          id="email"
+          formControlName="email"
+          [ngClass]="emailFieldDisplayValid()"
+        />
+        <span
+          *ngIf="email?.errors?.['email'] && email?.invalid && submitted"
+          class="invalid-feedback"
+        >
+          Invalid email format
+        </span>
       </div>
     </div>
-    <div class="mb-3">
+    <div>
+      <label for="mobileNumber" class="form-label">Mobile Number</label>
+      <div class="input-group">
+        <span class="input-group-text">+63</span>
+        <input
+          type="tel"
+          class="form-control"
+          id="mobileNumber"
+          formControlName="mobileNumber"
+          [ngClass]="mobileNumberFieldDisplayValid()"
+        />
+        <span
+          *ngIf="!email?.value && !mobileNumber?.value"
+          class="invalid-feedback"
+        >
+          Phone Number is required
+        </span>
+      </div>
+    </div>
+    <div>
       <label for="password" class="form-label">Password</label>
       <input
         type="password"
@@ -105,8 +102,7 @@
         Password is required
       </span>
     </div>
-
-    <div class="mb-3 row">
+    <div class="row">
       <div class="col">
         <label for="birthday" class="form-label">Birthday</label>
         <input
@@ -137,9 +133,8 @@
       </div>
     </div>
 
-    <div class="d-grid gap-3 mt-4">
+    <div class="d-grid mt-4">
       <button type="submit" class="btn btn-primary">Register</button>
-      <button type="reset" class="btn btn-secondary">Cancel</button>
     </div>
   </form>
   <hr class="my-4" />
