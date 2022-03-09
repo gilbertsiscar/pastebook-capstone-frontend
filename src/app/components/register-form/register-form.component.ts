@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
 
 const emailMobileNumberValidator: ValidatorFn = (
@@ -41,14 +42,21 @@ export class RegisterFormComponent implements OnInit {
     }
   );
 
-  constructor(private formBuilder: FormBuilder, private router: Router) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private userService: UserService
+  ) {}
 
   ngOnInit(): void {}
 
   onSubmit() {
     this.submitted = true;
-    console.log(this.email);
     if (this.registerForm.valid) {
+      this.userService.register(this.registerForm.value).subscribe({
+        next: this.successfulRegister.bind(this),
+        error: this.failedRegister.bind(this),
+      });
       return this.successfulRegister({ data: 'test' });
     }
   }
