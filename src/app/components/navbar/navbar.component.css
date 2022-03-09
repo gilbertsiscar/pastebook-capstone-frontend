@@ -1,0 +1,18 @@
+.logo {
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-decoration: none;
+  line-height: 0.6;
+  padding: 0.25em;
+}
+
+.tab {
+  color: #000;
+  text-decoration: none;
+  padding: 1.2em 0.5em;
+}
+
+.tab-active {
+  color: #0a58ca;
+  border-bottom: 4px solid #0a58ca;
+}
