@@ -4,7 +4,7 @@
     <label class="col-sm-4 col-form-label">Current Email:</label>
 
     <div class="col-sm-8">
-      <input type="text" readonly class="form-control-plaintext" id="currentEmail" value="hello@example.com">
+      <input type="text" readonly class="form-control-plaintext" name="email" value="hello@example.com">
     </div>
   </div>
 
@@ -12,33 +12,33 @@
     <label class="col-sm-4 col-form-label">Current Mobile:</label>
 
     <div class="col-sm-8">
-      <input type="text" readonly class="form-control-plaintext" id="currentMobile" value="0912345677">
+      <input type="text" readonly class="form-control-plaintext" name="mobileNumber" value="0912345677">
     </div>
   </div>
 
   <div class="form-group">
     <label class="mt-3">New email address</label>
-    <input type="email" class="form-control" id="newEmail" aria-describedby="emailHelp" placeholder="Enter new email">
+    <input type="email" class="form-control" name="email" placeholder="Enter new email">
   </div>
 
   <div class="form-group">
     <label class="mt-3">New mobile number</label>
-    <input type="text" class="form-control" id="newMobile" aria-describedby="emailHelp" placeholder="Enter new mobile number">
+    <input type="text" class="form-control" name="mobileNumber" aria-describedby="emailHelp" placeholder="Enter new mobile number">
   </div>
 
   <div class="form-group">
     <label class="mt-3">New password</label>
-    <input type="password" class="form-control" id="editPassword" placeholder="Enter new password">
+    <input type="password" class="form-control" name="password" placeholder="Enter new password">
   </div>
 
   <div class="form-group">
     <label class="mt-3">Retype new password</label>
-    <input type="password" class="form-control" id="retypePassword" placeholder="Retype new password">
+    <input type="password" class="form-control" placeholder="Retype new password">
   </div>
 
   <div class="form-group">
     <label class="mt-3">Current Password</label>
-    <input type="password" class="form-control" id="currentPassword" placeholder="Enter current password" required>
+    <input type="password" class="form-control" name="password" placeholder="Enter current password" required>
     
     <small class="form-text text-muted">*Current password is required to change security information.</small>
   </div>

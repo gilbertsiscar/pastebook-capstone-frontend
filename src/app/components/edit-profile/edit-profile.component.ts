@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-edit-profile',
@@ -8,14 +11,38 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class EditProfileComponent implements OnInit {
 
-  firstName: string = "";
-  lastName: string = "";
-  birthday: string = "";
-  gender: string = "";
+  user: User = new User();
 
-  constructor(private userService: UserService) { }
+  constructor(
+    private userService: UserService,
+    private router: Router,
+    private route: ActivatedRoute
+    ) {
+
+      let userId: number = this.route.snapshot.params['id'];
+
+      userService.getUser(userId).subscribe((response: Object) => {
+        this.user = response
+      })
+     }
 
   ngOnInit(): void {
   }
 
+  onSubmit(): void {
+    this.userService.updatePersonalInfo(this.user).subscribe((response: Record<string, any>) => {
+
+      if (response['result'] === 'updated') {
+
+        Swal.fire({
+          title: 'Update successful',
+          text: 'Your personal information has been updated successfully',
+          icon: 'success'
+
+        }).then(() => {
+          this.router.navigate(['/settings']);
+        })
+      }
+    })  
+  }
 }
