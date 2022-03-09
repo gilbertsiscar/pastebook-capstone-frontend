@@ -37,7 +37,31 @@
       <div class="d-flex align-items-center ms-5">
         <a routerLink="/">Hi! User</a>
 
-        <div class="dropdown mx-3">
+        <div class="dropdown ms-3">
+          <button
+            class="btn btn-primary rounded-circle position-relative"
+            type="button"
+            id="friend-request"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            N
+            <span
+              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+            >
+              5
+              <span class="visually-hidden">friend request</span>
+            </span>
+          </button>
+          <ul
+            class="dropdown-menu dropdown-menu-end"
+            aria-labelledby="friend-request"
+          >
+            <li><a class="dropdown-item" href="#">Friend Request</a></li>
+          </ul>
+        </div>
+
+        <div class="dropdown ms-2 me-3">
           <button
             class="btn btn-primary rounded-circle position-relative"
             type="button"
