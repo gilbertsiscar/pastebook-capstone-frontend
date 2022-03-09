@@ -6,16 +6,36 @@
           class="p-1 rounded-circle bg-dark me-3"
           style="height: 2.5rem; width: 2.5rem"
         ></div>
-        <textarea
-          class="form-control"
-          id="body"
-          placeholder="What's on your mind?"
-          formControlName="body"
-          style="resize: none"
-        ></textarea>
-      </div>
-      <div class="d-flex justify-content-end">
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <input
+          class="form-control rounded-pill text-start text-muted"
+          type="button"
+          value="What's on your mind?"
+          data-bs-toggle="modal"
+          data-bs-target="#createPost"
+        />
+
+        <!-- Modal -->
+        <div
+          class="modal fade"
+          id="createPost"
+          tabindex="-1"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Create Post</h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">...</div>
+            </div>
+          </div>
+        </div>
       </div>
     </form>
   </div>
