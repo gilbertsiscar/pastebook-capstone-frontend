@@ -1,0 +1,124 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+  <div
+    class="container-fluid align-items-center justify-content-between px-4 py-2"
+  >
+    <div class="d-flex">
+      <a class="bg-primary text-light rounded-circle logo me-3" routerLink="/"
+        >P</a
+      >
+      <form class="d-flex">
+        <input
+          class="form-control me-2 rounded-pill"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+        />
+      </form>
+    </div>
+
+    <ng-container *ngIf="token; else noToken">
+      <ul class="nav">
+        <li class="nav-item me-3">
+          <a
+            class="tab"
+            routerLink="/"
+            routerLinkActive="tab-active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            >News Feed</a
+          >
+        </li>
+        <li class="nav-item ms-5">
+          <a class="tab" routerLinkActive="tab-active" routerLink="/friends"
+            >Friends List</a
+          >
+        </li>
+      </ul>
+
+      <div class="d-flex align-items-center ms-5">
+        <a routerLink="/">Hi! User</a>
+
+        <div class="dropdown ms-3">
+          <button
+            class="btn btn-primary rounded-circle position-relative"
+            type="button"
+            id="friend-request"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            N
+            <span
+              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+            >
+              5
+              <span class="visually-hidden">friend request</span>
+            </span>
+          </button>
+          <ul
+            class="dropdown-menu dropdown-menu-end"
+            aria-labelledby="friend-request"
+          >
+            <li><a class="dropdown-item" href="#">Friend Request</a></li>
+          </ul>
+        </div>
+
+        <div class="dropdown ms-2 me-3">
+          <button
+            class="btn btn-primary rounded-circle position-relative"
+            type="button"
+            id="notification"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            N
+            <span
+              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+            >
+              4
+              <span class="visually-hidden">notifications</span>
+            </span>
+          </button>
+          <ul
+            class="dropdown-menu dropdown-menu-end"
+            aria-labelledby="notification"
+          >
+            <li><a class="dropdown-item" href="#">Notifications</a></li>
+          </ul>
+        </div>
+
+        <div class="dropdown">
+          <button
+            type="button"
+            class="btn btn-primary dropdown-toggle dropdown-toggle-split"
+            id="others"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <span class="visually-hidden">Toggle Dropdown</span>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="others">
+            <li>
+              <button class="dropdown-item" (click)="switchView()">
+                Log out
+              </button>
+            </li>
+            <li>
+              <a class="dropdown-item" routerLink="/settings">Settings</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #noToken>
+      <div class="d-flex">
+        <a routerLink="/" (click)="switchView()">switch view</a>
+        <a class="btn btn-primary rounded-pill px-4 mx-3" routerLink="/register"
+          >Register</a
+        >
+        <a class="btn btn-secondary rounded-pill px-4" routerLink="/login"
+          >Login</a
+        >
+      </div>
+    </ng-template>
+  </div>
+</nav>

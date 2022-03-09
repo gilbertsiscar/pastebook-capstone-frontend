@@ -1,0 +1,67 @@
+<div class="card w-25 p-4">
+  <h3 class="card-title text-center">Log In</h3>
+  <form
+    [formGroup]="credentials"
+    (ngSubmit)="onSubmit()"
+    class="needs-validation"
+  >
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        formControlName="email"
+        [ngClass]="
+          submitted ? (email?.invalid ? 'is-invalid' : 'is-valid') : ''
+        "
+        required
+      />
+      <div
+        *ngIf="email?.errors?.['required'] && password?.invalid && submitted"
+        class="invalid-feedback"
+      >
+        Email is required
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input
+        type="password"
+        class="form-control"
+        id="password"
+        formControlName="password"
+        [ngClass]="
+          submitted ? (password?.invalid ? 'is-invalid' : 'is-valid') : ''
+        "
+        required
+      />
+      <div
+        *ngIf="password?.errors?.['required'] && password?.invalid && submitted"
+        class="invalid-feedback"
+      >
+        Password is required
+      </div>
+      <div
+        *ngIf="password?.errors?.['minlength'] && password?.invalid && submitted"
+        class="invalid-feedback"
+      >
+        Password should be atleast 8 characters.
+      </div>
+    </div>
+    <div class="mb-4 form-check">
+      <input type="checkbox" class="form-check-input" id="remember" />
+      <label class="form-check-label" for="remember">Remember Me</label>
+    </div>
+    <div class="d-grid gap-3">
+      <button type="submit" class="btn btn-primary">Login</button>
+      <button type="reset" class="btn btn-secondary">Cancel</button>
+    </div>
+  </form>
+  <hr class="my-4" />
+  <p class="text-center">
+    Don't have an account?<br /><a routerLink="/register" class="link-primary"
+      >Register.</a
+    >
+  </p>
+</div>

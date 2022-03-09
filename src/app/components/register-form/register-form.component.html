@@ -1,0 +1,150 @@
+<div class="card p-4" style="width: 40%">
+  <h3 class="card-title text-center mb-3">Register</h3>
+  <form
+    [formGroup]="registerForm"
+    (ngSubmit)="onSubmit()"
+    class="needs-validation"
+  >
+    <div class="mb-3 row">
+      <div class="col">
+        <label for="firstName" class="form-label">First Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="firstName"
+          formControlName="firstName"
+          required
+          [ngClass]="
+            submitted ? (firstName?.invalid ? 'is-invalid' : 'is-valid') : ''
+          "
+        />
+        <span
+          *ngIf="firstName?.errors?.['required'] && firstName?.invalid && submitted"
+          class="invalid-feedback"
+        >
+          First Name is required
+        </span>
+      </div>
+      <div class="col">
+        <label for="lastName" class="form-label">Last Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="lastName"
+          formControlName="lastName"
+          required
+          [ngClass]="
+            submitted ? (lastName?.invalid ? 'is-invalid' : 'is-valid') : ''
+          "
+        />
+        <span
+          *ngIf="lastName?.errors?.['required'] && lastName?.invalid && submitted"
+          class="invalid-feedback"
+        >
+          Last Name is required
+        </span>
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <div class="col">
+        <label for="email" class="form-label">Email</label>
+        <div class="input-group">
+          <span class="input-group-text">@</span>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            formControlName="email"
+            required
+            [ngClass]="
+              submitted && email?.value ? (email?.errors?.['email'] ? 'is-invalid' : 'is-valid') : ''
+            "
+          />
+          <span
+            *ngIf="email?.errors?.['email'] && email?.invalid && submitted"
+            class="invalid-feedback"
+          >
+            Invalid email format
+          </span>
+        </div>
+      </div>
+      <div class="col">
+        <label for="mobileNumber" class="form-label">Mobile Number</label>
+        <div class="input-group">
+          <span class="input-group-text">+63</span>
+          <input
+            type="tel"
+            class="form-control"
+            id="mobileNumber"
+            formControlName="mobileNumber"
+            required
+            [ngClass]="mobileNumberValidation()"
+          />
+          <span *ngIf="!email?.value" class="invalid-feedback">
+            Phone Number is required
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input
+        type="password"
+        class="form-control"
+        id="password"
+        formControlName="password"
+        required
+        [ngClass]="
+          submitted ? (password?.invalid ? 'is-invalid' : 'is-valid') : ''
+        "
+      />
+      <span
+        *ngIf="password?.errors?.['required'] && password?.invalid && submitted"
+        class="invalid-feedback"
+      >
+        Password is required
+      </span>
+    </div>
+
+    <div class="mb-3 row">
+      <div class="col">
+        <label for="birthday" class="form-label">Birthday</label>
+        <input
+          type="date"
+          class="form-control"
+          id="birthday"
+          formControlName="birthday"
+          required
+          [ngClass]="
+            submitted ? (birthday?.invalid ? 'is-invalid' : 'is-valid') : ''
+          "
+        />
+        <span
+          *ngIf="birthday?.errors?.['required'] && birthday?.invalid && submitted"
+          class="invalid-feedback"
+        >
+          Birthday is required
+        </span>
+      </div>
+      <div class="col">
+        <label for="gender" class="form-label">Gender</label>
+        <select class="form-select" aria-label="Default select example">
+          <option selected>Select Gender</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="others">Others</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="d-grid gap-3 mt-4">
+      <button type="submit" class="btn btn-primary">Register</button>
+      <button type="reset" class="btn btn-secondary">Cancel</button>
+    </div>
+  </form>
+  <hr class="my-4" />
+  <p class="text-center">
+    Already have an account?<br />
+    <a class="link-primary" routerLink="/login">Log In.</a>
+  </p>
+</div>
