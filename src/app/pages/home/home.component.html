@@ -1,3 +1,8 @@
 <div class="container">
   <app-create-post class="d-flex justify-content-center"></app-create-post>
+  <div class="d-grid gap-5">
+    <div *ngFor="let post of fakeData">
+      <app-post class="d-flex justify-content-center" [post]="post"></app-post>
+    </div>
+  </div>
 </div>
