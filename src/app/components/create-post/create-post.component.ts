@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { PostService } from 'src/app/services/post.service';
 
 @Component({
   selector: 'app-create-post',
@@ -13,16 +14,29 @@ export class CreatePostComponent implements OnInit {
     img: '',
   });
 
+  @ViewChild('closeBtn') closeBtn!: ElementRef;
   isLoading = false;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private postService: PostService
+  ) {}
 
   ngOnInit(): void {}
 
   onSubmit() {
     if (this.postForm.valid) {
-      this.postForm.reset();
+      this.isLoading = true;
+      this.postService.createPost(this.postForm.value).subscribe({
+        next: this.onSuccess.bind(this),
+      });
     }
+  }
+
+  onSuccess() {
+    this.isLoading = false;
+    this.postForm.reset();
+    this.closeBtn.nativeElement.click();
   }
 
   get title() {
