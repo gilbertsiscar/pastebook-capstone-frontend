@@ -16,6 +16,8 @@ import { SettingsComponent } from './pages/settings/settings.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import { EditSecurityComponent } from './components/edit-security/edit-security.component';
 import { CreatePostComponent } from './components/create-post/create-post.component';
+import { PostComponent } from './components/post/post.component';
+import { AvatarComponent } from './components/avatar/avatar.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent }, // http://localhost:4200/,
@@ -38,6 +40,8 @@ const appRoutes: Routes = [
     RegisterComponent,
     RegisterFormComponent,
     SettingsComponent,
+    PostComponent,
+    AvatarComponent,
   ],
   imports: [
     BrowserModule,
