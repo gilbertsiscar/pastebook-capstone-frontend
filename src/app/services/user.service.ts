@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../models/user';
+
 import { SessionService } from './session.service';
 
 @Injectable({
@@ -10,6 +11,7 @@ import { SessionService } from './session.service';
 })
 export class UserService {
   private baseUrl = `${environment.apiUrl}/users`;
+  
   private httpHeaders: HttpHeaders = new HttpHeaders({
     'Authorization': `Bearer' ${this.sessionService.getToken()}`
   })
@@ -53,5 +55,4 @@ export class UserService {
   updatePersonalInfo(user: User): Observable<Object> {
     return this.http.put(this.baseUrl + `/details/${user.id}`, user, {headers: this.httpHeaders});
   }
-
 }
