@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { delay, Observable, of } from 'rxjs';
+import { delay, map, Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Post } from '../models/post';
 import { SessionService } from './session.service';
@@ -27,18 +27,41 @@ export class PostService {
     return this.http.post<Post>(`${this.baseUrl}/posts/${userId}/1`, post);
   }
 
+  // GET /posts
   getPosts(): Observable<Post[]> {
-    if (this._debug) return of([]).pipe(delay(3000));
+    const fakeData = [
+      {
+        id: '1',
+        title: 'post1',
+      },
+      {
+        id: '2',
+        title: 'post2',
+      },
+    ];
+    if (this._debug)
+      return of(fakeData)
+        .pipe(delay(3000))
+        .pipe(
+          map((data) =>
+            data.map(({ title }) => new Post().deserialize({ title }))
+          )
+        );
 
     return this.http.get<Post[]>(`${this.baseUrl}/posts`);
   }
 
+  // GET /posts/{userId}
   getPostById(id: string): Observable<Post | null> {
-    if (this._debug) return of(null).pipe(delay(3000));
+    if (this._debug)
+      return of({ title: 'specificPost' })
+        .pipe(delay(3000))
+        .pipe(map(({ title }) => new Post().deserialize({ title })));
 
     return this.http.get<Post>(`${this.baseUrl}/posts/${id}`);
   }
 
+  // PUT /posts/{postId}
   updatePost(post: Post): Observable<Post> {
     if (this._debug) return of(post).pipe(delay(3000));
 
