@@ -10,8 +10,7 @@ import { SessionService } from './session.service';
 })
 export class UserService {
 
-  //not sure kung tama paglagay ng path based sa backend
-  private baseUrl: string = environment.apiUrl + '/users/details';
+  private baseUrl: string = environment.apiUrl + '/users';
   private httpHeaders: HttpHeaders = new HttpHeaders({
     'Authorization': `Bearer' ${this.sessionService.getToken()}`
   })
@@ -32,9 +31,7 @@ export class UserService {
   }
 
   updatePersonalInfo(user: User): Observable<Object> {
-    return this.http.put(this.baseUrl + `/${user.id}`, user, {headers: this.httpHeaders});
+    return this.http.put(this.baseUrl + `/details/${user.id}`, user, {headers: this.httpHeaders});
   }
-
-  
 
 }
