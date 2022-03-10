@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-create-post',
@@ -8,16 +8,32 @@ import { FormBuilder } from '@angular/forms';
 })
 export class CreatePostComponent implements OnInit {
   postForm = this.formBuilder.group({
-    title: '',
+    title: ['', Validators.required],
     body: '',
     img: '',
   });
+
+  isLoading = false;
 
   constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {}
 
   onSubmit() {
-    console.log(this.postForm.value);
+    if (this.postForm.valid) {
+      this.postForm.reset();
+    }
+  }
+
+  get title() {
+    return this.postForm.get('title');
+  }
+
+  get body() {
+    return this.postForm.get('body');
+  }
+
+  get img() {
+    return this.postForm.get('img');
   }
 }
