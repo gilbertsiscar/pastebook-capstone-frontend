@@ -4,18 +4,22 @@ import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../models/user';
 
+import { SessionService } from './session.service';
+
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-
-  //not sure kung tama paglagay ng path based sa backend
-  private baseUrl: string = environment.apiUrl + '/users/details';
+  private baseUrl = `${environment.apiUrl}/users`;
+  
   private httpHeaders: HttpHeaders = new HttpHeaders({
     'Authorization': `Bearer' ${this.sessionService.getToken()}`
   })
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private sessionService: SessionService
+  ) {}
 
   login(email: string, password: string) {
     const debug = true;
@@ -23,14 +27,32 @@ export class UserService {
     return this.http.post(`${this.baseUrl}/login`, { email, password });
   }
 
+  register({
+    firstName,
+    lastName,
+    email,
+    mobileNumber,
+    password,
+    birthday,
+    gender,
+  }: User) {
+    return this.http.post(`${this.baseUrl}/register`, {
+      firstName,
+      lastName,
+      email,
+      mobileNumber,
+      password,
+      birthday,
+      gender,
+    });
+
+  }
+
   getUser(id: number): Observable<User[]> {
     return this.http.get<User[]>(`${this.baseUrl}/${id}`);
   }
 
   updatePersonalInfo(user: User): Observable<Object> {
-    return this.http.put(this.baseUrl + `/${user.id}`, user, {headers: this.httpHeaders});
+    return this.http.put(this.baseUrl + `/details/${user.id}`, user, {headers: this.httpHeaders});
   }
-
-  
-
 }
