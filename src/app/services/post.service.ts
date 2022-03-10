@@ -17,12 +17,37 @@ export class PostService {
     private sessionService: SessionService
   ) {}
 
-  createPost({ title, body }: Post): Observable<object> {
+  // POST /posts/{userId}/{receiverId}
+  createPost(post: Post): Observable<Post> {
     const userId = this.sessionService.getUserId() || '';
-    const post = new Post(title, body, userId);
+    post.userId = userId;
 
-    if (this._debug) return of({ fakeResponse: true }).pipe(delay(3000));
+    if (this._debug) return of(post).pipe(delay(3000));
 
-    return this.http.post(`${this.baseUrl}/posts/${userId}/1`, post);
+    return this.http.post<Post>(`${this.baseUrl}/posts/${userId}/1`, post);
+  }
+
+  getPosts(): Observable<Post[]> {
+    if (this._debug) return of([]).pipe(delay(3000));
+
+    return this.http.get<Post[]>(`${this.baseUrl}/posts`);
+  }
+
+  getPostById(id: string): Observable<Post | null> {
+    if (this._debug) return of(null).pipe(delay(3000));
+
+    return this.http.get<Post>(`${this.baseUrl}/posts/${id}`);
+  }
+
+  updatePost(post: Post): Observable<Post> {
+    if (this._debug) return of(post).pipe(delay(3000));
+
+    return this.http.put<Post>(`${this.baseUrl}/posts/${post.id}`, post);
+  }
+
+  deletePost(id: string): Observable<Post> {
+    if (this._debug) return of({} as Post).pipe(delay(3000));
+
+    return this.http.delete<Post>(`${this.baseUrl}/posts/${id}`);
   }
 }
