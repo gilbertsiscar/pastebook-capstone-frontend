@@ -1,22 +1,114 @@
-<div class="card w-50">
+<div class="card w-50 mb-5">
   <div class="card-body">
-    <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
-      <div class="form-group d-flex mb-3">
-        <div
-          class="p-1 rounded-circle bg-dark me-3"
-          style="height: 2.5rem; width: 2.5rem"
-        ></div>
-        <textarea
-          class="form-control"
-          id="body"
-          placeholder="What's on your mind?"
-          formControlName="body"
-          style="resize: none"
-        ></textarea>
+    <div class="d-flex align-items-center mb-3">
+      <app-avatar
+        [imgUrl]="
+          'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'
+        "
+      ></app-avatar>
+      <p class="mb-0">John Doe</p>
+    </div>
+    <input
+      class="form-control p-3 border-white text-muted"
+      type="button"
+      value="What's on your mind?"
+      data-bs-toggle="modal"
+      data-bs-target="#createPost"
+    />
+
+    <div class="modal fade" id="createPost" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Create Post</h5>
+            <button
+              #closeBtn
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="d-flex align-items-center mb-3">
+              <div
+                class="p-1 rounded-circle bg-dark me-3"
+                style="height: 2.5rem; width: 2.5rem"
+              ></div>
+              <div>
+                <p class="mb-0">John Doe</p>
+                <p class="mb-0 text-muted" style="font-size: 0.875rem">
+                  Only me
+                </p>
+              </div>
+            </div>
+            <form
+              class="d-grid gap-3 needs-validation"
+              [formGroup]="postForm"
+              (ngSubmit)="onSubmit()"
+            >
+              <div class="form-group">
+                <label class="form-label" for="postTitle">Title</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="postTitle"
+                  placeholder="Title"
+                  formControlName="title"
+                  required
+                  [ngClass]="title?.dirty && title?.invalid ? 'is-invalid' : ''"
+                />
+                <span
+                  *ngIf="title?.errors?.['required']"
+                  class="invalid-feedback"
+                >
+                  Empty title is not allowed
+                </span>
+              </div>
+              <div class="form-group">
+                <label for="body">Content</label>
+                <textarea
+                  class="form-control"
+                  id="body"
+                  placeholder="What's on your mind?"
+                  formControlName="body"
+                  style="resize: none"
+                ></textarea>
+              </div>
+              <div class="form-group">
+                <label for="image" class="form-label">Upload Image</label>
+                <input
+                  class="form-control text-muted"
+                  type="file"
+                  id="image"
+                  formControlName="img"
+                  multiple
+                />
+              </div>
+              <button
+                class="btn btn-primary"
+                type="submit"
+                [disabled]="isLoading || postForm.invalid"
+              >
+                <span
+                  *ngIf="isLoading"
+                  class="spinner-border spinner-border-sm"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+                {{ isLoading ? "Posting..." : "Post" }}
+              </button>
+            </form>
+          </div>
+        </div>
       </div>
-      <div class="d-flex justify-content-end">
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </div>
-    </form>
+    </div>
+
+    <hr />
+    <div class="d-flex align-items-center justify-content-around">
+      <a href="#">Live Video</a>
+      <a href="#">Photo</a>
+      <a href="#">Feeling / Activity</a>
+    </div>
   </div>
 </div>
