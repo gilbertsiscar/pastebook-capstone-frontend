@@ -51,7 +51,7 @@ export class EditSecurityComponent implements OnInit {
 
         Swal.fire({
           title: 'Update successful',
-          text: 'Your security ingormation has been updated successfully',
+          text: 'Your security information has been updated successfully',
           icon: 'success'
 
         }).then(() => {
