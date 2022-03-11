@@ -19,12 +19,14 @@ import { CreatePostComponent } from './components/create-post/create-post.compon
 import { FriendsComponent } from './pages/friends/friends.component';
 import { PostComponent } from './components/post/post.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
+import { FriendsListComponent } from './components/friends-list/friends-list.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent }, // http://localhost:4200/,
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'settings', component: SettingsComponent },
+  { path: 'friends', component: FriendsComponent },
   { path: '**', component: NotFoundComponent },
 ];
 @NgModule({
@@ -44,6 +46,8 @@ const appRoutes: Routes = [
     FriendsComponent,
     PostComponent,
     AvatarComponent,
+    FriendsListComponent,
+
   ],
   imports: [
     BrowserModule,
