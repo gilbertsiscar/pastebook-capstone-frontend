@@ -125,9 +125,7 @@
             aria-labelledby="settings"
           >
             <li>
-              <button class="dropdown-item" (click)="switchView()">
-                Log out
-              </button>
+              <button class="dropdown-item" (click)="logout()">Log out</button>
             </li>
             <li>
               <a class="dropdown-item" routerLink="/settings">Settings</a>
@@ -139,7 +137,6 @@
 
     <ng-template #noToken>
       <div class="d-flex">
-        <a routerLink="/" (click)="switchView()">switch view</a>
         <a class="btn btn-primary rounded-pill px-4 mx-3" routerLink="/register"
           >Register</a
         >

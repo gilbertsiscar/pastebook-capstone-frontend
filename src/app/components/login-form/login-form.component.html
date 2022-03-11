@@ -1,11 +1,11 @@
-<div class="card w-25 p-4">
-  <h3 class="card-title text-center">Log In</h3>
+<div class="card p-4" style="width: 30%">
+  <h3 class="card-title text-center mb-3">Log In</h3>
   <form
-    [formGroup]="credentials"
+    [formGroup]="loginForm"
     (ngSubmit)="onSubmit()"
-    class="needs-validation"
+    class="needs-validation d-grid gap-3"
   >
-    <div class="mb-3">
+    <div class="form-group">
       <label for="email" class="form-label">Email</label>
       <input
         type="email"
@@ -13,18 +13,15 @@
         id="email"
         formControlName="email"
         [ngClass]="
-          submitted ? (email?.invalid ? 'is-invalid' : 'is-valid') : ''
+          (email?.dirty || submitted) && email?.invalid ? 'is-invalid' : ''
         "
         required
       />
-      <div
-        *ngIf="email?.errors?.['required'] && password?.invalid && submitted"
-        class="invalid-feedback"
-      >
+      <span *ngIf="email?.errors?.['required']" class="invalid-feedback">
         Email is required
-      </div>
+      </span>
     </div>
-    <div class="mb-3">
+    <div class="form-group">
       <label for="password" class="form-label">Password</label>
       <input
         type="password"
@@ -32,29 +29,30 @@
         id="password"
         formControlName="password"
         [ngClass]="
-          submitted ? (password?.invalid ? 'is-invalid' : 'is-valid') : ''
+          (password?.dirty || submitted) && password?.invalid
+            ? 'is-invalid'
+            : ''
         "
         required
       />
-      <div
-        *ngIf="password?.errors?.['required'] && password?.invalid && submitted"
-        class="invalid-feedback"
-      >
+      <span *ngIf="password?.errors?.['required']" class="invalid-feedback">
         Password is required
-      </div>
-      <div
-        *ngIf="password?.errors?.['minlength'] && password?.invalid && submitted"
-        class="invalid-feedback"
-      >
-        Password should be atleast 8 characters.
-      </div>
+      </span>
     </div>
-    <div class="mb-4 form-check">
+    <div class="form-group form-check">
       <input type="checkbox" class="form-check-input" id="remember" />
       <label class="form-check-label" for="remember">Remember Me</label>
     </div>
     <div class="d-grid gap-3">
-      <button type="submit" class="btn btn-primary">Login</button>
+      <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+        <span
+          *ngIf="isLoading"
+          class="spinner-border spinner-border-sm"
+          role="status"
+          aria-hidden="true"
+        ></span>
+        {{ isLoading ? "Logging in..." : "Login" }}
+      </button>
       <button type="reset" class="btn btn-secondary">Cancel</button>
     </div>
   </form>

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { SessionService } from 'src/app/services/session.service';
 
 @Component({
   selector: 'app-navbar',
@@ -6,13 +8,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
-  token = false;
+  token: boolean = localStorage.getItem('token') !== null;
 
-  constructor() {}
+  constructor(private sessionService: SessionService, private router: Router) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.sessionService.hasToken.subscribe((hasToken) => {
+      this.token = hasToken;
+    });
+  }
 
-  switchView() {
-    this.token = !this.token;
+  logout() {
+    this.sessionService.clear();
+    this.router.navigate(['/login']);
   }
 }
