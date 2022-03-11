@@ -1,23 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  ValidationErrors,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
 import Swal from 'sweetalert2';
-
-const emailMobileNumberValidator: ValidatorFn = (
-  control: AbstractControl
-): ValidationErrors | null => {
-  const email = control.get('email')?.value;
-  const mobileNumber = control.get('mobileNumber')?.value;
-
-  return email || mobileNumber ? null : { invalid: true };
-};
 
 @Component({
   selector: 'app-register-form',
@@ -25,22 +11,18 @@ const emailMobileNumberValidator: ValidatorFn = (
   styleUrls: ['./register-form.component.css'],
 })
 export class RegisterFormComponent implements OnInit {
-  submitted: boolean = false;
+  submitted = false;
+  isLoading = false;
 
-  registerForm = this.formBuilder.group(
-    {
-      firstName: [null, Validators.required],
-      lastName: [null, Validators.required],
-      email: [null, Validators.email],
-      password: [null, Validators.required],
-      birthday: [null, Validators.required],
-      gender: [null],
-      mobileNumber: null,
-    },
-    {
-      validators: emailMobileNumberValidator,
-    }
-  );
+  registerForm = this.formBuilder.group({
+    firstName: [null, Validators.required],
+    lastName: [null, Validators.required],
+    email: [null, [Validators.email, Validators.required]],
+    password: [null, [Validators.required, Validators.minLength(8)]],
+    birthday: [null, Validators.required],
+    gender: null,
+    mobileNumber: null,
+  });
 
   constructor(
     private formBuilder: FormBuilder,
@@ -53,21 +35,24 @@ export class RegisterFormComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     if (this.registerForm.valid) {
-      this.userService.register(this.registerForm.value).subscribe({
+      this.isLoading = true;
+      let user = new User();
+      user = { ...this.registerForm.value };
+      this.userService.register(user).subscribe({
         next: this.successfulRegister.bind(this),
         error: this.failedRegister.bind(this),
       });
-      return this.successfulRegister({ data: 'test' });
     }
   }
 
   successfulRegister(response: Record<string, any>) {
+    this.isLoading = false;
     Swal.fire(
       'Account Created',
       'Your account has been created successfully, please login to continue',
       'success'
     );
-    this.router.navigate(['']);
+    this.router.navigate(['/login']);
   }
 
   failedRegister(result: Record<string, any>) {
@@ -80,34 +65,6 @@ export class RegisterFormComponent implements OnInit {
         'error'
       );
     }
-  }
-
-  emailFieldDisplayValid(): string {
-    if (this.submitted && this.email?.valid && this.email?.value) {
-      return 'is-valid';
-    } else if (
-      this.submitted &&
-      !this.email?.valid &&
-      this.mobileNumber?.value
-    ) {
-      return '';
-    } else if (
-      this.submitted &&
-      !this.email?.valid &&
-      !this.mobileNumber?.value
-    ) {
-      return 'is-invalid';
-    }
-    return '';
-  }
-
-  mobileNumberFieldDisplayValid(): string {
-    if (this.submitted && this.mobileNumber?.value) {
-      return 'is-valid';
-    } else if (this.submitted && !this.email?.value) {
-      return 'is-invalid';
-    }
-    return '';
   }
 
   get email() {

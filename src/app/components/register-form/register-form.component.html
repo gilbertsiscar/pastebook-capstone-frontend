@@ -6,7 +6,7 @@
     class="d-grid gap-3 needs-validation"
   >
     <div class="row">
-      <div class="col">
+      <div class="form-group col">
         <label for="firstName" class="form-label">First Name</label>
         <input
           type="text"
@@ -14,18 +14,19 @@
           id="firstName"
           formControlName="firstName"
           required
-          [ngClass]="
-            submitted ? (firstName?.invalid ? 'is-invalid' : 'is-valid') : ''
-          "
+          [ngClass]="{
+            '': !submitted,
+            'is-invalid':
+              (submitted && firstName?.invalid) ||
+              (firstName?.dirty && firstName?.invalid),
+            'is-valid': firstName?.valid
+          }"
         />
-        <span
-          *ngIf="firstName?.errors?.['required'] && firstName?.invalid && submitted"
-          class="invalid-feedback"
-        >
-          First Name is required
+        <span *ngIf="firstName?.errors?.['required'] " class="invalid-feedback">
+          This field is required
         </span>
       </div>
-      <div class="col">
+      <div class="col form-group">
         <label for="lastName" class="form-label">Last Name</label>
         <input
           type="text"
@@ -33,19 +34,20 @@
           id="lastName"
           formControlName="lastName"
           required
-          [ngClass]="
-            submitted ? (lastName?.invalid ? 'is-invalid' : 'is-valid') : ''
-          "
+          [ngClass]="{
+            '': !submitted,
+            'is-invalid':
+              (submitted && lastName?.invalid) ||
+              (lastName?.dirty && lastName?.invalid),
+            'is-valid': lastName?.valid
+          }"
         />
-        <span
-          *ngIf="lastName?.errors?.['required'] && lastName?.invalid && submitted"
-          class="invalid-feedback"
-        >
-          Last Name is required
+        <span *ngIf="lastName?.errors?.['required'] " class="invalid-feedback">
+          This field is required
         </span>
       </div>
     </div>
-    <div>
+    <div class="form-group">
       <label for="email" class="form-label">Email</label>
       <div class="input-group">
         <span class="input-group-text">@</span>
@@ -54,17 +56,23 @@
           class="form-control"
           id="email"
           formControlName="email"
-          [ngClass]="emailFieldDisplayValid()"
+          required
+          [ngClass]="{
+            '': !submitted,
+            'is-invalid':
+              (submitted && email?.invalid) || (email?.dirty && email?.invalid),
+            'is-valid': email?.valid
+          }"
         />
-        <span
-          *ngIf="email?.errors?.['email'] && email?.invalid && submitted"
-          class="invalid-feedback"
-        >
+        <span *ngIf="email?.errors?.['required'] " class="invalid-feedback">
+          This field is required
+        </span>
+        <span *ngIf="email?.errors?.['email'] " class="invalid-feedback">
           Invalid email format
         </span>
       </div>
     </div>
-    <div>
+    <div class="form-group">
       <label for="mobileNumber" class="form-label">Mobile Number</label>
       <div class="input-group">
         <span class="input-group-text">+63</span>
@@ -73,17 +81,10 @@
           class="form-control"
           id="mobileNumber"
           formControlName="mobileNumber"
-          [ngClass]="mobileNumberFieldDisplayValid()"
         />
-        <span
-          *ngIf="!email?.value && !mobileNumber?.value"
-          class="invalid-feedback"
-        >
-          Phone Number is required
-        </span>
       </div>
     </div>
-    <div>
+    <div class="form-group">
       <label for="password" class="form-label">Password</label>
       <input
         type="password"
@@ -91,19 +92,23 @@
         id="password"
         formControlName="password"
         required
-        [ngClass]="
-          submitted ? (password?.invalid ? 'is-invalid' : 'is-valid') : ''
-        "
+        [ngClass]="{
+          '': !submitted,
+          'is-invalid':
+            (submitted && password?.invalid) ||
+            (password?.dirty && password?.invalid),
+          'is-valid': password?.valid
+        }"
       />
-      <span
-        *ngIf="password?.errors?.['required'] && password?.invalid && submitted"
-        class="invalid-feedback"
-      >
-        Password is required
+      <span *ngIf="password?.errors?.['required'] " class="invalid-feedback">
+        This field is required
+      </span>
+      <span *ngIf="password?.errors?.['minlength'] " class="invalid-feedback">
+        Password should be atleast 8 characters
       </span>
     </div>
     <div class="row">
-      <div class="col">
+      <div class="form-group col">
         <label for="birthday" class="form-label">Birthday</label>
         <input
           type="date"
@@ -111,15 +116,16 @@
           id="birthday"
           formControlName="birthday"
           required
-          [ngClass]="
-            submitted ? (birthday?.invalid ? 'is-invalid' : 'is-valid') : ''
-          "
+          [ngClass]="{
+            '': !submitted,
+            'is-invalid':
+              (submitted && birthday?.invalid) ||
+              (birthday?.dirty && birthday?.invalid),
+            'is-valid': birthday?.valid
+          }"
         />
-        <span
-          *ngIf="birthday?.errors?.['required'] && birthday?.invalid && submitted"
-          class="invalid-feedback"
-        >
-          Birthday is required
+        <span *ngIf="birthday?.errors?.['required']" class="invalid-feedback">
+          This field is required
         </span>
       </div>
       <div class="col">
@@ -133,8 +139,16 @@
       </div>
     </div>
 
-    <div class="d-grid mt-4">
-      <button type="submit" class="btn btn-primary">Register</button>
+    <div class="d-grid mt-3">
+      <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+        <span
+          *ngIf="isLoading"
+          class="spinner-border spinner-border-sm"
+          role="status"
+          aria-hidden="true"
+        ></span>
+        {{ isLoading ? "Creating account..." : "Register" }}
+      </button>
     </div>
   </form>
   <hr class="my-4" />

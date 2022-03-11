@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { delay, Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../models/user';
 
@@ -11,41 +11,20 @@ import { SessionService } from './session.service';
 })
 export class UserService {
   private baseUrl = `${environment.apiUrl}/users`;
-  
+
   private httpHeaders: HttpHeaders = new HttpHeaders({
-    'Authorization': `Bearer' ${this.sessionService.getToken()}`
-  })
+    Authorization: `Bearer' ${this.sessionService.getToken()}`,
+  });
 
   constructor(
     private http: HttpClient,
     private sessionService: SessionService
   ) {}
 
-  login(email: string, password: string) {
-    const debug = true;
-    if (debug) return of({ email, password });
-    return this.http.post(`${this.baseUrl}/login`, { email, password });
-  }
+  register(user: User) {
+    if (!environment.production) return of(user).pipe(delay(3000));
 
-  register({
-    firstName,
-    lastName,
-    email,
-    mobileNumber,
-    password,
-    birthday,
-    gender,
-  }: User) {
-    return this.http.post(`${this.baseUrl}/register`, {
-      firstName,
-      lastName,
-      email,
-      mobileNumber,
-      password,
-      birthday,
-      gender,
-    });
-
+    return this.http.post(`${this.baseUrl}/register`, user);
   }
 
   getUser(id: number): Observable<User[]> {
@@ -53,6 +32,8 @@ export class UserService {
   }
 
   updatePersonalInfo(user: User): Observable<Object> {
-    return this.http.put(this.baseUrl + `/details/${user.id}`, user, {headers: this.httpHeaders});
+    return this.http.put(this.baseUrl + `/details/${user.id}`, user, {
+      headers: this.httpHeaders,
+    });
   }
 }
