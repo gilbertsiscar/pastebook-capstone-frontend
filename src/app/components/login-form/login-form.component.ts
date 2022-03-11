@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LoginService } from 'src/app/services/login.service';
 import { SessionService } from 'src/app/services/session.service';
-import { UserService } from 'src/app/services/user.service';
 
 import Swal from 'sweetalert2';
 
@@ -10,8 +10,8 @@ import Swal from 'sweetalert2';
  * Todo:
  * [] Implement remember me functionality
  * [] Implement forgot password functionality
- * [] Implement a more robust input validation
- *
+ * [x] Implement a more robust input validation
+ * [] Refactor login handling
  */
 
 @Component({
@@ -20,16 +20,17 @@ import Swal from 'sweetalert2';
   styleUrls: ['./login-form.component.css'],
 })
 export class LoginFormComponent implements OnInit {
-  submitted: boolean = false;
+  submitted = false;
+  isLoading = false;
 
-  credentials = this.formBuilder.group({
+  loginForm = this.formBuilder.group({
     email: [null, Validators.required],
-    password: [null, [Validators.required, Validators.minLength(8)]],
+    password: [null, Validators.required],
   });
 
   constructor(
     private formBuilder: FormBuilder,
-    private userService: UserService,
+    private loginService: LoginService,
     private sessionService: SessionService,
     private router: Router
   ) {}
@@ -38,9 +39,10 @@ export class LoginFormComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    if (this.credentials.valid) {
-      const { email, password } = this.credentials.getRawValue();
-      this.userService.login(email, password).subscribe({
+    if (this.loginForm.valid) {
+      this.isLoading = true;
+      const { email, password } = this.loginForm.value;
+      this.loginService.login(email, password).subscribe({
         next: this.successfulLogin.bind(this),
         error: this.failedLogin.bind(this),
       });
@@ -48,6 +50,7 @@ export class LoginFormComponent implements OnInit {
   }
 
   successfulLogin(response: Record<string, any>) {
+    this.isLoading = false;
     Swal.fire(
       'Login Successful',
       'You have successfully logged in.',
@@ -78,10 +81,10 @@ export class LoginFormComponent implements OnInit {
   }
 
   get email() {
-    return this.credentials.get('email');
+    return this.loginForm.get('email');
   }
 
   get password() {
-    return this.credentials.get('password');
+    return this.loginForm.get('password');
   }
 }
