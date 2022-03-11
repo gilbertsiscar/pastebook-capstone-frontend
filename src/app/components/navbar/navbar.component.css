@@ -1,7 +1,6 @@
 .logo {
   font-size: 2.5rem;
   font-weight: bold;
-  text-decoration: none;
   line-height: 0.6;
   padding: 0.25em;
 }
@@ -15,4 +14,12 @@
 .tab-active {
   color: #0a58ca;
   border-bottom: 4px solid #0a58ca;
+}
+
+.profile-link:hover {
+  background-color: #ededed;
+}
+
+.profile-link > p {
+  color: #000;
 }
