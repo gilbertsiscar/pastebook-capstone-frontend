@@ -1,0 +1,40 @@
+<div class="custom-card">
+
+    <div class="card">
+
+        <h5 class="card-header">Friends</h5>
+
+        <div class="row">
+            <div class="col-12 col-md-4" *ngFor="let friend of friends">
+        
+                    <div class="card-body">
+                        <div class="card">
+        
+                            <div class="card-body text-center">
+                
+                                <div>
+                                    <img class="justify-content-center" src="..." class="rounded" alt="profile pic">
+                                </div>
+                
+                                <h5 class="card-title">{{ friend['firstName'] }} {{ friend['lastName'] }}</h5>
+                
+                                <p class="card-text">{{ friend['aboutMe']}}</p>
+                
+                                <div>
+                                    <a href="http://localhost:4200/profile" class="btn btn-primary button-width">Go to Profile</a>
+                                </div>
+                
+                                <div>
+                                    <a href="#" class="btn btn-primary button-width">Delete</a>
+                                </div>
+                
+                        </div>
+                    </div>
+            </div>
+        </div>
+
+    </div>
+    
+</div>
+
+
