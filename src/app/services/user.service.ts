@@ -32,8 +32,6 @@ export class UserService {
   }
 
   updatePersonalInfo(user: User): Observable<Object> {
-    return this.http.put(this.baseUrl + `/details/${user.id}`, user, {
-      headers: this.httpHeaders,
-    });
+    return this.http.put(this.baseUrl + `/details/${user.id}`, user, {headers: this.httpHeaders});
   }
 }

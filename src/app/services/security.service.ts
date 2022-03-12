@@ -23,8 +23,8 @@ export class SecurityService {
   ) { }
 
 
-  resetPassword(token: string, password: string, confirmPassword: string) {
-    return this.http.put(`${this.baseUrl}`, { token, password, confirmPassword });
+  resetPassword(email: string, mobile: string, password: string) {
+    return this.http.put(`${this.baseUrl}`, {email, mobile, password}, {headers: this.httpHeaders});
   }
 }
 

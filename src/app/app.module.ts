@@ -20,6 +20,7 @@ import { FriendsComponent } from './pages/friends/friends.component';
 import { PostComponent } from './components/post/post.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { FriendsListComponent } from './components/friends-list/friends-list.component';
+import { FriendRequestsComponent } from './components/friend-requests/friend-requests.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent }, // http://localhost:4200/,
@@ -47,6 +48,7 @@ const appRoutes: Routes = [
     PostComponent,
     AvatarComponent,
     FriendsListComponent,
+    FriendRequestsComponent,
 
   ],
   imports: [
