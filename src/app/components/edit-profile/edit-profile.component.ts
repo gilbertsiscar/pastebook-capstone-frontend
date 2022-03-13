@@ -18,7 +18,6 @@ export class EditProfileComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute
     ) {
-
       let userId: number = this.route.snapshot.params['id'];
 
       userService.getUser(userId).subscribe((response: Object) => {
