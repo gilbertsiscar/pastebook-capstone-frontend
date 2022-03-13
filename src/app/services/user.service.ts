@@ -13,7 +13,7 @@ export class UserService {
   private baseUrl = `${environment.apiUrl}/users`;
 
   private httpHeaders: HttpHeaders = new HttpHeaders({
-    Authorization: `Bearer' ${this.sessionService.getToken()}`,
+    Authorization: `Bearer ${this.sessionService.getToken()}`,
   });
 
   constructor(
@@ -22,8 +22,6 @@ export class UserService {
   ) {}
 
   register(user: User) {
-    if (!environment.production) return of(user).pipe(delay(3000));
-
     return this.http.post(`${this.baseUrl}/register`, user);
   }
 

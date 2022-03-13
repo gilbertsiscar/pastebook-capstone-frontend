@@ -9,6 +9,7 @@ import { SessionService } from 'src/app/services/session.service';
 })
 export class NavbarComponent implements OnInit {
   token: boolean = localStorage.getItem('token') !== null;
+  email: string = this.sessionService.getEmail();
 
   constructor(private sessionService: SessionService, private router: Router) {}
 
