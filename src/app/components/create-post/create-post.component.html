@@ -1,114 +1,126 @@
-<div class="card w-50 mb-5">
+<div class="card w-50 mb-3">
   <div class="card-body">
-    <div class="d-flex align-items-center mb-3">
-      <app-avatar
-        [imgUrl]="
-          'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'
-        "
-      ></app-avatar>
-      <p class="mb-0">John Doe</p>
-    </div>
-    <input
-      class="form-control p-3 border-white text-muted"
-      type="button"
-      value="What's on your mind?"
-      data-bs-toggle="modal"
-      data-bs-target="#createPost"
-    />
-
-    <div class="modal fade" id="createPost" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Create Post</h5>
-            <button
-              #closeBtn
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <div class="d-flex align-items-center mb-3">
-              <div
-                class="p-1 rounded-circle bg-dark me-3"
-                style="height: 2.5rem; width: 2.5rem"
-              ></div>
-              <div>
-                <p class="mb-0">John Doe</p>
-                <p class="mb-0 text-muted" style="font-size: 0.875rem">
-                  Only me
-                </p>
-              </div>
-            </div>
-            <form
-              class="d-grid gap-3 needs-validation"
-              [formGroup]="postForm"
-              (ngSubmit)="onSubmit()"
-            >
-              <div class="form-group">
-                <label class="form-label" for="postTitle">Title</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="postTitle"
-                  placeholder="Title"
-                  formControlName="title"
-                  required
-                  [ngClass]="title?.dirty && title?.invalid ? 'is-invalid' : ''"
-                />
-                <span
-                  *ngIf="title?.errors?.['required']"
-                  class="invalid-feedback"
-                >
-                  Empty title is not allowed
-                </span>
-              </div>
-              <div class="form-group">
-                <label for="body">Content</label>
-                <textarea
-                  class="form-control"
-                  id="body"
-                  placeholder="What's on your mind?"
-                  formControlName="body"
-                  style="resize: none"
-                ></textarea>
-              </div>
-              <div class="form-group">
-                <label for="image" class="form-label">Upload Image</label>
-                <input
-                  class="form-control text-muted"
-                  type="file"
-                  id="image"
-                  formControlName="img"
-                  multiple
-                />
-              </div>
-              <button
-                class="btn btn-primary"
-                type="submit"
-                [disabled]="isLoading || postForm.invalid"
-              >
-                <span
-                  *ngIf="isLoading"
-                  class="spinner-border spinner-border-sm"
-                  role="status"
-                  aria-hidden="true"
-                ></span>
-                {{ isLoading ? "Posting..." : "Post" }}
-              </button>
-            </form>
-          </div>
-        </div>
+    <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+      <div class="hstack gap-2 mb-3">
+        <app-avatar></app-avatar>
+        <p>{{ name }}</p>
+        <ng-container *ngIf="displayTaggedLength > 0">
+          <p>is with</p>
+          <ng-container *ngFor="let tag of displayTagged">
+            <p>{{ tag }}</p>
+          </ng-container>
+        </ng-container>
       </div>
-    </div>
+      <div class="form-group mb-3">
+        <textarea
+          id="content"
+          formControlName="content"
+          rows="5"
+          placeholder="What's on your mind?"
+          class="form-control"
+          style="resize: none"
+        ></textarea>
+      </div>
+      <div
+        *ngIf="imagePreview && imagePreview !== ''"
+        style="position: relative"
+      >
+        <button
+          id="remove-image"
+          type="button"
+          class="btn-close bg-secondary rounded-circle p-2"
+          (click)="removeImage()"
+          style="position: absolute; top: 0; right: 0; z-index: 1"
+        >
+          >
+        </button>
+        <img [src]="imagePreview" width="100%" height="100%" />
+      </div>
+      <input
+        #imageInput
+        type="file"
+        class="form-control"
+        accept="image/*"
+        (change)="onFileSelected($event)"
+        style="display: none"
+      />
+      <hr class="mb-1" />
+      <div class="hstack justify-content-between">
+        <div class="hstack gap-2">
+          <button
+            type="button"
+            class="btn btn-outline-primary rounded-circle hstack justify-content-center p-2"
+            style="border: none"
+            (click)="addImage()"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              fill="currentColor"
+              class="bi bi-images"
+              viewBox="0 0 16 16"
+            >
+              <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+              <path
+                d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2zM14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1zM2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1h-10z"
+              />
+            </svg>
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-primary rounded-circle hstack justify-content-center p-2"
+            data-bs-toggle="modal"
+            data-bs-target="#tagFriendsModal"
+            style="border: none"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              fill="currentColor"
+              class="bi bi-person-fill"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"
+              />
+            </svg>
+          </button>
+        </div>
+        <button type="submit" class="btn btn-primary">Post</button>
+      </div>
+    </form>
+  </div>
+</div>
 
-    <hr />
-    <div class="d-flex align-items-center justify-content-around">
-      <a href="#">Live Video</a>
-      <a href="#">Photo</a>
-      <a href="#">Feeling / Activity</a>
+<div class="modal fade" id="tagFriendsModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Tag Friends</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <app-tag-friends
+          (taggedFriends)="getTaggedFriends($event)"
+        ></app-tag-friends>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#tagFriendsModal"
+        >
+          Done
+        </button>
+      </div>
     </div>
   </div>
 </div>
