@@ -1,0 +1,12 @@
+<form>
+  <div *ngFor="let friend of data">
+    <label>{{ friend.name }}</label>
+    <input
+      class="ms-3"
+      type="checkbox"
+      (change)="tagFriend($event)"
+      name="name"
+      value="{{ friend.name }}"
+    />
+  </div>
+</form>
