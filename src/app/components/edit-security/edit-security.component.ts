@@ -14,8 +14,7 @@ export class EditSecurityComponent implements OnInit {
   form: FormGroup;
   submitted = false;
 
-  email: string = '';
-  mobileNumber: string = '';
+
 
   ngOnInit(): void {
 
@@ -27,15 +26,24 @@ export class EditSecurityComponent implements OnInit {
 
   ) {
     this.form = formBuilder.group({
+      email: ['', Validators],
+      mobile: ['', Validators],
       newPassword: ['', [Validators.required]],
       confirmPassword: ['', [Validators.required]],
       password: ['', [Validators.required]]
     }, {
       validator: this.MustMatch('newPassword', 'confirmPassword')
+      // need to make validator na kailangan ng current password to edit email/mobile/password
     })
   }
 
-  MustMatch(newPassword: string, confirmPassword: string): void { }
+  MustMatch(newPassword: string, confirmPassword: string): any { 
+    if (newPassword == confirmPassword) { 
+      return "Passwords match";
+      // should appear as alert
+
+    }
+  }
 
   get f() {
     return this.form.controls;
@@ -45,7 +53,7 @@ export class EditSecurityComponent implements OnInit {
     
     this.submitted = true;
 
-    this.securityService.resetPassword('', this.form.value.newPassword, this.form.value.confirmPassword,).subscribe((response: Record<string, any>) => {
+    this.securityService.resetPassword(this.form.value.email, this.form.value.mobile, this.form.value.newPassword).subscribe((response: Record<string, any>) => {
 
       if (response['result'] === 'updated') {
 
@@ -57,6 +65,7 @@ export class EditSecurityComponent implements OnInit {
         }).then(() => {
           this.router.navigate(['/settings']);
         })
+
       }
     })
   }

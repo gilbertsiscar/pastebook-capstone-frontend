@@ -20,6 +20,7 @@ import { FriendsComponent } from './pages/friends/friends.component';
 import { PostComponent } from './components/post/post.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { FriendsListComponent } from './components/friends-list/friends-list.component';
+import { FriendRequestsComponent } from './components/friend-requests/friend-requests.component';
 import { TagFriendsComponent } from './components/tag-friends/tag-friends.component';
 
 const appRoutes: Routes = [
@@ -48,6 +49,7 @@ const appRoutes: Routes = [
     PostComponent,
     AvatarComponent,
     FriendsListComponent,
+    FriendRequestsComponent,
     TagFriendsComponent,
   ],
   imports: [
