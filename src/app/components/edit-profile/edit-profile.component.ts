@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
@@ -28,7 +29,7 @@ export class EditProfileComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onSubmit(): void {
+  onSubmit(updateProfileForm: NgForm): void {
     this.userService.updatePersonalInfo(this.user).subscribe((response: Record<string, any>) => {
 
       if (response['result'] === 'updated') {
@@ -40,6 +41,8 @@ export class EditProfileComponent implements OnInit {
 
         }).then(() => {
           this.router.navigate(['/settings']);
+          updateProfileForm.reset();
+          
         })
       }
     })  

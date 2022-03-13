@@ -63,6 +63,8 @@ export class EditSecurityComponent implements OnInit {
     }
   }
 
+  // add checker if current password is the same as the registered password
+
   onSubmit() {
 
     this.userService.updateSecurityInfo(this.id, this.updateSecurityForm.value.newEmail, this.updateSecurityForm.value.mobileNumber, this.updateSecurityForm.value.newPassword).subscribe((response: Record<string, any>) => {

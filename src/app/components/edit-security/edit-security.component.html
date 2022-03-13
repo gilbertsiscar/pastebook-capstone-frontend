@@ -99,6 +99,8 @@
 
         <span class="text-muted" *ngIf="updateSecurityForm.get('currentPassword').hasError('required')">*Current password is required to change security information.</span>
 
+        <span class="text-danger" *ngIf="updateSecurityForm.controls['currentPassword']?.touched">*Current password is required to change security information.</span>
+
     </div>
 
     <div class="mt-3">
