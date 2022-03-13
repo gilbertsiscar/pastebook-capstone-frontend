@@ -21,6 +21,7 @@ import { PostComponent } from './components/post/post.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { FriendsListComponent } from './components/friends-list/friends-list.component';
 import { FriendRequestsComponent } from './components/friend-requests/friend-requests.component';
+import { TagFriendsComponent } from './components/tag-friends/tag-friends.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent }, // http://localhost:4200/,
@@ -49,7 +50,7 @@ const appRoutes: Routes = [
     AvatarComponent,
     FriendsListComponent,
     FriendRequestsComponent,
-
+    TagFriendsComponent,
   ],
   imports: [
     BrowserModule,
