@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Post } from 'src/app/models/post';
+import { PostService } from 'src/app/services/post.service';
 
 @Component({
   selector: 'app-home',
@@ -7,20 +8,20 @@ import { Post } from 'src/app/models/post';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  fakeData = [
-    {
-      id: '1',
-      title: 'Post 1',
-      body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
-    },
-    {
-      id: '2',
-      title: 'Post 2',
-      body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ',
-    },
-  ].map(({ id, title, body }) => new Post().deserialize({ id, title, body }));
+  posts: Post[] = [];
 
-  constructor() {}
+  constructor(private postService: PostService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.postService.getPosts().subscribe((posts) => {
+      this.posts = posts.sort(
+        (a, b) =>
+          <any>new Date(b.datetimeCreated) - <any>new Date(a.datetimeCreated)
+      );
+    });
+  }
+
+  onRefresh() {
+    this.ngOnInit();
+  }
 }
