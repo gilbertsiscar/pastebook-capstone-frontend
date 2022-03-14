@@ -44,7 +44,6 @@ export class UserService {
   }
 
   updatePersonalInfo(user: User): Observable<Object> {
-<<<<<<< HEAD
     //Fix later
     return this.http.put(`${this.baseUrl}/details/${user.id}`, user, {
       headers: this.httpHeaders,
@@ -54,13 +53,8 @@ export class UserService {
   // testConnectionToDatabawe(): Observable<Object>{
   //   rreturn this.http.get<User>(`${this.baseUrl}/details/${id}`);
   // }
-=======
-    return this.http.put(this.baseUrl + `/details/${user.id}`, user, {headers: this.httpHeaders});
-  }
 
+   
   updateSecurityInfo(id:number, email: string, mobileNumber: string, password: string): Observable<Object> {
     return this.http.put(this.baseUrl + `/details/${id}`, {email, mobileNumber, password} , {headers: this.httpHeaders});
-  }
-
->>>>>>> d4e0047bef86f5cfd89dd77a15ad83df17f4aa11
-}
+  }}
