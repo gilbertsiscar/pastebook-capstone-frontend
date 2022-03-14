@@ -19,11 +19,24 @@ export class LikeService {
   ) {}
 
   // POST /api/like/{postId}
-  likePost(postId: string) {
+  likePost(postId: string): Observable<any> {
     return this.http.post<any>(
-      `${this.baseUrl}/1`,
+      `${this.baseUrl}/${postId}`,
       {},
       { headers: this.httpHeaders }
     );
+  }
+
+  unlikePost(postId: string): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/${postId}`, {
+      headers: this.httpHeaders,
+    });
+  }
+
+  // GET /api/like/{postId}
+  getLikes(postId: string): Observable<number> {
+    return this.http.get<number>(`${this.baseUrl}/${postId}`, {
+      headers: this.httpHeaders,
+    });
   }
 }
