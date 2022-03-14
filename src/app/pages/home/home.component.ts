@@ -14,10 +14,12 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.postService.getPosts().subscribe((posts) => {
-      this.posts = posts.sort(
-        (a, b) =>
-          <any>new Date(b.datetimeCreated) - <any>new Date(a.datetimeCreated)
-      );
+      if (posts) {
+        this.posts = posts.sort(
+          (a, b) =>
+            <any>new Date(b.datetimeCreated) - <any>new Date(a.datetimeCreated)
+        );
+      }
     });
   }
 
