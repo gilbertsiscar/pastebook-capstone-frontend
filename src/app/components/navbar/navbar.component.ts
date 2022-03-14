@@ -18,7 +18,7 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
     this.sessionService.hasToken.subscribe((hasToken) => {
       this.token = hasToken;
-
+      console.log("reloaded navbar test")
       console.log(this.token)
     });
   }

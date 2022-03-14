@@ -22,7 +22,7 @@ export class UserService {
   ) {}
 
   register(user: User) {
-    if (!environment.production) return of(user).pipe(delay(3000));
+    //if (!environment.production) return of(user).pipe(delay(3000));
 
     return this.http.post(`${this.baseUrl}/register`, user);
   }
