@@ -13,7 +13,7 @@ export class UserService {
   private baseUrl = `${environment.apiUrl}/users`;
 
   private httpHeaders: HttpHeaders = new HttpHeaders({
-    Authorization: `${this.sessionService.getToken()}`,
+    Authorization: `Bearer ${this.sessionService.getToken()}`,
   });
 
   constructor(
@@ -30,7 +30,7 @@ export class UserService {
   getUser(id: number): Observable<User> {
     //console.log(this.sessionService.getToken());
     console.log(this.http);
-    return this.http.get<User>(`${this.baseUrl}/details/${id}`,{
+    return this.http.get<User>(`${this.baseUrl}/details/${id}`, {
       headers: this.httpHeaders,
     });
   }
@@ -38,7 +38,7 @@ export class UserService {
   getUserProfile(profileUrl: string): Observable<User> {
     //console.log(this.sessionService.getToken());
     console.log(this.http);
-    return this.http.get<User>(`${this.baseUrl}/profile/${profileUrl}`,{
+    return this.http.get<User>(`${this.baseUrl}/profile/${profileUrl}`, {
       headers: this.httpHeaders,
     });
   }
@@ -54,7 +54,16 @@ export class UserService {
   //   rreturn this.http.get<User>(`${this.baseUrl}/details/${id}`);
   // }
 
-   
-  updateSecurityInfo(id:number, email: string, mobileNumber: string, password: string): Observable<Object> {
-    return this.http.put(this.baseUrl + `/details/${id}`, {email, mobileNumber, password} , {headers: this.httpHeaders});
-  }}
+  updateSecurityInfo(
+    id: number,
+    email: string,
+    mobileNumber: string,
+    password: string
+  ): Observable<Object> {
+    return this.http.put(
+      this.baseUrl + `/details/${id}`,
+      { email, mobileNumber, password },
+      { headers: this.httpHeaders }
+    );
+  }
+}
