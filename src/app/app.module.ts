@@ -20,13 +20,16 @@ import { FriendsComponent } from './pages/friends/friends.component';
 import { PostComponent } from './components/post/post.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { FriendsListComponent } from './components/friends-list/friends-list.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent }, // http://localhost:4200/,
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
+  { path: ':profileUrl', component: ProfileComponent},
   { path: 'settings', component: SettingsComponent },
   { path: 'friends', component: FriendsComponent },
+  { path: 'notFound', component: NotFoundComponent },
   { path: '**', component: NotFoundComponent },
 ];
 @NgModule({

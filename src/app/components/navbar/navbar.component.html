@@ -11,6 +11,9 @@
         routerLink="/"
         >P</a
       >
+    </div>
+
+    <ng-container *ngIf="token; else noToken">
       <form class="d-flex">
         <input
           class="form-control me-2 rounded-pill"
@@ -19,9 +22,6 @@
           aria-label="Search"
         />
       </form>
-    </div>
-
-    <ng-container *ngIf="token; else noToken">
       <ul class="nav">
         <li class="nav-item me-3">
           <a
@@ -91,7 +91,17 @@
             class="dropdown-menu dropdown-menu-end"
             aria-labelledby="notification"
           >
-            <li><a class="dropdown-item" href="#">Notifications</a></li>
+            <!-- List of notifications first new 5 -->
+            <li><a class="dropdown-item" href="#">Notification 1</a></li>
+            <!-- Notif Card -->
+            <div class="card" style="width: 18rem">
+              <!-- <img src="..." class="card-img-top" alt="..." /> -->
+              <div class="card-body">
+                <h5 class="card-title">Someone liked your post</h5>
+                <p class="card-text">User 10 liked your post</p>
+                <a href="#" class="stretched-link"></a>
+              </div>
+            </div>
           </ul>
         </div>
 

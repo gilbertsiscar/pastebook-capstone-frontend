@@ -10,11 +10,16 @@ import { SessionService } from 'src/app/services/session.service';
 export class NavbarComponent implements OnInit {
   token: boolean = localStorage.getItem('token') !== null;
 
-  constructor(private sessionService: SessionService, private router: Router) {}
+  constructor(private sessionService: SessionService, private router: Router) {
+    console.log("test")
+    console.log(this.token)
+  }
 
   ngOnInit(): void {
     this.sessionService.hasToken.subscribe((hasToken) => {
       this.token = hasToken;
+
+      console.log(this.token)
     });
   }
 

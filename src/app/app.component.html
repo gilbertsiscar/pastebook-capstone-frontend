@@ -1,2 +1,15 @@
 <app-navbar></app-navbar>
-<router-outlet></router-outlet>
+<!-- Temporary fix if no token go to homepage -->
+<!-- 
+    
+    //Add this code on every constructor for each page
+        if(this.token){
+            this.router.navigate(['/login']);
+            
+  } -->
+<ng-container *ngIf="token; else noToken">
+  <router-outlet></router-outlet>
+</ng-container>
+<ng-template #noToken>
+  <app-login></app-login>
+</ng-template>

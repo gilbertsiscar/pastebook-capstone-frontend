@@ -13,7 +13,7 @@ export class UserService {
   private baseUrl = `${environment.apiUrl}/users`;
 
   private httpHeaders: HttpHeaders = new HttpHeaders({
-    Authorization: `Bearer' ${this.sessionService.getToken()}`,
+    Authorization: `${this.sessionService.getToken()}`,
   });
 
   constructor(
@@ -27,13 +27,30 @@ export class UserService {
     return this.http.post(`${this.baseUrl}/register`, user);
   }
 
-  getUser(id: number): Observable<User[]> {
-    return this.http.get<User[]>(`${this.baseUrl}/${id}`);
-  }
-
-  updatePersonalInfo(user: User): Observable<Object> {
-    return this.http.put(this.baseUrl + `/details/${user.id}`, user, {
+  getUser(id: number): Observable<User> {
+    //console.log(this.sessionService.getToken());
+    console.log(this.http);
+    return this.http.get<User>(`${this.baseUrl}/details/${id}`,{
       headers: this.httpHeaders,
     });
   }
+  // temp
+  getUserProfile(profileUrl: string): Observable<User> {
+    //console.log(this.sessionService.getToken());
+    console.log(this.http);
+    return this.http.get<User>(`${this.baseUrl}/profile/${profileUrl}`,{
+      headers: this.httpHeaders,
+    });
+  }
+
+  updatePersonalInfo(user: User): Observable<Object> {
+    //Fix later
+    return this.http.put(`${this.baseUrl}/details/${user.id}`, user, {
+      headers: this.httpHeaders,
+    });
+  }
+
+  // testConnectionToDatabawe(): Observable<Object>{
+  //   rreturn this.http.get<User>(`${this.baseUrl}/details/${id}`);
+  // }
 }

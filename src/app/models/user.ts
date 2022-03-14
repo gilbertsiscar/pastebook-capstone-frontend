@@ -4,11 +4,11 @@ export class User {
     public firstName?: string,
     public lastName?: string,
     public email?: string,
-    public password?: string,
+    //public password?: string, //should be omitted
     public birthday?: string,
     public gender?: string,
     public mobileNumber?: string,
-    public isOnline?: false,
+    public isOnline?: boolean,
     public datetimeCreated?: string,
     public profilePic?: string,
     public aboutMe?: string,

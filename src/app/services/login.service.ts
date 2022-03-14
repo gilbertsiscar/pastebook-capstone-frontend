@@ -13,8 +13,8 @@ export class LoginService {
   constructor(private http: HttpClient) {}
 
   login(credentials: Login) {
-    if (!environment.production)
-      return of({ token: 'randomToken' }).pipe(delay(3000));
+    // if (!environment.production)
+    //   return of({ token: 'randomToken' }).pipe(delay(3000));
 
     return this.http.post(this.baseUrl, credentials);
   }
