@@ -20,12 +20,11 @@ import { FriendsComponent } from './pages/friends/friends.component';
 import { PostComponent } from './components/post/post.component';
 import { AvatarComponent } from './components/avatar/avatar.component';
 import { FriendsListComponent } from './components/friends-list/friends-list.component';
-<<<<<<< HEAD
+
 import { ProfileComponent } from './pages/profile/profile.component';
-=======
+
 import { FriendRequestsComponent } from './components/friend-requests/friend-requests.component';
 import { TagFriendsComponent } from './components/tag-friends/tag-friends.component';
->>>>>>> d4e0047bef86f5cfd89dd77a15ad83df17f4aa11
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent }, // http://localhost:4200/,
