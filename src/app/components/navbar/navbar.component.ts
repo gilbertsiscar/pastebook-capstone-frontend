@@ -8,8 +8,8 @@ import { SessionService } from 'src/app/services/session.service';
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
-  name: string;
-  token: boolean;
+  name: string = localStorage.getItem('name');
+  token: boolean = localStorage.getItem('token') !== null;
 
   constructor(private sessionService: SessionService, private router: Router) {}
 
