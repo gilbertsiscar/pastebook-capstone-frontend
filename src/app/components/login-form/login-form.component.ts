@@ -63,6 +63,7 @@ export class LoginFormComponent implements OnInit {
       'You have successfully logged in.',
       'success'
     );
+    this.sessionService.setName(response['name']);
     this.sessionService.setEmail(response['email']);
     this.sessionService.setToken(response['token']);
     this.sessionService.setUserId(response['user_id']);
