@@ -13,7 +13,10 @@
       >
     </div>
 
-    <ng-container *ngIf="token; else noToken">
+    <div
+      class="w-100 hstack justify-content-between"
+      *ngIf="token; else noToken"
+    >
       <form class="d-flex">
         <input
           class="form-control me-2 rounded-pill"
@@ -38,8 +41,7 @@
           >
         </li>
       </ul>
-
-      <div class="d-flex align-items-center ms-5">
+      <div class="hstack ms-5">
         <div
           class="dropdown"
           data-bs-toggle="tooltip"
@@ -104,7 +106,6 @@
             </div>
           </ul>
         </div>
-
         <a
           routerLink="/profile"
           class="d-flex align-items-center text-decoration-none rounded-pill me-2 profile-link"
@@ -113,9 +114,8 @@
           title="Visit Profile"
         >
           <app-avatar [width]="40" [height]="40"></app-avatar>
-          <p class="mb-0 ms-1 me-3">{{ email }}</p>
+          <p class="mb-0 ms-1 me-3">{{ name }}</p>
         </a>
-
         <div class="dropdown">
           <button
             type="button"
@@ -137,7 +137,7 @@
           </ul>
         </div>
       </div>
-    </ng-container>
+    </div>
 
     <ng-template #noToken>
       <div class="d-flex">

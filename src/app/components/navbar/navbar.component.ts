@@ -8,24 +8,21 @@ import { SessionService } from 'src/app/services/session.service';
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
-  token: boolean = localStorage.getItem('token') !== null;
-  email: string = this.sessionService.getEmail();
+  name: string;
+  token: boolean;
 
-  constructor(private sessionService: SessionService, private router: Router) {
-    console.log("test")
-    console.log(this.token)
-  }
+  constructor(private sessionService: SessionService, private router: Router) {}
 
   ngOnInit(): void {
-    this.sessionService.hasToken.subscribe((hasToken) => {
-      this.token = hasToken;
-
-      console.log(this.token)
+    this.sessionService.hasToken.subscribe((token) => {
+      this.token = token;
+      this.name = this.sessionService.getName();
     });
   }
 
   logout() {
     this.sessionService.clear();
+    this.ngOnInit();
     this.router.navigate(['/login']);
   }
 }
