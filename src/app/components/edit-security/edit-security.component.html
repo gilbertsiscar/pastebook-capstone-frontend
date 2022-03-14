@@ -3,11 +3,11 @@
 
 <div class="card p-4">
 
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <form [formGroup]="updateSecurityForm" (ngSubmit)="onSubmit()">
 
     <div class="form-group row">
 
-      <label class="col-sm-4 col-form-label">Current Email:</label>
+      <label class="col-sm-4 col-form-label">Current Email: </label>
 
       <div class="col-sm-8">
 
@@ -35,10 +35,11 @@
 
       <input 
         type="email" 
-        formControlName="email" 
-        class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && f['email'].errors }" 
+        formControlName="newEmail" 
+        class="form-control" 
         placeholder="Enter new email">
+      
+      <span class="text-danger" *ngIf="updateSecurityForm.get('newEmail').hasError('email')">Enter a valid email.</span>
 
     </div>
 
@@ -50,7 +51,6 @@
         type="text" 
         formControlName="mobileNumber" 
         class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && f['mobileNumber'].errors }" 
         placeholder="Enter new mobile number">
 
     </div>
@@ -62,9 +62,10 @@
       <input 
         type="password" 
         formControlName="newPassword" 
-        class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && f['newPassword'].errors }" 
+        class="form-control" 
         placeholder="Enter new password">
+
+      <span class="text-danger" *ngIf="updateSecurityForm.get('newPassword').hasError('minlength')">Minumum length should be 8 characters.</span>
 
     </div>
 
@@ -76,17 +77,13 @@
         type="password" 
         formControlName="confirmPassword" 
         class="form-control"
-        [ngClass]="{ 'is-invalid': submitted && f['confirmPassword'].errors }" 
         placeholder="Confirm new password">
 
+      <span class="text-danger" *ngIf="updateSecurityForm.get('confirmPassword').hasError('required') && updateSecurityForm.controls['confirmPassword']?.touched">Confirm password is required.</span>
 
-        <div *ngIf="submitted && f['confirmPassword']['errors']" class="invalid-feedback">
+      <span class="text-danger" *ngIf="updateSecurityForm.get('confirmPassword').hasError('mustMatch')">Passwords do not match.</span>
 
-          <div *ngIf="f['confirmPassword']['errors']['required']">Confirm Password is required</div>
-
-          <div *ngIf="f['confirmPassword']['error'].mustMatch">Passwords must match</div>
-
-      </div>
+      <span class="text-success" *ngIf="updateSecurityForm.get('confirmPassword').valid">Passwords match.</span>
 
     </div>
 
@@ -94,24 +91,21 @@
 
       <label class="mt-3">Current Password</label>
 
-      <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['password'].errors }" name="password" placeholder="Enter current password" required />
+      <input 
+        type="password" 
+        formControlName="currentPassword" 
+        class="form-control" 
+        placeholder="Enter current password"/>
 
-      <small class="form-text text-muted">*Current password is required to change security information.</small>
+        <span class="text-muted" *ngIf="updateSecurityForm.get('currentPassword').hasError('required')">*Current password is required to change security information.</span>
 
-      <div *ngIf="submitted && f['password'].errors" class="invalid-feedback">
-
-        <div *ngIf="f['password']['errors']['required']">Password is required</div>
-
-
-        <div *ngIf="f['password']['errors']['minlength']<8">Password must be at least 8 characters</div>
-
-      </div>
+        <span class="text-danger" *ngIf="updateSecurityForm.controls['currentPassword']?.touched">*Current password is required to change security information.</span>
 
     </div>
 
     <div class="mt-3">
 
-      <button type="save" class="btn btn-primary">Save</button>
+      <button type="save" class="btn btn-primary" (click)="onSubmit()" [disabled]="!updateSecurityForm.valid">Save</button>
 
     </div>
 
