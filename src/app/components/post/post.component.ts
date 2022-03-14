@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Post } from 'src/app/models/post';
+import { LikeService } from 'src/app/services/like.service';
+import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-post',
@@ -9,10 +11,11 @@ import { Post } from 'src/app/models/post';
 export class PostComponent implements OnInit {
   @Input() post!: Post;
 
-  imageUrl =
-    'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg';
-
-  constructor() {}
+  constructor(private likeService: LikeService) {}
 
   ngOnInit(): void {}
+
+  like() {
+    this.likeService.likePost(this.post.id).subscribe(console.log);
+  }
 }
