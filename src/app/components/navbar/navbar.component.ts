@@ -14,16 +14,10 @@ export class NavbarComponent implements OnInit {
   constructor(private sessionService: SessionService, private router: Router) {}
 
   ngOnInit(): void {
-<<<<<<< HEAD
-    this.sessionService.hasToken.subscribe((hasToken) => {
-      this.token = hasToken;
-      console.log("reloaded navbar test")
-      console.log(this.token)
-=======
     this.sessionService.hasToken.subscribe((token) => {
       this.token = token;
       this.name = this.sessionService.getName();
->>>>>>> 519aa0d2e670e24b0128c5c8511f01c3a0a1aee2
+      console.log("reloaded navbar test")
     });
   }
 
