@@ -31,6 +31,7 @@ import { TestingComponent } from './components/testing/testing.component';
 
 import { NotificationCardComponent } from './components/notification-card/notification-card.component';
 
+
 const appRoutes: Routes = [
   { path: '', component: HomeComponent }, // http://localhost:4200/,
   { path: 'register', component: RegisterComponent },
