@@ -22,8 +22,8 @@
             'is-valid': firstName?.valid
           }"
         />
-        <span *ngIf="firstName?.errors?.['required'] " class="invalid-feedback">
-          This field is required
+        <span *ngIf="firstName?.errors" class="invalid-feedback">
+          {{ firstName?.errors?.['required'] ? 'This field is required' : 'Invalid data' }}
         </span>
       </div>
       <div class="col form-group">
@@ -42,8 +42,8 @@
             'is-valid': lastName?.valid
           }"
         />
-        <span *ngIf="lastName?.errors?.['required'] " class="invalid-feedback">
-          This field is required
+        <span *ngIf="lastName?.errors" class="invalid-feedback">
+          {{ lastName?.errors?.['required'] ? 'This field is required' : 'Invalid data' }}
         </span>
       </div>
     </div>
@@ -69,6 +69,9 @@
         </span>
         <span *ngIf="email?.errors?.['email'] " class="invalid-feedback">
           Invalid email format
+        </span>
+        <span *ngIf="email?.errors?.['emailExists'] " class="invalid-feedback">
+          Email already exists
         </span>
       </div>
     </div>
@@ -135,9 +138,9 @@
           type="gender"
           id="gender"
           formControlName="gender"
-          aria-label="Default select example"
+          aria-label="Select Gender"
         >
-          <option selected>Select Gender</option>
+          <option>Select Gender</option>
           <option value="male">Male</option>
           <option value="female">Female</option>
           <option value="others">Others</option>
