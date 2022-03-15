@@ -64,6 +64,7 @@ export class UserService {
    
   updateSecurityInfo(id:number, email: string, mobileNumber: string, password: string): Observable<Object> {
     return this.http.put(this.baseUrl + `/details/${id}`, {email, mobileNumber, password} , {headers: this.httpHeaders});
+
   }
 
   // March 14 2pm add-ons

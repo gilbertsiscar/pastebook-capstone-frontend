@@ -25,8 +25,10 @@ import { ProfileComponent } from './pages/profile/profile.component';
 
 import { FriendRequestsComponent } from './components/friend-requests/friend-requests.component';
 import { TagFriendsComponent } from './components/tag-friends/tag-friends.component';
+
 import { ButtonComponent } from './components/button/button.component';
 import { TestingComponent } from './components/testing/testing.component';
+
 import { NotificationCardComponent } from './components/notification-card/notification-card.component';
 
 

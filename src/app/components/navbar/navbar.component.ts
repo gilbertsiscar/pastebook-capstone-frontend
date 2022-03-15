@@ -15,6 +15,7 @@ export class NavbarComponent implements OnInit {
   ownerUrl = localStorage.getItem('profileUrl');
   // March 14 2 pm add-ons
 
+
   notifications: NotificationModel[] = [];
   notification: NotificationModel;
   constructor(private sessionService: SessionService, private router: Router) {}
