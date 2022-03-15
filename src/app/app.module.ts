@@ -16,13 +16,32 @@ import { SettingsComponent } from './pages/settings/settings.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import { EditSecurityComponent } from './components/edit-security/edit-security.component';
 import { CreatePostComponent } from './components/create-post/create-post.component';
+import { FriendsComponent } from './pages/friends/friends.component';
+import { PostComponent } from './components/post/post.component';
+import { AvatarComponent } from './components/avatar/avatar.component';
+import { FriendsListComponent } from './components/friends-list/friends-list.component';
+
+import { ProfileComponent } from './pages/profile/profile.component';
+
+import { FriendRequestsComponent } from './components/friend-requests/friend-requests.component';
+import { TagFriendsComponent } from './components/tag-friends/tag-friends.component';
+
+import { ButtonComponent } from './components/button/button.component';
+import { TestingComponent } from './components/testing/testing.component';
+
+import { NotificationCardComponent } from './components/notification-card/notification-card.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent }, // http://localhost:4200/,
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'settings', component: SettingsComponent },
-  { path: '**', component: NotFoundComponent },
+  { path: ':profileUrl/friendslist', component: FriendsListComponent },
+  { path: ':profileUrl/friendrequests', component: FriendRequestsComponent },
+  { path: 'testing', component: TestingComponent },
+  { path: 'notFound', component: NotFoundComponent },
+  { path: ':profileUrl', component: ProfileComponent},
+  { path: '**', component: NotFoundComponent }
 ];
 @NgModule({
   declarations: [
@@ -38,6 +57,16 @@ const appRoutes: Routes = [
     RegisterComponent,
     RegisterFormComponent,
     SettingsComponent,
+    FriendsComponent,
+    PostComponent,
+    AvatarComponent,
+    FriendsListComponent,
+    FriendRequestsComponent,
+    TagFriendsComponent,
+    ButtonComponent,
+    ProfileComponent,
+    TestingComponent,
+    NotificationCardComponent
   ],
   imports: [
     BrowserModule,

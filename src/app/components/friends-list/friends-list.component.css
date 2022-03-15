@@ -1,0 +1,12 @@
+.custom-card {
+    margin: 0 auto; 
+    float: none; 
+    justify-content: center;
+    width: 90%;
+
+}
+
+.button-width {
+    width: 8rem;
+    margin: .30rem;
+}

@@ -1,11 +1,22 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+<!-- sticky-top not supported on IE and other browsers -->
+<nav
+  class="navbar navbar-expand-lg navbar-light shadow-sm sticky-top bg-white mb-4"
+>
   <div
     class="container-fluid align-items-center justify-content-between px-4 py-2"
   >
     <div class="d-flex">
-      <a class="bg-primary text-light rounded-circle logo me-3" routerLink="/"
+      <a
+        class="bg-primary text-light text-decoration-none rounded-circle logo me-3"
+        routerLink="/"
         >P</a
       >
+    </div>
+
+    <div
+      class="w-100 hstack justify-content-between"
+      *ngIf="token; else noToken"
+    >
       <form class="d-flex">
         <input
           class="form-control me-2 rounded-pill"
@@ -14,9 +25,6 @@
           aria-label="Search"
         />
       </form>
-    </div>
-
-    <ng-container *ngIf="token; else noToken">
       <ul class="nav">
         <li class="nav-item me-3">
           <a
@@ -28,18 +36,20 @@
           >
         </li>
         <li class="nav-item ms-5">
-          <a class="tab" routerLinkActive="tab-active" routerLink="/friends"
+          <a class="tab" routerLinkActive="tab-active" routerLink="{{ownerUrl}}/friendslist"
             >Friends List</a
           >
         </li>
       </ul>
-
-      <div class="d-flex align-items-center ms-5">
-        <a routerLink="/">Hi! User</a>
-
-        <div class="dropdown ms-3">
+      <div class="hstack ms-5">
+        <div
+          class="dropdown"
+          data-bs-toggle="tooltip"
+          data-bs-placement="bottom"
+          title="Friend Request"
+        >
           <button
-            class="btn btn-primary rounded-circle position-relative"
+            class="btn btn-secondary rounded-circle position-relative"
             type="button"
             id="friend-request"
             data-bs-toggle="dropdown"
@@ -50,20 +60,23 @@
               class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
             >
               5
-              <span class="visually-hidden">friend request</span>
             </span>
           </button>
           <ul
             class="dropdown-menu dropdown-menu-end"
             aria-labelledby="friend-request"
           >
-            <li><a class="dropdown-item" href="#">Friend Request</a></li>
+            <li><a class="dropdown-item" routerLink="{{ownerUrl}}/friendrequests">Friend Request</a></li>
           </ul>
         </div>
-
-        <div class="dropdown ms-2 me-3">
+        <div
+          class="dropdown mx-3"
+          data-bs-toggle="tooltip"
+          data-bs-placement="bottom"
+          title="Notifications"
+        >
           <button
-            class="btn btn-primary rounded-circle position-relative"
+            class="btn btn-secondary rounded-circle position-relative"
             type="button"
             id="notification"
             data-bs-toggle="dropdown"
@@ -73,33 +86,48 @@
             <span
               class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
             >
-              4
-              <span class="visually-hidden">notifications</span>
+              3
             </span>
           </button>
           <ul
             class="dropdown-menu dropdown-menu-end"
             aria-labelledby="notification"
           >
-            <li><a class="dropdown-item" href="#">Notifications</a></li>
+            <!-- List of notifications first new 5 -->
+            <!-- For loop -->
+            <li><app-notification-card></app-notification-card></li>
+            <li><app-notification-card></app-notification-card></li>
+            <li><app-notification-card></app-notification-card></li>
+
+            <li class="align-items-center">
+              <a class="dropdown-item" href="#">See more</a>
+            </li>
           </ul>
         </div>
-
+        <a
+          routerLink="/{{ownerUrl}}"
+          class="d-flex align-items-center text-decoration-none rounded-pill me-2 profile-link"
+          data-bs-toggle="tooltip"
+          data-bs-placement="bottom"
+          title="Visit Profile"
+        >
+          <app-avatar [width]="40" [height]="40"></app-avatar>
+          <p class="mb-0 ms-1 me-3">{{ name }}</p>
+        </a>
         <div class="dropdown">
           <button
             type="button"
-            class="btn btn-primary dropdown-toggle dropdown-toggle-split"
-            id="others"
+            class="btn btn-white dropdown-toggle dropdown-toggle-split"
+            id="settings"
             data-bs-toggle="dropdown"
             aria-expanded="false"
+          ></button>
+          <ul
+            class="dropdown-menu dropdown-menu-end"
+            aria-labelledby="settings"
           >
-            <span class="visually-hidden">Toggle Dropdown</span>
-          </button>
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="others">
             <li>
-              <button class="dropdown-item" (click)="switchView()">
-                Log out
-              </button>
+              <button class="dropdown-item" (click)="logout()">Log out</button>
             </li>
             <li>
               <a class="dropdown-item" routerLink="/settings">Settings</a>
@@ -107,11 +135,10 @@
           </ul>
         </div>
       </div>
-    </ng-container>
+    </div>
 
     <ng-template #noToken>
       <div class="d-flex">
-        <a routerLink="/" (click)="switchView()">switch view</a>
         <a class="btn btn-primary rounded-pill px-4 mx-3" routerLink="/register"
           >Register</a
         >

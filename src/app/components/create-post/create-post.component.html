@@ -1,22 +1,145 @@
-<div class="card w-50">
+<div class="card w-50 mb-3">
   <div class="card-body">
-    <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
-      <div class="form-group d-flex mb-3">
-        <div
-          class="p-1 rounded-circle bg-dark me-3"
-          style="height: 2.5rem; width: 2.5rem"
-        ></div>
+    <!-- Main Post Form -->
+
+    <form
+      [formGroup]="postForm"
+      (ngSubmit)="onSubmit()"
+      enctype="multipart/form-data"
+    >
+
+      <div class="hstack gap-2 mb-3">
+        <app-avatar></app-avatar>
+        <p>{{ name }}</p>
+        <ng-container *ngIf="displayTaggedLength > 0">
+          <p>is with</p>
+          <ng-container *ngFor="let tag of displayTagged">
+            <p>{{ tag }}</p>
+          </ng-container>
+        </ng-container>
+      </div>
+      <div class="form-group mb-3">
         <textarea
-          class="form-control"
-          id="body"
+          id="content"
+          formControlName="content"
+          rows="5"
           placeholder="What's on your mind?"
-          formControlName="body"
+          class="form-control"
           style="resize: none"
         ></textarea>
       </div>
-      <div class="d-flex justify-content-end">
-        <button type="submit" class="btn btn-primary">Submit</button>
+      <div
+        *ngIf="imagePreview && imagePreview !== ''"
+        style="position: relative"
+      >
+        <button
+          id="remove-image"
+          type="button"
+          class="btn-close bg-secondary rounded-circle p-2"
+          (click)="removeImage()"
+          style="position: absolute; top: 0; right: 0; z-index: 1"
+        >
+          >
+        </button>
+        <img [src]="imagePreview" width="100%" height="100%" />
+      </div>
+      <input
+        #imageInput
+        type="file"
+        class="form-control"
+        accept="image/*"
+        (change)="onFileSelected($event)"
+        style="display: none"
+      />
+      <hr class="mb-1" />
+      <div class="hstack justify-content-between">
+        <div class="hstack gap-2">
+          <!-- Upload Image -->
+          <button
+            type="button"
+            class="btn btn-outline-primary rounded-circle hstack justify-content-center p-2"
+            style="border: none"
+            (click)="addImage()"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              fill="currentColor"
+              class="bi bi-images"
+              viewBox="0 0 16 16"
+            >
+              <path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+              <path
+                d="M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2zM14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1zM2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1h-10z"
+              />
+            </svg>
+          </button>
+          <!-- Tag Friends Btn -->
+          <!-- this will toggle the modal, not implemented currently -->
+          <button
+            type="button"
+            class="btn btn-outline-primary rounded-circle hstack justify-content-center p-2"
+            data-bs-toggle="modal"
+            data-bs-target="#tagFriendsModal"
+            style="border: none"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              fill="currentColor"
+              class="bi bi-person-fill"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"
+              />
+            </svg>
+          </button>
+        </div>
+        <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+          <span
+            *ngIf="isLoading"
+            class="spinner-border spinner-border-sm"
+            role="status"
+            aria-hidden="true"
+          ></span>
+          {{ isLoading ? "Posting..." : "Post" }}
+        </button>
       </div>
     </form>
+  </div>
+</div>
+
+<!-- Tag Friends Modal -->
+<div class="modal fade" id="tagFriendsModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Tag Friends</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <app-tag-friends
+          (taggedFriends)="getTaggedFriends($event)"
+        ></app-tag-friends>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#tagFriendsModal"
+        >
+          Done
+        </button>
+      </div>
+    </div>
   </div>
 </div>

@@ -1,8 +1,14 @@
-import { HttpClient } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { catchError, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../models/user';
+
+import { SessionService } from './session.service';
 
 @Injectable({
   providedIn: 'root',
@@ -10,31 +16,68 @@ import { User } from '../models/user';
 export class UserService {
   private baseUrl = `${environment.apiUrl}/users`;
 
-  constructor(private http: HttpClient) {}
+  private httpHeaders: HttpHeaders = new HttpHeaders({
+    Authorization: `Bearer ${this.sessionService.getToken()}`,
+  });
 
-  login(email: string, password: string) {
-    const debug = true;
-    if (debug) return of({ email, password });
-    return this.http.post(`${this.baseUrl}/login`, { email, password });
+  constructor(
+    private http: HttpClient,
+    private sessionService: SessionService
+  ) {}
+
+  register(user: User) {
+
+    return this.http
+      .post<User>(`${this.baseUrl}/register`, user)
+      .pipe(catchError(this.handleError));
+
   }
 
-  register({
-    firstName,
-    lastName,
-    email,
-    mobileNumber,
-    password,
-    birthday,
-    gender,
-  }: User) {
-    return this.http.post(`${this.baseUrl}/register`, {
-      firstName,
-      lastName,
-      email,
-      mobileNumber,
-      password,
-      birthday,
-      gender,
+  getUser(id: number): Observable<User> {
+    //console.log(this.sessionService.getToken());
+    console.log(this.http);
+    return this.http.get<User>(`${this.baseUrl}/details/${id}`, {
+      headers: this.httpHeaders,
     });
   }
+  // temp
+  getUserProfile(profileUrl: string): Observable<User> {
+    //console.log(this.sessionService.getToken());
+    console.log(this.http);
+    return this.http.get<User>(`${this.baseUrl}/profile/${profileUrl}`, {
+      headers: this.httpHeaders,
+    });
+  }
+
+  updatePersonalInfo(user: User): Observable<Object> {
+    //Fix later
+    return this.http.put(`${this.baseUrl}/details/${user.id}`, user, {
+      headers: this.httpHeaders,
+    });
+  }
+
+  // testConnectionToDatabawe(): Observable<Object>{
+  //   rreturn this.http.get<User>(`${this.baseUrl}/details/${id}`);
+  // }
+
+
+   
+  updateSecurityInfo(id:number, email: string, mobileNumber: string, password: string): Observable<Object> {
+    return this.http.put(this.baseUrl + `/details/${id}`, {email, mobileNumber, password} , {headers: this.httpHeaders});
+  }
+
+  // March 14 2pm add-ons
+  get(): Observable<User[]> {
+    return this.http.get<User[]>(this.baseUrl + `/test`);
+  }
+
+  getOne(id: number): Observable<Object> {
+    return this.http.get<User>(`${this.baseUrl}/${id}` + `/test`);
+  }
+  // March 14 2pm add-ons
+
+
 }
+
+  
+

@@ -1,0 +1,10 @@
+.nav-link {
+  color: #6c757d;
+}
+
+.nav-link.active {
+  color: #000 !important ;
+  font-weight: 600;
+  background: #fff;
+  box-shadow: rgba(149, 157, 165, 0.1) 0px 8px 24px;
+}
