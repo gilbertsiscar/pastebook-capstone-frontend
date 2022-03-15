@@ -1,3 +1,7 @@
 <div class="container">
-  <app-login-form class="d-flex justify-content-center"></app-login-form>
+  <app-login-form
+    [formData]="loginForm"
+    (method)="onMethodChange($event)"
+    class="d-flex justify-content-center"
+  ></app-login-form>
 </div>
