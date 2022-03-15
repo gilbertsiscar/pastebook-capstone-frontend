@@ -24,9 +24,9 @@ export class CreatePostComponent implements OnInit, DoCheck {
   imagePreview = '';
   isLoading: boolean = false;
 
+  formData: FormData = new FormData();
   postForm: FormGroup = this.fb.group({
     content: '',
-    image: '',
     tagged: '',
   });
 
@@ -56,8 +56,9 @@ export class CreatePostComponent implements OnInit, DoCheck {
   onSubmit() {
     this.displayTaggedLength = 0;
     if (this.postForm.valid) {
+      this.formData.append('content', this.postForm.value['content']);
       this.isLoading = true;
-      this.postService.createPost(this.postForm.value).subscribe({
+      this.postService.createPost(this.formData).subscribe({
         next: this.onSuccess.bind(this),
       });
     }
@@ -76,8 +77,7 @@ export class CreatePostComponent implements OnInit, DoCheck {
 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
-    this.image.patchValue(file);
-    this.image.updateValueAndValidity();
+    this.formData.append('image', file);
 
     const reader = new FileReader();
     reader.onload = () => {
@@ -92,14 +92,9 @@ export class CreatePostComponent implements OnInit, DoCheck {
 
   removeImage() {
     this.imagePreview = '';
-    this.image.setValue('');
   }
 
   get tagged() {
     return this.postForm.get('tagged');
-  }
-
-  get image() {
-    return this.postForm.get('image');
   }
 }
