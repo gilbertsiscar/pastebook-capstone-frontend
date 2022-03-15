@@ -1,7 +1,22 @@
-import { Component, OnInit, Output } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
+import { ApiError } from 'src/app/models/api-error';
 import { Login } from 'src/app/models/login';
+import { LoginForm } from 'src/app/models/login-form';
 import { LoginService } from 'src/app/services/login.service';
 import { SessionService } from 'src/app/services/session.service';
 
@@ -14,72 +29,75 @@ import Swal from 'sweetalert2';
  * [x] Implement a more robust input validation
  * [x] Refactor login handling
  */
-
 @Component({
   selector: 'app-login-form',
   templateUrl: './login-form.component.html',
   styleUrls: ['./login-form.component.css'],
 })
-export class LoginFormComponent implements OnInit {
-  submitted = false;
-  isLoading = false;
-  method = 'email';
+export class LoginFormComponent implements OnInit, OnChanges {
+  @Input() formData: LoginForm[];
+  @Output() method = new EventEmitter<string>();
 
-  loginForm = this.formBuilder.group({
-    email: [null, Validators.required],
-    password: [null, Validators.required],
-    mobileNumber: [null, Validators.required],
-  });
+  isLoading = false;
+
+  loginForm: FormGroup;
 
   constructor(
-    private formBuilder: FormBuilder,
     private loginService: LoginService,
     private sessionService: SessionService,
     private router: Router
   ) {}
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!changes['formData'].firstChange) {
+      this.ngOnInit();
+    }
+  }
+
   ngOnInit(): void {
-    this.useEmailAndPassword();
+    const formGroup = {};
+
+    this.formData.forEach((formControl) => {
+      formGroup[formControl.name] = new FormControl(null, Validators.required);
+    });
+
+    this.loginForm = new FormGroup(formGroup);
   }
 
   onSubmit() {
-    this.submitted = true;
     if (this.loginForm.valid) {
       this.isLoading = true;
-      const credentials = new Login(this.method).deserialize(
-        this.loginForm.value
-      );
-      this.loginService.login(credentials).subscribe({
+      this.loginService.login(this.loginForm.value).subscribe({
         next: this.successfulLogin.bind(this),
         error: this.failedLogin.bind(this),
       });
     }
   }
 
-  successfulLogin(response: Record<string, any>) {
+  successfulLogin(response: Login) {
     this.isLoading = false;
     Swal.fire(
       'Login Successful',
       'You have successfully logged in.',
       'success'
     );
-    this.sessionService.setName(response['name']);
-    this.sessionService.setEmail(response['email']);
-    this.sessionService.setToken(response['token']);
-    this.sessionService.setUserId(response['user_id']);
+    this.sessionService.setName(response.name);
+    this.sessionService.setEmail(response.email);
+    this.sessionService.setToken(response.token);
+    this.sessionService.setUserId(response.id);
     this.router.navigate(['']);
   }
 
-  failedLogin(result: Record<string, any>) {
-    const data = result['error'];
-
-    if (data.result === 'incorrect_credentials') {
+  failedLogin(error: ApiError) {
+    this.isLoading = false;
+    const { status } = error;
+    if (status) {
       Swal.fire(
         'Login Failed',
         'You have entered incorrect credentials, please try again',
         'error'
       );
-    } else if (data.result === 'user_not_found') {
+    } else {
       Swal.fire(
         'Login Failed',
         'User does not exist, please try again.',
@@ -88,29 +106,11 @@ export class LoginFormComponent implements OnInit {
     }
   }
 
-  useEmailAndPassword() {
-    this.method = 'email';
-    this.email.enable();
-    this.password.enable();
-    this.mobileNumber.disable();
+  onMethodChange(method: string) {
+    this.method.emit(method);
   }
 
-  useMobileNumber() {
-    this.method = 'mobile';
-    this.mobileNumber.enable();
-    this.email.disable();
-    this.password.disable();
-  }
-
-  get email() {
-    return this.loginForm.get('email');
-  }
-
-  get password() {
-    return this.loginForm.get('password');
-  }
-
-  get mobileNumber() {
-    return this.loginForm.get('mobileNumber');
+  handleError(control: AbstractControl): boolean {
+    return control.invalid && (control.dirty || control.touched);
   }
 }
