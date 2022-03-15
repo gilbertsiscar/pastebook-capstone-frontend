@@ -30,19 +30,20 @@ import { ButtonComponent } from './components/button/button.component';
 import { TestingComponent } from './components/testing/testing.component';
 
 import { NotificationCardComponent } from './components/notification-card/notification-card.component';
-
+import { PostPageComponent } from './pages/post-page/post-page.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent }, // http://localhost:4200/,
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'settings', component: SettingsComponent },
+  { path: 'post/:id', component: PostPageComponent },
   { path: ':profileUrl/friendslist', component: FriendsListComponent },
   { path: ':profileUrl/friendrequests', component: FriendRequestsComponent },
   { path: 'testing', component: TestingComponent },
   { path: 'notFound', component: NotFoundComponent },
-  { path: ':profileUrl', component: ProfileComponent},
-  { path: '**', component: NotFoundComponent }
+  { path: ':profileUrl', component: ProfileComponent },
+  { path: '**', component: NotFoundComponent },
 ];
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ const appRoutes: Routes = [
     ButtonComponent,
     ProfileComponent,
     TestingComponent,
-    NotificationCardComponent
+    NotificationCardComponent,
+    PostPageComponent,
   ],
   imports: [
     BrowserModule,
