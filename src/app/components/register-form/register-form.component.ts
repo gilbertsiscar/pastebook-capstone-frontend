@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
+import { ApiError } from 'src/app/models/api-error';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -15,12 +16,12 @@ export class RegisterFormComponent implements OnInit {
   isLoading = false;
 
   registerForm = this.formBuilder.group({
-    firstName: [null, Validators.required],
-    lastName: [null, Validators.required],
+    firstName: [null, [Validators.required, this.noWhitespaceValidator]],
+    lastName: [null, [Validators.required, this.noWhitespaceValidator]],
     email: [null, [Validators.email, Validators.required]],
     password: [null, [Validators.required, Validators.minLength(8)]],
     birthday: [null, Validators.required],
-    gender: null,
+    gender: 'Select Gender',
     mobileNumber: null,
   });
 
@@ -55,16 +56,18 @@ export class RegisterFormComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
-  failedRegister(result: Record<string, any>) {
-    const data = result['error'];
-
-    if (data.result === 'user_exists') {
-      Swal.fire(
-        'Registration Failed',
-        'Email or mobile number already exists',
-        'error'
-      );
+  failedRegister(error: ApiError) {
+    this.isLoading = false;
+    if (error) {
+      Swal.fire('Registration Failed', 'Email number already exists', 'error');
+      this.email.setErrors({ emailExists: true });
     }
+  }
+
+  public noWhitespaceValidator(control: FormControl) {
+    const isWhitespace = (control.value || '').trim().length === 0;
+    const isValid = !isWhitespace;
+    return isValid ? null : { whitespace: true };
   }
 
   get email() {
