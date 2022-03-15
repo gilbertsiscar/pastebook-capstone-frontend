@@ -1,5 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { Comment } from 'src/app/models/comment';
 import { Post } from 'src/app/models/post';
+import { CommentService } from 'src/app/services/comment.service';
+import { LikeService } from 'src/app/services/like.service';
+import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-post',
@@ -9,10 +14,51 @@ import { Post } from 'src/app/models/post';
 export class PostComponent implements OnInit {
   @Input() post!: Post;
 
-  imageUrl =
-    'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg';
+  comments: Comment[];
 
-  constructor() {}
+  likes: number;
+  liked: boolean = false;
 
-  ngOnInit(): void {}
+  commentForm = this.fb.group({
+    comment: ['', Validators.required],
+  });
+
+  constructor(
+    private likeService: LikeService,
+    private commentService: CommentService,
+    private fb: FormBuilder
+  ) {}
+
+  ngOnInit(): void {
+    this.likeService.getLikes(this.post.id).subscribe((likes) => {
+      this.likes = likes;
+    });
+
+    this.commentService.getComments(this.post.id).subscribe((comments) => {
+      this.comments = comments;
+    });
+  }
+
+  onSubmit() {
+    this.commentService
+      .addComment(this.post.id, this.commentForm.value)
+      .subscribe(() => {
+        this.commentForm.reset();
+        this.ngOnInit();
+      });
+  }
+
+  like() {
+    this.likeService.likePost(this.post.id).subscribe(() => {
+      this.liked = true;
+      this.ngOnInit();
+    });
+  }
+
+  unlike() {
+    this.likeService.unlikePost(this.post.id).subscribe(() => {
+      this.liked = false;
+      this.ngOnInit();
+    });
+  }
 }

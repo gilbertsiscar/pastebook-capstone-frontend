@@ -13,7 +13,7 @@ export class UserService {
   private baseUrl = `${environment.apiUrl}/users`;
 
   private httpHeaders: HttpHeaders = new HttpHeaders({
-    Authorization: `${this.sessionService.getToken()}`,
+    Authorization: `Bearer ${this.sessionService.getToken()}`,
   });
 
   constructor(
@@ -22,7 +22,7 @@ export class UserService {
   ) {}
 
   register(user: User) {
-    if (!environment.production) return of(user).pipe(delay(3000));
+    //if (!environment.production) return of(user).pipe(delay(3000));
 
     return this.http.post(`${this.baseUrl}/register`, user);
   }
@@ -30,7 +30,7 @@ export class UserService {
   getUser(id: number): Observable<User> {
     //console.log(this.sessionService.getToken());
     console.log(this.http);
-    return this.http.get<User>(`${this.baseUrl}/details/${id}`,{
+    return this.http.get<User>(`${this.baseUrl}/details/${id}`, {
       headers: this.httpHeaders,
     });
   }
@@ -38,7 +38,7 @@ export class UserService {
   getUserProfile(profileUrl: string): Observable<User> {
     //console.log(this.sessionService.getToken());
     console.log(this.http);
-    return this.http.get<User>(`${this.baseUrl}/profile/${profileUrl}`,{
+    return this.http.get<User>(`${this.baseUrl}/profile/${profileUrl}`, {
       headers: this.httpHeaders,
     });
   }
@@ -61,11 +61,11 @@ export class UserService {
 
   // March 14 2pm add-ons
   get(): Observable<User[]> {
-    return this.http.get<User[]>(this.baseUrl + `/test`, {headers: this.httpHeaders});
+    return this.http.get<User[]>(this.baseUrl + `/test`);
   }
 
   getOne(id: number): Observable<Object> {
-    return this.http.get<User>(`${this.baseUrl}/${id}` + `/test`, {headers: this.httpHeaders});
+    return this.http.get<User>(`${this.baseUrl}/${id}` + `/test`);
   }
   // March 14 2pm add-ons
 
