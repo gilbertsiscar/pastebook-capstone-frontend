@@ -85,6 +85,8 @@ export class LoginFormComponent implements OnInit, OnChanges {
     this.sessionService.setEmail(response.email);
     this.sessionService.setToken(response.token);
     this.sessionService.setUserId(response.id);
+    this.sessionService.setIdNumber(response['idNumber']);
+    this.sessionService.setProfileUrl(response['profileUrl']);
     this.router.navigate(['']);
   }
 

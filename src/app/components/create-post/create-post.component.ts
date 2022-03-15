@@ -56,9 +56,11 @@ export class CreatePostComponent implements OnInit, DoCheck {
   onSubmit() {
     this.displayTaggedLength = 0;
     if (this.postForm.valid) {
+
       this.formData.append('content', this.postForm.value['content']);
       this.isLoading = true;
       this.postService.createPost(this.formData).subscribe({
+
         next: this.onSuccess.bind(this),
       });
     }

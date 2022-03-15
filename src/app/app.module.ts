@@ -25,17 +25,24 @@ import { ProfileComponent } from './pages/profile/profile.component';
 
 import { FriendRequestsComponent } from './components/friend-requests/friend-requests.component';
 import { TagFriendsComponent } from './components/tag-friends/tag-friends.component';
+
+import { ButtonComponent } from './components/button/button.component';
+import { TestingComponent } from './components/testing/testing.component';
+
 import { NotificationCardComponent } from './components/notification-card/notification-card.component';
+
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent }, // http://localhost:4200/,
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
-  { path: ':profileUrl', component: ProfileComponent},
   { path: 'settings', component: SettingsComponent },
-  { path: 'friends', component: FriendsComponent },
+  { path: ':profileUrl/friendslist', component: FriendsListComponent },
+  { path: ':profileUrl/friendrequests', component: FriendRequestsComponent },
+  { path: 'testing', component: TestingComponent },
   { path: 'notFound', component: NotFoundComponent },
-  { path: '**', component: NotFoundComponent },
+  { path: ':profileUrl', component: ProfileComponent},
+  { path: '**', component: NotFoundComponent }
 ];
 @NgModule({
   declarations: [
@@ -57,8 +64,10 @@ const appRoutes: Routes = [
     FriendsListComponent,
     FriendRequestsComponent,
     TagFriendsComponent,
-    NotificationCardComponent,
-    ProfileComponent
+    ButtonComponent,
+    ProfileComponent,
+    TestingComponent,
+    NotificationCardComponent
   ],
   imports: [
     BrowserModule,

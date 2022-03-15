@@ -1,3 +1,4 @@
+
 <div class="container">
   <div class="row profile">
     <div class="col-md-3">
@@ -15,10 +16,64 @@
         </div>
         <!-- END SIDEBAR USER TITLE -->
         <!-- SIDEBAR BUTTONS -->
-        <div class="profile-userbuttons">
-          <button type="button" class="btn btn-success btn-sm">
+        <!-- INSERT CONDITIONS HERE THAT IF USER IS THE CURRENTLY LOGGED IN USER, HE CAN'T SEE THE BUTTONS -->
+        <div class="profile-userbuttons" *ngIf="!isOwner()">
+
+          
+          <!-- <button type="button" class="btn btn-success btn-sm">
             Add Friend
-          </button>
+          </button> -->
+
+          <!-- March 14, 2 pm codes -->
+          <div *ngIf="oneFriendRequest.active || oneFriend.active || oneFriend2.active; else sendfriendbtn"> 
+          </div>
+
+          <div>
+              <ng-template #sendfriendbtn>
+                
+                  <div *ngIf="isButtonStatus; else displaypending">
+                      <app-button text="Send Friend Request" (click)="changeName()" (btnClick)="sendFriendRequest()"></app-button>
+                      
+                  </div>
+                  
+                  <!-- the code here is to dynamically see the changes in the 'friend status' -->
+                  
+                  <ng-template #displaypending>
+                      <button>Pending</button>
+                  </ng-template>
+              
+              </ng-template>
+              <!-- if clicked, change text to "Pending" -->
+          </div>
+
+          <div *ngIf="oneFriendRequest.active; else notpending"> 
+              <app-button text="Pending"></app-button>
+          </div>
+
+          <div>
+              <ng-template #notpending>
+              </ng-template>
+          </div>
+
+          <div *ngIf="oneFriend.active; else notfriend"> 
+              <app-button text="Friends"></app-button>
+          </div>
+
+          <div>
+              <ng-template #notfriend>
+              </ng-template>
+          </div>
+
+          <div *ngIf="oneFriend2.active; else notfriend2"> 
+              <app-button text="Friends"></app-button>
+          </div>
+
+          <div>
+              <ng-template #notfriend2>
+              </ng-template>
+          </div>
+        <!-- March 14, 2 pm codes -->
+      
           <button type="button" class="btn btn-danger btn-sm">Block</button>
         </div>
         <!-- END SIDEBAR BUTTONS -->
@@ -102,3 +157,4 @@
     </div>
   </div>
 </div>
+

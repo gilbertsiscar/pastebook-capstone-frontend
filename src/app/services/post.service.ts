@@ -20,8 +20,10 @@ export class PostService {
   ) {}
 
   // POST /api/posts
+
   createPost(formData: FormData): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}`, formData, {
+
       headers: this.httpHeaders,
     });
   }

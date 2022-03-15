@@ -1,0 +1,19 @@
+<div *ngIf="hasToken; else noToken">
+    <div class="row">
+        <div class="col12 col-md-4" *ngFor="let user of allUsers">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h3>{{ user.id }}</h3>
+                    <a routerLink="/{{user.profileUrl}}">{{ user.id }}</a>
+                    <p>{{ user.lastName }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+<ng-template #noToken>
+    <app-login></app-login>
+</ng-template>
+</div>
