@@ -26,9 +26,11 @@ export class UserService {
   ) {}
 
   register(user: User) {
+
     return this.http
       .post<User>(`${this.baseUrl}/register`, user)
       .pipe(catchError(this.handleError));
+
   }
 
   getUser(id: number): Observable<User> {
@@ -77,6 +79,9 @@ export class UserService {
   private handleError(error: HttpErrorResponse) {
     return error.error;
   }
+  // March 14 2pm add-ons
+
+
 }
 
   

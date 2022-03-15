@@ -15,15 +15,9 @@ export class NavbarComponent implements OnInit {
   ownerUrl = localStorage.getItem('profileUrl');
   // March 14 2 pm add-ons
 
-//   constructor(private sessionService: SessionService, private router: Router) {
-//     console.log("test")
-//     console.log(this.token)
-//   }
-
   notifications: NotificationModel[] = [];
   notification: NotificationModel;
   constructor(private sessionService: SessionService, private router: Router) {}
-
 
   ngOnInit(): void {
     this.sessionService.hasToken.subscribe((token) => {

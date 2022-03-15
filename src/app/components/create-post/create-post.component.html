@@ -1,11 +1,13 @@
 <div class="card w-50 mb-3">
   <div class="card-body">
     <!-- Main Post Form -->
+
     <form
       [formGroup]="postForm"
       (ngSubmit)="onSubmit()"
       enctype="multipart/form-data"
     >
+
       <div class="hstack gap-2 mb-3">
         <app-avatar></app-avatar>
         <p>{{ name }}</p>

@@ -1,10 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+
 import { Comment } from 'src/app/models/comment';
 import { Post } from 'src/app/models/post';
 import { CommentService } from 'src/app/services/comment.service';
 import { LikeService } from 'src/app/services/like.service';
+
+import { LoginService } from 'src/app/services/login.service';
+
 
 @Component({
   selector: 'app-post',
@@ -19,7 +24,9 @@ export class PostComponent implements OnInit {
   likes: number;
   liked: boolean = false;
 
+
   image: SafeResourceUrl;
+
 
   commentForm = this.fb.group({
     comment: ['', Validators.required],
@@ -28,8 +35,10 @@ export class PostComponent implements OnInit {
   constructor(
     private likeService: LikeService,
     private commentService: CommentService,
+
     private fb: FormBuilder,
     private sanitizer: DomSanitizer
+
   ) {}
 
   ngOnInit(): void {
@@ -41,11 +50,13 @@ export class PostComponent implements OnInit {
       this.comments = comments;
     });
 
+
     if (this.post.image) {
       this.image = this.sanitizer.bypassSecurityTrustResourceUrl(
         'data:image/png;base64,' + this.post.image.picByte
       );
     }
+
   }
 
   onSubmit() {
