@@ -17,17 +17,16 @@ import { Friends } from '../tag-friends/tag-friends.component';
   templateUrl: './create-post.component.html',
   styleUrls: ['./create-post.component.css'],
 })
-export class CreatePostComponent implements OnInit, DoCheck {
+export class CreatePostComponent implements OnInit {
   name: string;
   displayTagged: Friends[] = [];
   displayTaggedLength = 0;
   imagePreview = '';
   isLoading: boolean = false;
 
-  formData: FormData = new FormData();
   postForm: FormGroup = this.fb.group({
     content: '',
-    tagged: '',
+    image: '',
   });
 
   @Output() refresh = new EventEmitter<boolean>();
@@ -44,23 +43,11 @@ export class CreatePostComponent implements OnInit, DoCheck {
     this.name = this.sessionService.getName();
   }
 
-  ngDoCheck(): void {
-    this.postForm.valueChanges.subscribe((data) => {
-      this.displayTagged = data['tagged'];
-      if (this.displayTagged) {
-        this.displayTaggedLength = this.displayTagged.length;
-      }
-    });
-  }
-
   onSubmit() {
     this.displayTaggedLength = 0;
     if (this.postForm.valid) {
-
-      this.formData.append('content', this.postForm.value['content']);
       this.isLoading = true;
-      this.postService.createPost(this.formData).subscribe({
-
+      this.postService.createPost(this.postForm.value).subscribe({
         next: this.onSuccess.bind(this),
       });
     }
@@ -70,16 +57,13 @@ export class CreatePostComponent implements OnInit, DoCheck {
     this.refresh.emit(true);
     this.isLoading = false;
     this.removeImage();
+    this.postForm.get('content').setValue('');
     this.postForm.reset();
-  }
-
-  getTaggedFriends(friends: Friends[]) {
-    this.tagged.setValue(friends);
   }
 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
-    this.formData.append('image', file);
+    this.image.setValue(file);
 
     const reader = new FileReader();
     reader.onload = () => {
@@ -96,7 +80,21 @@ export class CreatePostComponent implements OnInit, DoCheck {
     this.imagePreview = '';
   }
 
-  get tagged() {
-    return this.postForm.get('tagged');
+  get image() {
+    return this.postForm.get('image');
   }
+
+  // Tag Friends
+  // ngDoCheck(): void {
+  //   this.postForm.valueChanges.subscribe((data) => {
+  //     this.displayTagged = data['tagged'];
+  //     if (this.displayTagged) {
+  //       this.displayTaggedLength = this.displayTagged.length;
+  //     }
+  //   });
+  // }
+
+  // getTaggedFriends(friends: Friends[]) {
+  //   this.tagged.setValue(friends);
+  // }
 }
