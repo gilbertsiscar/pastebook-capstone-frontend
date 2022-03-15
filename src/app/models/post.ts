@@ -1,12 +1,17 @@
+
+import { Image } from './image';
 import { User } from './user';
 
-export class Post {
+export interface Post {
+
   id: string;
   userId: string;
   title: string;
   content: string;
   likes: any[];
-  img: string;
+
+  image: Image;
+
   url: string;
   datetimeCreated: string;
   updatedAt: string;

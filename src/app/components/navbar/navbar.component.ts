@@ -11,6 +11,7 @@ export class NavbarComponent implements OnInit {
   name: string = localStorage.getItem('name');
   token: boolean = localStorage.getItem('token') !== null;
 
+
   // March 14 2 pm add-ons
   ownerUrl = localStorage.getItem('profileUrl');
   // March 14 2 pm add-ons
@@ -19,6 +20,7 @@ export class NavbarComponent implements OnInit {
     console.log("test")
     console.log(this.token)
   }
+
 
   ngOnInit(): void {
     this.sessionService.hasToken.subscribe((token) => {
