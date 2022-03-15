@@ -49,7 +49,6 @@ export class SessionService {
     localStorage.setItem('email', email);
   }
 
-
   setName(name: string) {
     localStorage.setItem('name', name);
   }
