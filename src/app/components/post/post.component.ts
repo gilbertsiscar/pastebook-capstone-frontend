@@ -5,7 +5,6 @@ import { Comment } from 'src/app/models/comment';
 import { Post } from 'src/app/models/post';
 import { CommentService } from 'src/app/services/comment.service';
 import { LikeService } from 'src/app/services/like.service';
-import { LoginService } from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-post',
