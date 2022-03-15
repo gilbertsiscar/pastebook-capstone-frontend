@@ -58,20 +58,26 @@ export class UserService {
   //   rreturn this.http.get<User>(`${this.baseUrl}/details/${id}`);
   // }
 
-  updateSecurityInfo(
-    id: number,
-    email: string,
-    mobileNumber: string,
-    password: string
-  ): Observable<Object> {
-    return this.http.put(
-      this.baseUrl + `/details/${id}`,
-      { email, mobileNumber, password },
-      { headers: this.httpHeaders }
-    );
+
+   
+  updateSecurityInfo(id:number, email: string, mobileNumber: string, password: string): Observable<Object> {
+    return this.http.put(this.baseUrl + `/details/${id}`, {email, mobileNumber, password} , {headers: this.httpHeaders});
   }
+
+  // March 14 2pm add-ons
+  get(): Observable<User[]> {
+    return this.http.get<User[]>(this.baseUrl + `/test`, {headers: this.httpHeaders});
+  }
+
+  getOne(id: number): Observable<Object> {
+    return this.http.get<User>(`${this.baseUrl}/${id}` + `/test`, {headers: this.httpHeaders});
+  }
+  // March 14 2pm add-ons
 
   private handleError(error: HttpErrorResponse) {
     return error.error;
   }
 }
+
+  
+
