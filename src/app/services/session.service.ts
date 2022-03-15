@@ -23,6 +23,10 @@ export class SessionService {
     return localStorage.getItem('token')!;
   }
 
+  getId(): number {
+    return parseInt(localStorage.getItem('id')!);
+  }
+
   getUserId(): string | null {
     return localStorage.getItem('user_id');
   }
@@ -30,6 +34,16 @@ export class SessionService {
   getEmail(): string {
     return localStorage.getItem('email')!;
   }
+
+  // March 14 2 pm add-ons
+  getProfileUrl(): string {
+    return localStorage.getItem('profileUrl')!;
+  }
+
+  getIdNumber(): number {
+    return parseInt(localStorage.getItem('idNumber')!);
+  }
+  // March 14 2 pm add-ons
 
   setToken(token: string) {
     this.hasToken.emit(true);
@@ -40,9 +54,25 @@ export class SessionService {
     localStorage.setItem('user_id', id);
   }
 
+  setId(value: string): void {
+    this.hasToken.emit(true);
+    localStorage.setItem('id', value);
+  }
+
   setEmail(email: string) {
     localStorage.setItem('email', email);
   }
+
+  // March 14 2 pm add-ons
+  setProfileUrl(value: string): void {
+    localStorage.setItem('profileUrl', value);
+  }
+
+  setIdNumber(value: string): void {
+    this.hasToken.emit(true);
+    localStorage.setItem('idNumber', value);
+  }
+  // March 14 2 pm add-ons
 
   clear() {
     localStorage.clear();

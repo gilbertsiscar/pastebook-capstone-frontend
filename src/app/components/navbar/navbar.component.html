@@ -33,7 +33,7 @@
           >
         </li>
         <li class="nav-item ms-5">
-          <a class="tab" routerLinkActive="tab-active" routerLink="/friends"
+          <a class="tab" routerLinkActive="tab-active" routerLink="{{ownerUrl}}/friendslist"
             >Friends List</a
           >
         </li>
@@ -64,7 +64,7 @@
             class="dropdown-menu dropdown-menu-end"
             aria-labelledby="friend-request"
           >
-            <li><a class="dropdown-item" href="#">Friend Request</a></li>
+            <li><a class="dropdown-item" routerLink="{{ownerUrl}}/friendrequests">Friend Request</a></li>
           </ul>
         </div>
         <div
