@@ -37,9 +37,7 @@ export class RegisterFormComponent implements OnInit {
     this.submitted = true;
     if (this.registerForm.valid) {
       this.isLoading = true;
-      let user = new User();
-      user = { ...this.registerForm.value };
-      this.userService.register(user).subscribe({
+      this.userService.register(this.registerForm.value).subscribe({
         next: this.successfulRegister.bind(this),
         error: this.failedRegister.bind(this),
       });
