@@ -52,6 +52,7 @@ export class SessionService {
     return localStorage.getItem('name')!;
   }
 
+
   setToken(token: string) {
     this.hasToken.emit(true);
     localStorage.setItem('token', token);
@@ -86,6 +87,7 @@ export class SessionService {
   setName(name: string) {
     localStorage.setItem('name', name);
   }
+
 
   clear() {
     localStorage.clear();

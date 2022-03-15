@@ -68,11 +68,16 @@ export class UserService {
 
   // March 14 2pm add-ons
   get(): Observable<User[]> {
-    return this.http.get<User[]>(this.baseUrl + `/test`);
+    return this.http.get<User[]>(this.baseUrl + `/test`, {headers: this.httpHeaders});
   }
 
   getOne(id: number): Observable<Object> {
-    return this.http.get<User>(`${this.baseUrl}/${id}` + `/test`);
+    return this.http.get<User>(`${this.baseUrl}/${id}` + `/test`, {headers: this.httpHeaders});
+  }
+  // March 14 2pm add-ons
+
+  private handleError(error: HttpErrorResponse) {
+    return error.error;
   }
   // March 14 2pm add-ons
 
