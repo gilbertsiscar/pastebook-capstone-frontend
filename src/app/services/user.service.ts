@@ -1,6 +1,10 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { delay, Observable, of } from 'rxjs';
+import { catchError, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../models/user';
 
@@ -22,9 +26,9 @@ export class UserService {
   ) {}
 
   register(user: User) {
-    //if (!environment.production) return of(user).pipe(delay(3000));
-
-    return this.http.post(`${this.baseUrl}/register`, user);
+    return this.http
+      .post<User>(`${this.baseUrl}/register`, user)
+      .pipe(catchError(this.handleError));
   }
 
   getUser(id: number): Observable<User> {
@@ -65,5 +69,9 @@ export class UserService {
       { email, mobileNumber, password },
       { headers: this.httpHeaders }
     );
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    return error.error;
   }
 }
