@@ -1,6 +1,11 @@
 <div class="card w-50 mb-3">
   <div class="card-body">
-    <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+    <!-- Main Post Form -->
+    <form
+      [formGroup]="postForm"
+      (ngSubmit)="onSubmit()"
+      enctype="multipart/form-data"
+    >
       <div class="hstack gap-2 mb-3">
         <app-avatar></app-avatar>
         <p>{{ name }}</p>
@@ -47,6 +52,7 @@
       <hr class="mb-1" />
       <div class="hstack justify-content-between">
         <div class="hstack gap-2">
+          <!-- Upload Image -->
           <button
             type="button"
             class="btn btn-outline-primary rounded-circle hstack justify-content-center p-2"
@@ -67,6 +73,8 @@
               />
             </svg>
           </button>
+          <!-- Tag Friends Btn -->
+          <!-- this will toggle the modal, not implemented currently -->
           <button
             type="button"
             class="btn btn-outline-primary rounded-circle hstack justify-content-center p-2"
@@ -88,12 +96,21 @@
             </svg>
           </button>
         </div>
-        <button type="submit" class="btn btn-primary">Post</button>
+        <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+          <span
+            *ngIf="isLoading"
+            class="spinner-border spinner-border-sm"
+            role="status"
+            aria-hidden="true"
+          ></span>
+          {{ isLoading ? "Posting..." : "Post" }}
+        </button>
       </div>
     </form>
   </div>
 </div>
 
+<!-- Tag Friends Modal -->
 <div class="modal fade" id="tagFriendsModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">

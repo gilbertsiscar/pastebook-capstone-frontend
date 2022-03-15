@@ -2,10 +2,12 @@ import {
   Component,
   DoCheck,
   ElementRef,
+  EventEmitter,
   OnInit,
+  Output,
   ViewChild,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { PostService } from 'src/app/services/post.service';
 import { SessionService } from 'src/app/services/session.service';
 import { Friends } from '../tag-friends/tag-friends.component';
@@ -20,13 +22,15 @@ export class CreatePostComponent implements OnInit, DoCheck {
   displayTagged: Friends[] = [];
   displayTaggedLength = 0;
   imagePreview = '';
-  isLoading: boolean;
+  isLoading: boolean = false;
 
+  formData: FormData = new FormData();
   postForm: FormGroup = this.fb.group({
     content: '',
-    image: '',
     tagged: '',
   });
+
+  @Output() refresh = new EventEmitter<boolean>();
 
   @ViewChild('imageInput') imageInput: ElementRef;
 
@@ -37,7 +41,7 @@ export class CreatePostComponent implements OnInit, DoCheck {
   ) {}
 
   ngOnInit(): void {
-    this.name = this.sessionService.getEmail();
+    this.name = this.sessionService.getName();
   }
 
   ngDoCheck(): void {
@@ -51,6 +55,18 @@ export class CreatePostComponent implements OnInit, DoCheck {
 
   onSubmit() {
     this.displayTaggedLength = 0;
+    if (this.postForm.valid) {
+      this.formData.append('content', this.postForm.value['content']);
+      this.isLoading = true;
+      this.postService.createPost(this.formData).subscribe({
+        next: this.onSuccess.bind(this),
+      });
+    }
+  }
+
+  onSuccess(res: any) {
+    this.refresh.emit(true);
+    this.isLoading = false;
     this.removeImage();
     this.postForm.reset();
   }
@@ -61,8 +77,7 @@ export class CreatePostComponent implements OnInit, DoCheck {
 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
-    this.image.patchValue(file);
-    this.image.updateValueAndValidity();
+    this.formData.append('image', file);
 
     const reader = new FileReader();
     reader.onload = () => {
@@ -77,14 +92,9 @@ export class CreatePostComponent implements OnInit, DoCheck {
 
   removeImage() {
     this.imagePreview = '';
-    this.image.setValue('');
   }
 
   get tagged() {
     return this.postForm.get('tagged');
-  }
-
-  get image() {
-    return this.postForm.get('image');
   }
 }

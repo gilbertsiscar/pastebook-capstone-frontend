@@ -27,6 +27,8 @@ import { FriendRequestsComponent } from './components/friend-requests/friend-req
 import { TagFriendsComponent } from './components/tag-friends/tag-friends.component';
 import { ButtonComponent } from './components/button/button.component';
 import { TestingComponent } from './components/testing/testing.component';
+import { NotificationCardComponent } from './components/notification-card/notification-card.component';
+
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent }, // http://localhost:4200/,
@@ -62,7 +64,8 @@ const appRoutes: Routes = [
     TagFriendsComponent,
     ButtonComponent,
     ProfileComponent,
-    TestingComponent
+    TestingComponent,
+    NotificationCardComponent
   ],
   imports: [
     BrowserModule,

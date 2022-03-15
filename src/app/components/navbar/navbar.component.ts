@@ -8,7 +8,9 @@ import { SessionService } from 'src/app/services/session.service';
   styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent implements OnInit {
+  name: string = localStorage.getItem('name');
   token: boolean = localStorage.getItem('token') !== null;
+
 
   // March 14 2 pm add-ons
   ownerUrl = localStorage.getItem('profileUrl');
@@ -19,16 +21,20 @@ export class NavbarComponent implements OnInit {
     console.log(this.token)
   }
 
-  ngOnInit(): void {
-    this.sessionService.hasToken.subscribe((hasToken) => {
-      this.token = hasToken;
+  constructor(private sessionService: SessionService, private router: Router) {}
 
-      console.log(this.token)
+
+  ngOnInit(): void {
+    this.sessionService.hasToken.subscribe((token) => {
+      this.token = token;
+      this.name = this.sessionService.getName();
+      console.log("reloaded navbar test")
     });
   }
 
   logout() {
     this.sessionService.clear();
+    this.ngOnInit();
     this.router.navigate(['/login']);
   }
 }

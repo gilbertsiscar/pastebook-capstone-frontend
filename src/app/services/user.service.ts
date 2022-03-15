@@ -13,7 +13,7 @@ export class UserService {
   private baseUrl = `${environment.apiUrl}/users`;
 
   private httpHeaders: HttpHeaders = new HttpHeaders({
-    Authorization: `${this.sessionService.getToken()}`,
+    Authorization: `Bearer ${this.sessionService.getToken()}`,
   });
 
   constructor(
@@ -22,7 +22,7 @@ export class UserService {
   ) {}
 
   register(user: User) {
-    if (!environment.production) return of(user).pipe(delay(3000));
+    //if (!environment.production) return of(user).pipe(delay(3000));
 
     return this.http.post(`${this.baseUrl}/register`, user);
   }
@@ -30,7 +30,7 @@ export class UserService {
   getUser(id: number): Observable<User> {
     //console.log(this.sessionService.getToken());
     console.log(this.http);
-    return this.http.get<User>(`${this.baseUrl}/details/${id}`,{
+    return this.http.get<User>(`${this.baseUrl}/details/${id}`, {
       headers: this.httpHeaders,
     });
   }
@@ -38,7 +38,7 @@ export class UserService {
   getUserProfile(profileUrl: string): Observable<User> {
     //console.log(this.sessionService.getToken());
     console.log(this.http);
-    return this.http.get<User>(`${this.baseUrl}/profile/${profileUrl}`,{
+    return this.http.get<User>(`${this.baseUrl}/profile/${profileUrl}`, {
       headers: this.httpHeaders,
     });
   }
@@ -53,6 +53,7 @@ export class UserService {
   // testConnectionToDatabawe(): Observable<Object>{
   //   rreturn this.http.get<User>(`${this.baseUrl}/details/${id}`);
   // }
+
 
    
   updateSecurityInfo(id:number, email: string, mobileNumber: string, password: string): Observable<Object> {
@@ -73,3 +74,4 @@ export class UserService {
 }
 
   
+
