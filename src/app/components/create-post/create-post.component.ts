@@ -1,13 +1,17 @@
 import {
   Component,
-  DoCheck,
   ElementRef,
   EventEmitter,
   OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+} from '@angular/forms';
 import { PostService } from 'src/app/services/post.service';
 import { SessionService } from 'src/app/services/session.service';
 import { Friends } from '../tag-friends/tag-friends.component';
@@ -24,10 +28,13 @@ export class CreatePostComponent implements OnInit {
   imagePreview = '';
   isLoading: boolean = false;
 
-  postForm: FormGroup = this.fb.group({
-    content: '',
-    image: '',
-  });
+  postForm: FormGroup = this.fb.group(
+    {
+      content: '',
+      image: '',
+    },
+    { validators: this.emptyFieldValidator }
+  );
 
   @Output() refresh = new EventEmitter<boolean>();
 
@@ -82,6 +89,13 @@ export class CreatePostComponent implements OnInit {
 
   get image() {
     return this.postForm.get('image');
+  }
+
+  emptyFieldValidator(control: AbstractControl): ValidationErrors | null {
+    const content = control.get('content');
+    const image = control.get('image');
+
+    return content.value || image.value ? null : { emptyField: true };
   }
 
   // Tag Friends

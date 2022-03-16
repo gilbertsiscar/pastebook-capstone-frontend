@@ -97,7 +97,11 @@
             </svg>
           </button>
         </div>
-        <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="isLoading || postForm.errors"
+        >
           <span
             *ngIf="isLoading"
             class="spinner-border spinner-border-sm"
