@@ -150,6 +150,11 @@ export class ProfileComponent implements OnInit {
     return userId;
   }
 
+  // returns the profileUrl of the current page you're visiting
+  getProfileUrl(): string {
+    return this.route.snapshot.params['profileUrl'];
+  }
+
   // changing the name of the button upon clicking
   changeName() {
     this.isButtonStatus = false;
