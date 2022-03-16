@@ -7,6 +7,7 @@ import { Post } from 'src/app/models/post';
 import { CommentService } from 'src/app/services/comment.service';
 import { LikeService } from 'src/app/services/like.service';
 import { PostService } from 'src/app/services/post.service';
+import { SessionService } from 'src/app/services/session.service';
 
 @Component({
   selector: 'app-post',
@@ -32,6 +33,7 @@ export class PostComponent implements OnInit {
     private likeService: LikeService,
     private commentService: CommentService,
     private postService: PostService,
+    private sessionService: SessionService,
     private fb: FormBuilder,
     private sanitizer: DomSanitizer
   ) {}
@@ -73,6 +75,11 @@ export class PostComponent implements OnInit {
       this.liked = false;
       this.ngOnInit();
     });
+  }
+
+  displayMenuBtn() {
+    const userId = this.sessionService.getUserId();
+    return this.post.user.id === parseInt(userId);
   }
 
   deletePost(postId: string) {
