@@ -24,10 +24,10 @@
                         
                                         <p class="card-text">{{ user.lastName }}</p>
         
-                                        <p class="card-text">{{ user.datetimeCreated }}</p>
+                                        <p class="card-text"><strong>Friends since:</strong> {{ user.datetimeCreated }}</p>
                         
                                         <div>
-                                            <a href="http://localhost:4200/profile" class="btn btn-primary button-width">Go to Profile</a>
+                                            <a routerLink="/{{ user.profileUrl }}" class="btn btn-primary button-width">Go to Profile</a>
                                         </div>
                         
                                         <div>

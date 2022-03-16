@@ -11,6 +11,11 @@ export class NavbarComponent implements OnInit {
   name: string = localStorage.getItem('name');
   token: boolean = localStorage.getItem('token') !== null;
 
+  // Code for searching users
+  searchTerm: string = "";
+  searchTerm2: string = "mikuuu";
+  // Code for searching users
+
   // March 14 2 pm add-ons
   ownerUrl = localStorage.getItem('profileUrl');
   // March 14 2 pm add-ons
@@ -32,5 +37,10 @@ export class NavbarComponent implements OnInit {
     this.sessionService.clear();
     this.ngOnInit();
     this.router.navigate(['/login']);
+  }
+
+  // routing to search component
+  routeToSearchComponent() {
+    this.router.navigate(['/search']);
   }
 }
