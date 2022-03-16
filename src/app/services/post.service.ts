@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { delay, map, Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Post } from '../models/post';
 import { SessionService } from './session.service';
@@ -20,8 +20,17 @@ export class PostService {
   ) {}
 
   // POST /api/posts
-  createPost(post: Post): Observable<Post> {
-    return this.http.post<Post>(`${this.baseUrl}`, post, {
+  createPost(formData: any): Observable<any> {
+    const fd = new FormData();
+
+    if (formData.content) {
+      fd.append('content', formData.content);
+    }
+
+    if (formData.image) {
+      fd.append('image', formData.image);
+    }
+    return this.http.post<any>(`${this.baseUrl}`, fd, {
       headers: this.httpHeaders,
     });
   }
@@ -33,6 +42,15 @@ export class PostService {
     });
   }
 
+  getPostsPagination(page: number, size: number = 10): Observable<any> {
+    return this.http.get(
+      `${this.baseUrl}/pagination?page=${page}&size=${size}`,
+      {
+        headers: this.httpHeaders,
+      }
+    );
+  }
+
   // GET /posts/{postId}
   getPostById(id: string): Observable<Post | null> {
     return this.http.get<Post>(`${this.baseUrl}/${id}`, {
@@ -41,11 +59,23 @@ export class PostService {
   }
 
   // PUT /posts/{postId}
-  updatePost(post: Post): Observable<Post> {
-    return this.http.put<Post>(`${this.baseUrl}/posts/${post.id}`, post);
+  updatePost(postId: string, formData: any): Observable<Post> {
+    const fd = new FormData();
+
+    if (formData.content) {
+      fd.append('content', formData.content);
+    }
+
+    if (formData.image) {
+      fd.append('image', formData.image);
+    }
+
+    return this.http.put<Post>(`${this.baseUrl}/posts/${postId}`, fd);
   }
 
   deletePost(id: string): Observable<Post> {
-    return this.http.delete<Post>(`${this.baseUrl}/posts/${id}`);
+    return this.http.delete<Post>(`${this.baseUrl}/${id}`, {
+      headers: this.httpHeaders,
+    });
   }
 }

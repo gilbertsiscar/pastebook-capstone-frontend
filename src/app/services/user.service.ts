@@ -1,6 +1,10 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { delay, Observable, of } from 'rxjs';
+import { catchError, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../models/user';
 
@@ -13,7 +17,7 @@ export class UserService {
   private baseUrl = `${environment.apiUrl}/users`;
 
   private httpHeaders: HttpHeaders = new HttpHeaders({
-    Authorization: `Bearer ${this.sessionService.getToken()}`,
+    Authorization: this.sessionService.getToken(),
   });
 
   constructor(
@@ -22,15 +26,13 @@ export class UserService {
   ) {}
 
   register(user: User) {
-    //if (!environment.production) return of(user).pipe(delay(3000));
-
-    return this.http.post(`${this.baseUrl}/register`, user);
+    return this.http
+      .post<User>(`${this.baseUrl}/register`, user)
+      .pipe(catchError(this.handleError));
   }
 
-  getUser(id: number): Observable<User> {
-    //console.log(this.sessionService.getToken());
-    console.log(this.http);
-    return this.http.get<User>(`${this.baseUrl}/details/${id}`, {
+  getUserById(id: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/${id}`, {
       headers: this.httpHeaders,
     });
   }
@@ -43,29 +45,33 @@ export class UserService {
     });
   }
 
-  updatePersonalInfo(user: User): Observable<Object> {
-    //Fix later
-    return this.http.put(`${this.baseUrl}/details/${user.id}`, user, {
+  updatePersonalInfo(id: string, user: User): Observable<Object> {
+    return this.http.put(`${this.baseUrl}/details/${id}`, user, {
       headers: this.httpHeaders,
     });
   }
 
-  // testConnectionToDatabawe(): Observable<Object>{
-  //   rreturn this.http.get<User>(`${this.baseUrl}/details/${id}`);
-  // }
+  updateSecurityInfo(id: string, user: any) {
+    console.log('fetching');
 
-   
-  updateSecurityInfo(id:number, email: string, mobileNumber: string, password: string): Observable<Object> {
-    return this.http.put(this.baseUrl + `/details/${id}`, {email, mobileNumber, password} , {headers: this.httpHeaders});
+    return this.http
+      .put(`${this.baseUrl}/security/${id}`, user, {
+        headers: this.httpHeaders,
+      })
+      .pipe(catchError(this.handleError));
   }
 
   // March 14 2pm add-ons
   get(): Observable<User[]> {
-    return this.http.get<User[]>(this.baseUrl + `/test`);
+    return this.http.get<User[]>(this.baseUrl + `/test`, {
+      headers: this.httpHeaders,
+    });
   }
 
   getOne(id: number): Observable<Object> {
-    return this.http.get<User>(`${this.baseUrl}/${id}` + `/test`);
+    return this.http.get<User>(`${this.baseUrl}/${id}` + `/test`, {
+      headers: this.httpHeaders,
+    });
   }
   // March 14 2pm add-ons
 
@@ -74,6 +80,9 @@ export class UserService {
     return this.http.get<User[]>(this.baseUrl + `/search/${searchText}`);
   }
 
-}
+  private handleError(error: HttpErrorResponse) {
+    return error.error;
+  }
+  // March 14 2pm add-ons
 
-  
+}

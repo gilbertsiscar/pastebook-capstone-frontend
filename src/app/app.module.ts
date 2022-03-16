@@ -26,27 +26,32 @@ import { ProfileComponent } from './pages/profile/profile.component';
 
 import { FriendRequestsComponent } from './components/friend-requests/friend-requests.component';
 import { TagFriendsComponent } from './components/tag-friends/tag-friends.component';
+
 import { ButtonComponent } from './components/button/button.component';
 import { TestingComponent } from './components/testing/testing.component';
+
 import { NotificationCardComponent } from './components/notification-card/notification-card.component';
 import { SearchUsersComponent } from './components/search-users/search-users.component';
 import { CardComponent } from './components/card/card.component';
 import { AlbumsComponent } from './components/albums/albums.component';
 import { SearchTabComponent } from './components/search-tab/search-tab.component';
+import { PostPageComponent } from './pages/post-page/post-page.component';
+
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent }, // http://localhost:4200/,
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'settings', component: SettingsComponent },
+  { path: 'posts/:id', component: PostPageComponent },
   { path: ':profileUrl/friendslist', component: FriendsListComponent },
   { path: ':profileUrl/friendrequests', component: FriendRequestsComponent },
   { path: ':profileUrl/albums', component: AlbumsComponent },
   { path: 'testing', component: TestingComponent },
   { path: 'search', component: SearchUsersComponent},
   { path: 'notFound', component: NotFoundComponent },
-  { path: ':profileUrl', component: ProfileComponent},
-  { path: '**', component: NotFoundComponent }
+  { path: ':profileUrl', component: ProfileComponent },
+  { path: '**', component: NotFoundComponent },
 ];
 @NgModule({
   declarations: [
@@ -77,6 +82,7 @@ const appRoutes: Routes = [
     CardComponent,
     AlbumsComponent,
     SearchTabComponent
+    PostPageComponent,
   ],
   imports: [
     BrowserModule,
