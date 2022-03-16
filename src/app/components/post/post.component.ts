@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
@@ -6,6 +6,8 @@ import { Comment } from 'src/app/models/comment';
 import { Post } from 'src/app/models/post';
 import { CommentService } from 'src/app/services/comment.service';
 import { LikeService } from 'src/app/services/like.service';
+import { PostService } from 'src/app/services/post.service';
+import { SessionService } from 'src/app/services/session.service';
 
 @Component({
   selector: 'app-post',
@@ -14,6 +16,7 @@ import { LikeService } from 'src/app/services/like.service';
 })
 export class PostComponent implements OnInit {
   @Input() post: Post;
+  @Output() delete = new EventEmitter<string>();
 
   comments: Comment[];
 
@@ -29,6 +32,8 @@ export class PostComponent implements OnInit {
   constructor(
     private likeService: LikeService,
     private commentService: CommentService,
+    private postService: PostService,
+    private sessionService: SessionService,
     private fb: FormBuilder,
     private sanitizer: DomSanitizer
   ) {}
@@ -68,6 +73,21 @@ export class PostComponent implements OnInit {
   unlike() {
     this.likeService.unlikePost(this.post.id).subscribe(() => {
       this.liked = false;
+      this.ngOnInit();
+    });
+  }
+
+  displayMenuBtn() {
+    const userId = this.sessionService.getUserId();
+    return this.post.user.id === parseInt(userId);
+  }
+
+  deletePost(postId: string) {
+    this.delete.emit(postId);
+  }
+
+  updatePost(postId: string, formData: any) {
+    this.postService.updatePost(postId, formData).subscribe(() => {
       this.ngOnInit();
     });
   }

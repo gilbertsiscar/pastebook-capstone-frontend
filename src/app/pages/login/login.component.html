@@ -1,4 +1,4 @@
-<div class="container">
+<div *ngIf="loginForm" class="container">
   <app-login-form
     [formData]="loginForm"
     (method)="onMethodChange($event)"

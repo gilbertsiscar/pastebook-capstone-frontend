@@ -50,11 +50,23 @@ export class PostService {
   }
 
   // PUT /posts/{postId}
-  updatePost(post: Post): Observable<Post> {
-    return this.http.put<Post>(`${this.baseUrl}/posts/${post.id}`, post);
+  updatePost(postId: string, formData: any): Observable<Post> {
+    const fd = new FormData();
+
+    if (formData.content) {
+      fd.append('content', formData.content);
+    }
+
+    if (formData.image) {
+      fd.append('image', formData.image);
+    }
+
+    return this.http.put<Post>(`${this.baseUrl}/posts/${postId}`, fd);
   }
 
   deletePost(id: string): Observable<Post> {
-    return this.http.delete<Post>(`${this.baseUrl}/posts/${id}`);
+    return this.http.delete<Post>(`${this.baseUrl}/${id}`, {
+      headers: this.httpHeaders,
+    });
   }
 }
