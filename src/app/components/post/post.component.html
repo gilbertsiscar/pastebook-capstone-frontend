@@ -28,7 +28,11 @@
           </svg>
         </button>
         <ul class="dropdown-menu dropdown-menu-end">
-          <li><button class="dropdown-item">Delete</button></li>
+          <li>
+            <button class="dropdown-item" (click)="deletePost(post.id)">
+              Delete
+            </button>
+          </li>
         </ul>
       </div>
     </div>
