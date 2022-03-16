@@ -4,9 +4,17 @@
     (refresh)="onRefresh()"
   ></app-create-post>
   <div class="d-grid gap-5" *ngIf="posts">
-    <div *ngFor="let post of posts">
+    <div *ngFor="let post of posts; let i = index">
       <app-post
-        (delete)="onDelete($event)"
+        *ngIf="i + 1 === posts.length"
+        #theLastList
+        (delete)="onDelete($event, i)"
+        class="d-flex justify-content-center"
+        [post]="post"
+      ></app-post>
+      <app-post
+        *ngIf="i + 1 !== posts.length"
+        (delete)="onDelete($event, i)"
         class="d-flex justify-content-center"
         [post]="post"
       ></app-post>
