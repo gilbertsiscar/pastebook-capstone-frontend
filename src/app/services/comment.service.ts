@@ -23,7 +23,6 @@ export class CommentService {
   }
 
   addComment(postId: string, comment: Comment): Observable<any> {
-    console.log(comment);
     return this.http.post(`${this.baseUrl}/${postId}`, comment, {
       headers: this.httpHeaders,
     });

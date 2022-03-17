@@ -1,6 +1,10 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, delay, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Post } from '../models/post';
 import { SessionService } from './session.service';
@@ -43,12 +47,11 @@ export class PostService {
   }
 
   getPostsPagination(page: number, size: number = 10): Observable<any> {
-    return this.http.get(
-      `${this.baseUrl}/pagination?page=${page}&size=${size}`,
-      {
+    return this.http
+      .get(`${this.baseUrl}/pagination?page=${page}&size=${size}`, {
         headers: this.httpHeaders,
-      }
-    );
+      })
+      .pipe(delay(1000));
   }
 
   // GET /posts/{postId}
@@ -77,5 +80,13 @@ export class PostService {
     return this.http.delete<Post>(`${this.baseUrl}/${id}`, {
       headers: this.httpHeaders,
     });
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    if (error.status === 0) {
+      // A client-side or network error occurred. Handle it accordingly.
+      console.error('An error occurred:', error.error);
+    }
+    return error.error;
   }
 }
