@@ -38,7 +38,7 @@ export class NavbarComponent implements OnInit {
       this.sessionService.hasToken.subscribe((token) => {
       this.token = token;
       this.name = this.sessionService.getName();
-      
+
     });
     //console.log("reloaded navbar test")
     this.getNotifications();
@@ -66,4 +66,5 @@ export class NavbarComponent implements OnInit {
   routeToSearchComponent() {
     this.router.navigate(['/search']);
   }
+
 }

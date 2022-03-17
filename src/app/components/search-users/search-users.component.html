@@ -25,8 +25,12 @@
             <app-button text="Search" (btnClick)="getFilteredUsers()"></app-button>
         </div> -->
 
-    <h4 class="card-header">Search Results</h4>
-    <!-- <p>Searched for: "search term"</p> -->
+
+        <h4 class="card-header">Search Results</h4>
+        <!-- <p>Searched for: "search term"</p> -->
+
+        <div class="card-body" *ngFor ="let user of users">
+
 
     <div class="card-body" *ngFor="let user of users">
       <div class="card">

@@ -25,6 +25,9 @@ export class AlbumsComponent implements OnInit {
   // need id of currently logged-in user for the 'create album' function
   currentlyLoggedId: number = parseInt(localStorage.getItem('idNumber')!);
 
+  editBoolean: boolean = false; // setting to false so at reload, edit controls are hidden
+  createBoolean: boolean = false;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -69,6 +72,21 @@ export class AlbumsComponent implements OnInit {
     } else {
       return false;
     }
+  }
+
+  toggleEdit() {
+    this.editBoolean = !this.editBoolean;
+    console.log(this.editBoolean);
+  }
+
+  removeAlbumFromAlbumList(card: Album) {
+    let index = this.albums.indexOf(card);
+    this.albums.splice(index, 1);
+  }
+
+  createPrompt() {
+    this.createBoolean = !this.createBoolean;
+    console.log(this.createBoolean);
   }
 
 }
