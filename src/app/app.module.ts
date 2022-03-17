@@ -38,6 +38,7 @@ import { SearchUsersComponent } from './components/search-users/search-users.com
 import { CardComponent } from './components/card/card.component';
 import { AlbumsComponent } from './components/albums/albums.component';
 import { SearchTabComponent } from './components/search-tab/search-tab.component';
+import { OwnerFriendsListComponent } from './components/owner-friends-list/owner-friends-list.component';
 import { PostPageComponent } from './pages/post-page/post-page.component';
 
 import { AlbumGalleryComponent } from './components/album-gallery/album-gallery.component';
@@ -72,7 +73,11 @@ const appRoutes: Routes = [
     canActivate: [AuthGuard],
   },
   { path: 'testing', component: TestingComponent },
+
+  { path: 'friends', component: OwnerFriendsListComponent},
+
   { path: 'search', component: SearchUsersComponent, canActivate: [AuthGuard] },
+
   { path: 'notFound', component: NotFoundComponent },
   {
     path: ':profileUrl',
@@ -112,6 +117,7 @@ const appRoutes: Routes = [
     CardComponent,
     AlbumsComponent,
     SearchTabComponent,
+    OwnerFriendsListComponent,
     PostPageComponent,
     AlbumGalleryComponent,
     GalleryCarouselComponent,
@@ -123,7 +129,7 @@ const appRoutes: Routes = [
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(appRoutes),
+    RouterModule.forRoot(appRoutes)
   ],
   providers: [],
   bootstrap: [AppComponent],

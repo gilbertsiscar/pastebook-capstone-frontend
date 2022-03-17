@@ -87,7 +87,10 @@ export class LoginFormComponent implements OnInit, OnChanges {
     this.sessionService.setUserId(response.id);
     this.sessionService.setIdNumber(response['idNumber']);
     this.sessionService.setProfileUrl(response['profileUrl']);
-    this.router.navigate(['']);
+    this.router.navigate([''])
+    .then(() => {
+      setTimeout(this.reloadPage, 2000);
+    });
   }
 
   failedLogin(error: ApiError) {
@@ -114,5 +117,9 @@ export class LoginFormComponent implements OnInit, OnChanges {
 
   handleError(control: AbstractControl): boolean {
     return control.invalid && (control.dirty || control.touched);
+  }
+
+  reloadPage() {
+    window.location.reload();
   }
 }
