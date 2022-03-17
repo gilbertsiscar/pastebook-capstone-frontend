@@ -1,26 +1,117 @@
 <div class="card w-50">
   <div class="card-body">
-    <div class="hstack">
-      <app-avatar></app-avatar>
+    <div class="hstack gap-2" style="position: relative">
+      <a [routerLink]="profileUrl">
+        <app-avatar></app-avatar>
+      </a>
       <div>
-        <p class="mb-0">{{ post.user.firstName + " " + post.user.lastName }}</p>
+        <a
+          id="profileName"
+          [routerLink]="profileUrl"
+          class="text-decoration-none text-black"
+        >
+          <span>{{ post.user.firstName + " " + post.user.lastName }}</span>
+        </a>
         <p class="text-muted mb-0" style="font-size: 0.875rem">
           {{ post.datetimeCreated }}
         </p>
       </div>
+
+      <!-- Delete Post -->
+      <div
+        *ngIf="displayMenuBtn()"
+        class="dropdown"
+        style="position: absolute; top: 0; right: 0"
+      >
+        <button class="btn btn-white" data-bs-toggle="dropdown">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="24"
+            width="24"
+            viewBox="0 0 122.88 29.96"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M0,15A15,15,0,1,1,15,30,15,15,0,0,1,0,15Zm92.93,0a15,15,0,1,1,15,15,15,15,0,0,1-15-15ZM46.46,15a15,15,0,1,1,15,15,15,15,0,0,1-15-15Z"
+            />
+          </svg>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li>
+            <button class="dropdown-item" (click)="deletePost(post.id)">
+              Delete
+            </button>
+          </li>
+        </ul>
+      </div>
     </div>
 
-    <p class="my-4">
-      {{ post.content }}
-    </p>
-    {{ likes }}
+    <div>
+      <p *ngIf="post.content" class="my-4">
+        {{ post.content }}
+      </p>
+      <div *ngIf="image">
+        <img [src]="image" alt="" width="100%" height="100%" />
+      </div>
+    </div>
 
-    <hr class="mb-1" />
+    <!-- Likes amd Comments -->
+    <div class="py-3" style="position: relative">
+      <button
+        type="button"
+        id="like-btn"
+        class="btn btn-outline-primary hstack gap-2 p-0 text-black"
+        data-bs-toggle="modal"
+        data-bs-target="#liked-friends"
+        style="position: absolute; top: 0; left: 0"
+        *ngIf="likes.length > 0"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 122.88 122.88"
+          fill-rule="evenodd"
+          width="24"
+          heigth="24"
+        >
+          <path
+            d="M61.44,0A61.44,61.44,0,1,1,0,61.44,61.44,61.44,0,0,1,61.44,0Z"
+          />
+          <path
+            fill="#fff"
+            d="M32.5,53.39H43.06a2.18,2.18,0,0,1,2.17,2.18V84.52a2.19,2.19,0,0,1-2.17,2.18H32.5a2.19,2.19,0,0,1-2.18-2.18V55.57a2.19,2.19,0,0,1,2.18-2.18ZM60.2,31.68c1.14-5.82,10.66-.46,11.29,8.91a40.41,40.41,0,0,1-.81,9.93H84.29c5.65.23,10.59,4.28,7.1,10.93.8,2.9.92,6.3-1.24,7.65.27,4.57-1,7.41-3.37,9.65A11.42,11.42,0,0,1,85,84.63c-1.83,2.58-3.31,2-6.19,2h-23c-3.64,0-5.62-1-8-4V57C54.72,55.17,58.36,45.8,60.2,39.65v-8Z"
+          />
+        </svg>
+        <ng-template [ngIf]="likes.length === 1">
+          <span>{{ likes[0].user.firstName }} liked this</span>
+        </ng-template>
+        <ng-template [ngIf]="likes.length === 2">
+          <span>
+            {{ likes[0].user.firstName }} and
+            {{ likes[1].user.firstName }} liked this
+          </span>
+        </ng-template>
+        <ng-template [ngIf]="likes.length > 2">
+          <span>
+            {{ likes[0].user.firstName }}, {{ likes[1].user.firstName }} and
+            {{ likes.length - 2 }} liked this
+          </span>
+        </ng-template>
+      </button>
+      <ng-container *ngIf="post.comments.length > 0">
+        <div style="position: absolute; top: 0; right: 0">
+          <p>{{ post.comments.length }} Comments</p>
+        </div>
+      </ng-container>
+    </div>
+
+    <hr class="mb-1 mt-1" />
+    <!-- Like, Comment, Share Btns -->
     <div
       class="button-group d-flex align-items-center justify-content-around"
       role="group"
     >
-      <ng-container *ngIf="!liked; else dislike">
+      <ng-container *ngIf="!isLiked; else dislike">
         <button
           type="button"
           class="w-100 btn btn-outline-primary border-white"
@@ -46,7 +137,7 @@
       </button>
     </div>
 
-    <div *ngFor="let comment of comments" class="mt-3">
+    <div *ngFor="let comment of post.comments" class="mt-3">
       <div class="hstack align-items-start gap-1 mb-2">
         <app-avatar></app-avatar>
         <div class="vstack">
@@ -64,12 +155,13 @@
       </div>
     </div>
 
+    <!-- Comment Form -->
     <div class="d-flex align-items-center mt-3">
-      <app-avatar></app-avatar>
+      <app-avatar class="me-2"></app-avatar>
       <form
         [formGroup]="commentForm"
-        (ngSubmit)="onSubmit()"
-        class="w-100 hstack"
+        (ngSubmit)="onComment()"
+        class="w-100 hstack gap-3"
       >
         <textarea
           class="form-control rounded-pill"
@@ -87,6 +179,34 @@
           Comment
         </button>
       </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="liked-friends" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Likes</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="likes">
+          <span *ngFor="let like of likes">
+            <div class="hstack gap-2">
+              <app-avatar></app-avatar>
+              <p class="mb-0">
+                {{ like.user.firstName + " " + like.user.lastName }}
+              </p>
+            </div>
+          </span>
+        </div>
+      </div>
     </div>
   </div>
 </div>

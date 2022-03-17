@@ -31,7 +31,10 @@
           >
         </li>
         <li class="nav-item ms-5">
-          <a class="tab" routerLinkActive="tab-active" routerLink="{{ownerUrl}}/friendslist"
+          <a
+            class="tab"
+            routerLinkActive="tab-active"
+            routerLink="{{ ownerUrl }}/friendslist"
             >Friends List</a
           >
         </li>
@@ -61,7 +64,13 @@
             class="dropdown-menu dropdown-menu-end"
             aria-labelledby="friend-request"
           >
-            <li><a class="dropdown-item" routerLink="{{ownerUrl}}/friendrequests">Friend Request</a></li>
+            <li>
+              <a
+                class="dropdown-item"
+                routerLink="{{ ownerUrl }}/friendrequests"
+                >Friend Request</a
+              >
+            </li>
           </ul>
         </div>
         <div
@@ -90,9 +99,16 @@
           >
             <!-- List of notifications first new 5 -->
             <!-- For loop -->
+            <li>
+              <app-notification-card
+                *ngFor="let notification of notifications"
+                [notification]="notification"
+              >
+              </app-notification-card>
+            </li>
+            <!-- <app-notification-card></app-notification-card></li>
             <li><app-notification-card></app-notification-card></li>
-            <li><app-notification-card></app-notification-card></li>
-            <li><app-notification-card></app-notification-card></li>
+            <li><app-notification-card></app-notification-card></li> -->
 
             <li class="align-items-center">
               <a class="dropdown-item" href="#">See more</a>
@@ -100,7 +116,7 @@
           </ul>
         </div>
         <a
-          routerLink="/{{ownerUrl}}"
+          routerLink="/{{ ownerUrl }}"
           class="d-flex align-items-center text-decoration-none rounded-pill me-2 profile-link"
           data-bs-toggle="tooltip"
           data-bs-placement="bottom"

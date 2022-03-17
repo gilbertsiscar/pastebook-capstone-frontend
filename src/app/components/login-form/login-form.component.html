@@ -1,5 +1,7 @@
 <div class="card p-4" style="width: 30%">
   <h3 class="card-title text-center mb-3">Log In</h3>
+
+  <!-- Method Selector -->
   <ul
     class="nav nav-pills nav-fill nav-justified bg-light rounded-pill p-1 mb-3"
     role="tablist"
@@ -8,13 +10,12 @@
       <button
         class="nav-link rounded-pill active"
         data-bs-toggle="tab"
-        data-bs-target="#email-tab-content"
         type="button"
         role="tab"
         aria-controls="email"
         aria-selected="true"
         [disabled]="isLoading"
-        (click)="useEmailAndPassword()"
+        (click)="onMethodChange('email')"
       >
         Email
       </button>
@@ -23,93 +24,104 @@
       <button
         class="nav-link rounded-pill"
         data-bs-toggle="tab"
-        data-bs-target="#mobilenumber-tab-content"
         type="button"
         role="tab"
         aria-controls="mobilenumber"
         aria-selected="false"
         [disabled]="isLoading"
-        (click)="useMobileNumber()"
+        (click)="onMethodChange('mobilenumber')"
       >
         Mobile Number
       </button>
     </li>
   </ul>
+
   <form
     [formGroup]="loginForm"
     (ngSubmit)="onSubmit()"
-    class="needs-validation"
+    class="needs-validation d-grid gap-3 mt-2"
   >
-    <div class="tab-content mb-3">
-      <div
-        class="tab-pane fade show active"
-        id="email-tab-content"
-        role="tabpanel"
-      >
-        <div class="form-group mb-3">
-          <label for="email" class="form-label">Email</label>
-          <input
-            type="email"
-            class="form-control"
-            id="email"
-            formControlName="email"
-            [ngClass]="
-              (email?.dirty || submitted) && email?.invalid ? 'is-invalid' : ''
-            "
-            required
-          />
-          <span *ngIf="email?.errors?.['required']" class="invalid-feedback">
-            Email is required
-          </span>
-        </div>
-        <div class="form-group mb-3">
-          <label for="password" class="form-label">Password</label>
-          <input
-            type="password"
-            class="form-control"
-            id="password"
-            formControlName="password"
-            [ngClass]="
-              (password?.dirty || submitted) && password?.invalid
-                ? 'is-invalid'
-                : ''
-            "
-            required
-          />
-          <span *ngIf="password?.errors?.['required']" class="invalid-feedback">
-            Password is required
-          </span>
-        </div>
-        <div class="form-group form-check">
-          <input type="checkbox" class="form-check-input" id="remember" />
-          <label class="form-check-label" for="remember">Remember Me</label>
-        </div>
-      </div>
-      <div class="tab-pane fade" id="mobilenumber-tab-content" role="tabpanel">
-        <div class="form-group">
-          <label for="mobileNumber" class="form-label">Mobile Number</label>
-          <input
-            type="tel"
-            class="form-control"
-            id="mobileNumber"
-            formControlName="mobileNumber"
-            [ngClass]="
-              (mobileNumber?.dirty || submitted) && mobileNumber?.invalid
-                ? 'is-invalid'
-                : ''
-            "
-            required
-          />
-          <span
-            *ngIf="mobileNumber?.errors?.['required']"
-            class="invalid-feedback"
-          >
-            This field is required
-          </span>
-        </div>
-      </div>
-    </div>
-    <div class="d-grid gap-3">
+    <ng-template ngFor let-input [ngForOf]="formData">
+      <ng-container [ngSwitch]="input.type">
+        <ng-template [ngSwitchCase]="'text'">
+          <div class="form-group">
+            <label class="form-label" [for]="input.id">
+              {{ input.label }}</label
+            >
+            <input
+              class="form-control"
+              [formControlName]="input.name"
+              [type]="input.type"
+              [id]="input.id"
+              [ngClass]="
+                handleError(loginForm.get(input.name)) ? 'is-invalid' : ''
+              "
+            />
+            <span
+              class="invalid-feedback"
+              *ngIf="
+                handleError(loginForm.get(input.name)) &&
+                loginForm.get(input.name).errors['required']
+              "
+            >
+              This field is required
+            </span>
+          </div>
+        </ng-template>
+        <ng-template [ngSwitchCase]="'email'">
+          <div class="form-group">
+            <label class="form-label" [for]="input.id">
+              {{ input.label }}
+            </label>
+            <input
+              class="form-control"
+              [formControlName]="input.name"
+              [type]="input.type"
+              [id]="input.id"
+              [ngClass]="
+                handleError(loginForm.get(input.name)) ? 'is-invalid' : ''
+              "
+            />
+            <span
+              class="invalid-feedback"
+              *ngIf="
+                handleError(loginForm.get(input.name)) &&
+                loginForm.get(input.name).errors['required']
+              "
+            >
+              This field is required
+            </span>
+          </div>
+        </ng-template>
+        <ng-template [ngSwitchCase]="'password'">
+          <div class="form-group">
+            <label class="form-label" [for]="input.id">
+              {{ input.label }}</label
+            >
+            <input
+              class="form-control"
+              [formControlName]="input.name"
+              [type]="input.type"
+              [id]="input.id"
+              [ngClass]="
+                handleError(loginForm.get(input.name)) ? 'is-invalid' : ''
+              "
+            />
+            <span
+              class="invalid-feedback"
+              *ngIf="
+                handleError(loginForm.get(input.name)) &&
+                loginForm.get(input.name).errors['required']
+              "
+            >
+              This field is required
+            </span>
+          </div>
+        </ng-template>
+      </ng-container>
+    </ng-template>
+
+    <div class="d-grid gap-3 mt-2">
       <button type="submit" class="btn btn-primary" [disabled]="isLoading">
         <span
           *ngIf="isLoading"

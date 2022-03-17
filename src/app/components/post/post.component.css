@@ -1,0 +1,20 @@
+#like-btn {
+  border: none;
+}
+
+#like-btn:hover {
+  background-color: #fff;
+  transition: none;
+}
+
+#like-btn > svg {
+  fill: #0d6efd;
+}
+
+#like-btn:hover > span {
+  text-decoration: underline;
+}
+
+#profileName:hover > span {
+  text-decoration: underline;
+}

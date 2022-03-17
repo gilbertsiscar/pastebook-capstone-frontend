@@ -1,12 +1,17 @@
 <div class="custom-card">
+  <div class="card">
+    <div class="search-hero">
+      <input
+        class="form-control me-2 rounded-pill"
+        type="text"
+        name="search"
+        (input)="getFilteredUsers()"
+        [(ngModel)]="searchText"
+        placeholder="Search users"
+      />
+    </div>
 
-    <div class="card">
-        
-        <div class="search-hero">
-            <input class="form-control me-2 rounded-pill" type="text" name="search" (input)="getFilteredUsers()" [(ngModel)]="searchText" placeholder="Search users"/>
-        </div>
-
-        <!-- <input
+    <!-- <input
           class="form-control me-2 rounded-pill"
           type="search"
           placeholder="Search"
@@ -16,24 +21,30 @@
           (click)="routeToSearchComponent()"
         /> -->
 
-        <!-- <div>
+    <!-- <div>
             <app-button text="Search" (btnClick)="getFilteredUsers()"></app-button>
         </div> -->
+
 
         <h4 class="card-header">Search Results</h4>
         <!-- <p>Searched for: "search term"</p> -->
 
         <div class="card-body" *ngFor ="let user of users">
 
-            <div class="card">
-                <div class="card-body">
-                    <div class="container">
 
-                        <div class="row">
+    <div class="card-body" *ngFor="let user of users">
+      <div class="card">
+        <div class="card-body">
+          <div class="container">
+            <div class="row">
+              <app-card
+                [userId]="user.id"
+                [userFirstName]="user.firstName"
+                [userLastName]="user.lastName"
+                [userProfileUrl]="user.profileUrl"
+              ></app-card>
 
-                          <app-card [userId]="user.id" [userFirstName]="user.firstName" [userLastName]="user.lastName" [userProfileUrl]="user.profileUrl"></app-card>
-
-                            <!-- <div class="col-md-auto">
+              <!-- <div class="col-md-auto">
                                 <app-avatar src="https://placekitten.com/300/300"></app-avatar>      
                             </div>
 
@@ -48,12 +59,10 @@
                                     </div>
                                 </div>
                             </div> -->
-                           
-                        </div>
-                    </div>
-                </div>  
             </div>
-
+          </div>
         </div>
       </div>
+    </div>
+  </div>
 </div>

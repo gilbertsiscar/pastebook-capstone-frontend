@@ -1,0 +1,12 @@
+<div class="container-style">
+    <div class="container">
+        <div class="gallery">
+            <div *ngFor="let photo of photos; let i = index" [style.gridRow]="photo.row" [style]="photo.col" class="photo-style">
+    
+                <img [src]="photo.url" (click)="selectedPhoto = i">
+                <span>+</span>
+        </div>
+    </div>
+</div>
+
+<app-gallery-carousel *ngIf="selectedPhoto !== null" (closeCarousel)="selectedPhoto = null" [photos]="photos" [selectedPhoto]="selectedPhoto"></app-gallery-carousel>
