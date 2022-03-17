@@ -1,0 +1,77 @@
+<div *ngIf="hasToken">
+
+    <div>
+        
+        <div class="custom-card">
+
+            <div class="card">
+        
+                <h5 class="card-header">All Friends</h5>
+        
+                <div class="row">
+                    <div class="col-12 col-md-4" *ngFor="let user of friendList">
+                
+                            <div class="card-body" *ngIf="this.isButtonVisible;">
+                                <div class="card">
+                
+                                    <div class="card-body text-center">
+                        
+                                        <div>
+                                            <img class="justify-content-center" src="..." class="rounded" alt="profile pic">
+                                        </div>
+                        
+                                        <h5 class="card-title">{{ user.firstName }}</h5>
+                        
+                                        <p class="card-text">{{ user.lastName }}</p>
+        
+                                        <p class="card-text"><strong>Friends since:</strong> {{ user.datetimeCreated }}</p>
+                        
+                                        <div>
+                                            <a routerLink="/{{ user.profileUrl }}" class="btn btn-primary button-width">Go to Profile</a>
+                                        </div>
+                        
+                                        <div>
+                                            <app-button text="Remove Friend" (click)="removeUserFromUserList(user)" (btnClick)="deleteFriend(user.id!)"></app-button>
+                                        </div>
+                                        
+                                        <!-- <div>
+                                            <a href="#" class="btn btn-primary button-width">Delete</a>
+                                        </div> -->
+                        
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    </div>
+
+    <div>
+        <ng-template #hasTokenDifferent>
+       
+            <div class="row">
+                <div class="col12 col-md-4" *ngFor="let user of friendList">
+                    <div class="card h-100" *ngIf="this.isButtonVisible;">
+                        <div class="card-body">
+                            <p>{{ user.firstName }}</p>
+                            <p>{{ user.lastName }}</p>
+                            <p>{{ user.datetimeCreated }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+        </ng-template>
+    </div>
+</div>
+
+<div>
+    <ng-template #noToken>
+        <app-login></app-login>
+    </ng-template>
+</div>
+
+
+
+

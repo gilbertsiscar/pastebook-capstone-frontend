@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
-import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -33,6 +32,7 @@ import { SearchUsersComponent } from './components/search-users/search-users.com
 import { CardComponent } from './components/card/card.component';
 import { AlbumsComponent } from './components/albums/albums.component';
 import { SearchTabComponent } from './components/search-tab/search-tab.component';
+import { OwnerFriendsListComponent } from './components/owner-friends-list/owner-friends-list.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent }, // http://localhost:4200/,
@@ -44,6 +44,7 @@ const appRoutes: Routes = [
   { path: ':profileUrl/albums', component: AlbumsComponent },
   { path: 'testing', component: TestingComponent },
   { path: 'search', component: SearchUsersComponent},
+  { path: 'friends', component: OwnerFriendsListComponent},
   { path: 'notFound', component: NotFoundComponent },
   { path: ':profileUrl', component: ProfileComponent},
   { path: '**', component: NotFoundComponent }
@@ -76,14 +77,14 @@ const appRoutes: Routes = [
     SearchUsersComponent,
     CardComponent,
     AlbumsComponent,
-    SearchTabComponent
+    SearchTabComponent,
+    OwnerFriendsListComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    Ng2SearchPipeModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [],

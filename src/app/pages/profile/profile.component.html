@@ -94,14 +94,14 @@
             </li>
             <li>
 
-              <div *ngIf="isOwner(); else notTheOwner">
+              <!-- <div *ngIf="isOwner(); else notTheOwner"> -->
                 <a routerLink="/{{ getProfileUrl() }}/albums" target="_blank">
                   <i class="glyphicon glyphicon-ok"></i>
                   Albums
                 </a>
-              </div>
+              <!-- </div> -->
 
-              <div>
+              <!-- <div>
                 <ng-template #notTheOwner>
                     <div *ngIf="oneFriend.active; else notfriend3"> 
                       <a routerLink="/{{ getProfileUrl() }}/albums" target="_blank">
@@ -128,7 +128,7 @@
                     </div>
       
                 </ng-template>
-              </div>
+              </div> -->
               
             </li>
           </ul>

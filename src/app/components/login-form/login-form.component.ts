@@ -69,7 +69,10 @@ export class LoginFormComponent implements OnInit {
     this.sessionService.setUserId(response['user_id']);
     this.sessionService.setIdNumber(response['idNumber']);
     this.sessionService.setProfileUrl(response['profileUrl']);
-    this.router.navigate(['']);
+    this.router.navigate([''])
+    .then(() => {
+      setTimeout(this.reloadPage, 2000);
+    });
   }
 
   failedLogin(result: Record<string, any>) {
@@ -114,5 +117,9 @@ export class LoginFormComponent implements OnInit {
 
   get mobileNumber() {
     return this.loginForm.get('mobileNumber');
+  }
+
+  reloadPage() {
+    window.location.reload();
   }
 }

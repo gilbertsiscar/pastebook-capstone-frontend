@@ -1,0 +1,78 @@
+.button-create {
+background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+    }
+
+.button-edit {
+    background-color: #7e6cc2; /* Green */
+      border: none;
+      color: white;
+      padding: 16px 32px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+
+.button-create:hover {
+    background-color: #3e8e41;
+    color: white;
+    transition-duration: 0.4s;
+    }
+
+.button-edit:hover {
+    background-color: #2e229c;
+    color: white;
+    transition-duration: 0.4s;
+    }
+
+.album {
+    background-color: #37084d;
+    border-radius: 15px;
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    font-size: 16px;
+    margin: 4px 2px;
+    opacity: 0.7;
+    transition: 0.3s;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    }
+  
+.album:hover {
+    opacity: 1;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+    }
+
+/* input[type=file] {
+  display: none;
+    } */
+
+input[type=file] + label {
+    background-color: #4d8cf2;
+    padding: 5px;
+    color: #fff;
+    border: 1px solid #9ec3ff;
+    border-radius: 12px;
+    }
+
+input[type=file] + label:hover {
+    background-color: #3b73ce;
+    border-color: #729fe7;
+    cursor: pointer;
+    }
+
