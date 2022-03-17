@@ -21,12 +21,12 @@ export class NavbarComponent implements OnInit {
   searchTerm2: string = "mikuuu";
   // Code for searching users
 
-  // March 14 2 pm add-ons
   ownerUrl:string = localStorage.getItem('profileUrl');
   user_id:string = localStorage.getItem('user_id');
-  // March 14 2 pm add-ons
+  
   id: string;
   ws: WebSocketSubject<any>;
+  newNotificationCount: number = 0;
               
                
   notifications: NotificationModel[] = [];
@@ -62,7 +62,7 @@ export class NavbarComponent implements OnInit {
     
     this.ws.subscribe(
       // Called whenever there is a message from the server.
-      msg => console.log(msg),
+      msg => this.update(),
       // Called if at any point WebSocket API signals some kind of error.
       err => console.log(err),  
       () => console.log('complete') // Called when connection is closed (for whatever reason).
@@ -70,15 +70,33 @@ export class NavbarComponent implements OnInit {
 
     // this.setConnected(true);
   }
+
+  update(){
+    this.getNotifications()
+  }
   imOnline(id:string):void{
     this.ws.next({user_id:this.id});
   }
 
+  seenNotifications(){
+    this.notificationService.seenNotificationShort(this.notifications).subscribe((response: any) => {
+      this.newNotificationCount = 0;
+      
+    })
+    this.newNotificationCount = 0;
+    this.getNotifications();
+  }
+
   getNotifications(){
     this.notificationService.getNotificationShort().subscribe((response: any) => {
-      console.log("responding")
+      console.log("Reloading Navbar")
       console.log(response);
       this.notifications = response;
+      for (const notification of this.notifications) {
+        if(!notification.isRead){
+          this.newNotificationCount += 1;
+        }
+      }
     })
   }
  

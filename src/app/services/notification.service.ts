@@ -28,6 +28,12 @@ export class NotificationService {
   //   });
   // }
 
+  seenNotificationShort(notifications:NotificationModel[]):Observable<any>{
+    return this.http.post<any>(`${this.baseUrl}/seen`, notifications, {
+      headers: this.httpHeaders,
+    });
+  }
+
   getNotificationShort(): Observable<NotificationModel[]> {
     //console.log(this.sessionService.getToken());
     
