@@ -44,6 +44,7 @@ import { PostPageComponent } from './pages/post-page/post-page.component';
 import { AlbumGalleryComponent } from './components/album-gallery/album-gallery.component';
 import { GalleryCarouselComponent } from './components/gallery-carousel/gallery-carousel.component';
 import { AuthGuard } from './services/auth.guard';
+import { NotificationComponent } from './pages/notification/notification.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] }, // http://localhost:4200/,
@@ -79,6 +80,7 @@ const appRoutes: Routes = [
   { path: 'search', component: SearchUsersComponent, canActivate: [AuthGuard] },
 
   { path: 'notFound', component: NotFoundComponent },
+  {path: 'notifications', component:NotificationComponent},
   {
     path: ':profileUrl',
     component: ProfileComponent,
@@ -122,6 +124,7 @@ const appRoutes: Routes = [
     AlbumGalleryComponent,
     GalleryCarouselComponent,
     SettingsComponent,
+    NotificationComponent,
   ],
   imports: [
     BrowserModule,
