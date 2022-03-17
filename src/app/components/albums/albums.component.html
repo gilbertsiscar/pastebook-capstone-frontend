@@ -1,0 +1,100 @@
+<div *ngIf="isOwner()">
+    <div>
+        <div class="row">
+            <div class="col12 col-md-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <form (ngSubmit)="onCreateAlbum(albumToCreate, currentlyLoggedId)">
+    
+                            <input type="text" placeholder="new album name" name="albumToCreate" [(ngModel)]="albumToCreate">
+                            
+                            <button class="btn btn-primary" type="submit">Create Album</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div class="row">
+            <div class="col12 col-md-4" *ngFor="let album of albums">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <!-- this whole div is equivalent to 1 card (which represents an album) -->
+                        <div>
+    
+                            <form ngNoForm [action]="url2" method="GET">
+                            
+                                <!-- need this to be hidden from view -->
+                                <input type="number" name="albumId" [(ngModel)]="album.id" hidden>
+                        
+                                <!-- <button>{{ album.albumName }}</button> -->
+                                <button type="button" class="btn btn-primary" type="submit">{{ album.albumName }}</button>
+                            </form>
+    
+                            <br>
+    
+                            <form ngNoForm [action]="url1" method="POST" enctype="multipart/form-data">
+    
+                            <input type="file" name="image" accept="image/png, image/jpeg" >
+                            <br>
+    
+                            <!-- need this to be hidden from view -->
+                            <input type="number" name="albumId" [(ngModel)]="album.id" hidden>
+                        
+                            <input type="submit" value="Upload Photo">
+                        
+                            </form>
+    
+                            <br>
+    
+                            <!-- Rename Album button (function where you pass the albumId)-->
+                            <form (ngSubmit)="onSubmit(album)">
+    
+                                <input type="text" placeholder="new album name" name="albumName" [(ngModel)]="album.albumName">
+                                
+                                <button class="btn btn-primary" type="submit">Rename Album</button>
+                            </form>
+                            
+                            <br>
+                            <br>
+    
+                            <!-- Delete Album button (function where you pass the albumId) -->
+                            <app-button text="Delete Album" (btnClick)="deleteAlbum(album.id)"></app-button>
+                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="!isOwner()">
+        <div>
+            <div class="row">
+                <div class="col12 col-md-4" *ngFor="let album of albums">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <!-- this whole div is equivalent to 1 card (which represents an album) -->
+                            <div>
+        
+                                <form ngNoForm [action]="url2" method="GET">
+                                
+                                    <!-- need this to be hidden from view -->
+                                    <input type="number" name="albumId" [(ngModel)]="album.id" hidden>
+                            
+                                    <!-- <button>{{ album.albumName }}</button> -->
+                                    <button type="button" class="btn btn-primary" type="submit">{{ album.albumName }}</button>
+                                </form>
+        
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>        
+</div>
+
+

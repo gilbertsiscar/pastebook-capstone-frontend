@@ -75,8 +75,14 @@ export class UserService {
   }
   // March 14 2pm add-ons
 
+  // get users for searching
+  getUsers(searchText: string): Observable<User[]> {
+    return this.http.get<User[]>(this.baseUrl + `/search/${searchText}`);
+  }
+
   private handleError(error: HttpErrorResponse) {
     return error.error;
   }
   // March 14 2pm add-ons
+
 }
