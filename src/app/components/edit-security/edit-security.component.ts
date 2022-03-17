@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SessionService } from 'src/app/services/session.service';
 import { UserService } from 'src/app/services/user.service';
@@ -10,7 +10,10 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class EditSecurityComponent {
   securityForm: FormGroup;
+
   id: string;
+  isLoading: boolean = false;
+  success: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -20,21 +23,28 @@ export class EditSecurityComponent {
 
   ngOnInit(): void {
     this.securityForm = this.formBuilder.group({
-      email: '',
+      email: ['', Validators.required],
       mobileNumber: '',
-      password: '',
+      password: ['', Validators.required],
     });
 
     this.id = this.sessionService.getUserId();
 
+    this.getUserDetails();
+  }
+
+  getUserDetails() {
     this.userService.getUserById(this.id).subscribe((response) => {
-      const { email, mobileNumber } = response;
-      const password = '';
-      this.securityForm.setValue({ email, mobileNumber, password });
+      this.securityForm.patchValue({
+        email: response['email'],
+        password: response['password'],
+        mobileNumber: response['mobileNumber'],
+      });
     });
   }
 
   onSubmit() {
+    this.isLoading = true;
     if (this.securityForm.valid) {
       this.userService
         .updateSecurityInfo(this.id, this.securityForm.value)
@@ -47,17 +57,23 @@ export class EditSecurityComponent {
 
   onSuccess(response: any) {
     console.log(response);
+    this.isLoading = false;
     this.sessionService.setEmail(response['email']);
     this.sessionService.setToken(response['token']);
     this.sessionService.setName(response['name']);
     this.sessionService.setUserId(response['id']);
     this.sessionService.setIdNumber(response['idNumber']);
     this.sessionService.setProfileUrl(response['profileUrl']);
-    this.ngOnInit();
+    this.getUserDetails();
   }
 
   onFail(response: any) {
+    this.isLoading = false;
     console.log(response);
+  }
+
+  closeBtn() {
+    this.success = false;
   }
 }
 

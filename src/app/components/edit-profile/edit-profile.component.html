@@ -36,14 +36,14 @@
         <input type="date" class="form-control" formControlName="birthday" />
       </div>
 
-      <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+      <button type="submit" class="btn btn-primary mt-3" [disabled]="isLoading">
         <span
           *ngIf="isLoading"
           class="spinner-border spinner-border-sm"
           role="status"
           aria-hidden="true"
         ></span>
-        {{ isLoading ? "Updating..." : "Save" }}
+        {{ isLoading ? "Updating..." : "Update" }}
       </button>
 
       <div *ngIf="success" style="position: relative">
