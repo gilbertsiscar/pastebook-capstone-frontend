@@ -2,10 +2,14 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
-import { Comment } from 'src/app/models/comment';
+import { Likes } from 'src/app/models/likes';
 import { Post } from 'src/app/models/post';
 import { CommentService } from 'src/app/services/comment.service';
 import { LikeService } from 'src/app/services/like.service';
+
+import { LoginService } from 'src/app/services/login.service';
+import { TriggerNotificationsService } from 'src/app/services/trigger-notifications.service';
+
 import { PostService } from 'src/app/services/post.service';
 import { SessionService } from 'src/app/services/session.service';
 
@@ -18,12 +22,11 @@ export class PostComponent implements OnInit {
   @Input() post: Post;
   @Output() delete = new EventEmitter<string>();
 
-  comments: Comment[];
-
-  likes: number;
-  liked: boolean = false;
+  isLiked: boolean = false;
 
   image: SafeResourceUrl;
+
+  profileUrl = this.sessionService.getProfileUrl();
 
   commentForm = this.fb.group({
     comment: ['', Validators.required],
@@ -32,6 +35,8 @@ export class PostComponent implements OnInit {
   constructor(
     private likeService: LikeService,
     private commentService: CommentService,
+    private triggerNotif: TriggerNotificationsService,
+
     private postService: PostService,
     private sessionService: SessionService,
     private fb: FormBuilder,
@@ -39,41 +44,49 @@ export class PostComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.likeService.getLikes(this.post.id).subscribe((likes) => {
-      this.likes = likes;
-    });
-
-    this.commentService.getComments(this.post.id).subscribe((comments) => {
-      this.comments = comments;
-    });
-
     if (this.post.image) {
       this.image = this.sanitizer.bypassSecurityTrustResourceUrl(
         'data:image/png;base64,' + this.post.image.picByte
       );
     }
+
+    this.post.likes.forEach((like) => {
+      if (like.user.id.toString() === this.sessionService.getUserId()) {
+        this.isLiked = true;
+      }
+    });
   }
 
-  onSubmit() {
+  getPost() {
+    this.postService.getPostById(this.post.id).subscribe((post) => {
+      this.post = post;
+      this.ngOnInit();
+    });
+  }
+
+  onComment() {
     this.commentService
       .addComment(this.post.id, this.commentForm.value)
       .subscribe(() => {
         this.commentForm.reset();
         this.ngOnInit();
+        //this.triggerNotif.triggerNotif(this.triggerNotif.ws);
+        this.getPost();
       });
+    
   }
 
   like() {
     this.likeService.likePost(this.post.id).subscribe(() => {
-      this.liked = true;
-      this.ngOnInit();
+      this.isLiked = true;
+      this.getPost();
     });
   }
 
   unlike() {
     this.likeService.unlikePost(this.post.id).subscribe(() => {
-      this.liked = false;
-      this.ngOnInit();
+      this.isLiked = false;
+      this.getPost();
     });
   }
 
@@ -82,13 +95,17 @@ export class PostComponent implements OnInit {
     return this.post.user.id === parseInt(userId);
   }
 
-  deletePost(postId: string) {
-    this.delete.emit(postId);
+  deletePost(id: string) {
+    this.delete.emit(id);
   }
 
   updatePost(postId: string, formData: any) {
     this.postService.updatePost(postId, formData).subscribe(() => {
       this.ngOnInit();
     });
+  }
+
+  get likes(): Likes[] {
+    return this.post.likes;
   }
 }

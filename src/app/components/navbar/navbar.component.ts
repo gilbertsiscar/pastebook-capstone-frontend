@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 import { NotificationModel } from 'src/app/models/notificationModel';
+import { NotificationService } from 'src/app/services/notification.service';
 import { SessionService } from 'src/app/services/session.service';
+import { TriggerNotificationsService } from 'src/app/services/trigger-notifications.service';
 
 @Component({
   selector: 'app-navbar',
@@ -18,39 +22,40 @@ export class NavbarComponent implements OnInit {
   // Code for searching users
 
   // March 14 2 pm add-ons
-  ownerUrl = localStorage.getItem('profileUrl');
+  ownerUrl:string = localStorage.getItem('profileUrl');
+  user_id:string = localStorage.getItem('user_id');
   // March 14 2 pm add-ons
-
-
+  
   notifications: NotificationModel[] = [];
   notification: NotificationModel;
-  constructor(private sessionService: SessionService, private router: Router) {}
+  constructor(private sessionService: SessionService, 
+              private router: Router,
+              private notificationService: NotificationService,
+              private triggerNotifications: TriggerNotificationsService) {}
 
   ngOnInit(): void {
-    this.sessionService.hasToken.subscribe((token) => {
+      this.triggerNotifications.connect();
+      this.sessionService.hasToken.subscribe((token) => {
       this.token = token;
       this.name = this.sessionService.getName();
-      console.log("reloaded navbar test")
+      
     });
-
-      this.notification = {
-        // public id?: number,
-        // public user?: string,
-        // public action?: string,
-        // public post_id?: string,
-        // public isRead?: boolean,
-        // public datetimeCreated?: Date
-        "id": 1,
-        "user":"Someone",
-        "action":"liked your post",
-        "post_id":"1",
-        "isRead": false,
-        "datetimeCreated": new Date("10-10-2022")
-    }
-    this.notifications.push(this.notification);
-    this.notifications.push(this.notification);
+    //console.log("reloaded navbar test")
+    this.getNotifications();
+    console.log(this.user_id);
+    this.triggerNotifications.imOnline(this.user_id);
+    //console.log(this.notificationService.getNotificationShort(this.notification));
+     // console.log(this.notifications)
   }
 
+  getNotifications(){
+    this.notificationService.getNotificationShort().subscribe((response: any) => {
+      console.log("responding")
+      console.log(response);
+      this.notifications = response;
+    })
+  }
+ 
   logout() {
     this.sessionService.clear();
     this.ngOnInit();

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
 import { ApiError } from 'src/app/models/api-error';
 import Swal from 'sweetalert2';
@@ -16,13 +15,20 @@ export class RegisterFormComponent implements OnInit {
   isLoading = false;
 
   registerForm = this.formBuilder.group({
-    firstName: [null, [Validators.required, this.noWhitespaceValidator]],
-    lastName: [null, [Validators.required, this.noWhitespaceValidator]],
-    email: [null, [Validators.email, Validators.required]],
-    password: [null, [Validators.required, Validators.minLength(8)]],
-    birthday: [null, Validators.required],
-    gender: 'Select Gender',
-    mobileNumber: null,
+    firstName: ['', [Validators.required, this.noWhitespaceValidator]],
+    lastName: ['', [Validators.required, this.noWhitespaceValidator]],
+    email: ['', [Validators.email, Validators.required]],
+    password: [
+      '',
+      [
+        Validators.required,
+        this.passwordNoWhiteSpaceValidator,
+        Validators.minLength(8),
+      ],
+    ],
+    birthday: ['', [Validators.required, this.birthdayValidator]],
+    gender: '',
+    mobileNumber: '',
   });
 
   constructor(
@@ -62,10 +68,27 @@ export class RegisterFormComponent implements OnInit {
     }
   }
 
-  public noWhitespaceValidator(control: FormControl) {
+  private noWhitespaceValidator(control: FormControl) {
     const isWhitespace = (control.value || '').trim().length === 0;
     const isValid = !isWhitespace;
     return isValid ? null : { whitespace: true };
+  }
+
+  private mobileNumberValidator(control: FormControl) {
+    const regex = /^9\d{9}$/;
+    const isValid = regex.test(control.value);
+    return isValid ? null : { mobileNumber: true };
+  }
+
+  private passwordNoWhiteSpaceValidator(control: FormControl) {
+    const regex = /^\S*$/;
+    const isValid = regex.test(control.value);
+    return isValid ? null : { whitespace: true };
+  }
+
+  private birthdayValidator(control: FormControl) {
+    const isValid = Date.parse(control.value) < Date.now();
+    return isValid ? null : { birthday: true };
   }
 
   get email() {

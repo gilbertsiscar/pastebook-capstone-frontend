@@ -8,9 +8,14 @@
     >
       <div class="form-group">
         <label class="form-label">Email Address</label>
-        <input type="email" formControlName="email" class="form-control" />
+        <input
+          autocomplete="off"
+          type="email"
+          formControlName="email"
+          class="form-control"
+        />
       </div>
-      <!-- <div class="form-group">
+      <div class="form-group">
         <label class="form-label">Mobile Number</label>
         <input
           type="text"
@@ -18,19 +23,39 @@
           class="form-control"
           placeholder="Enter new mobile number"
         />
-      </div> -->
-      <!-- <div class="form-group">
-        <label class="form-label">Current password</label>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
         <input
+          autocomplete="new-password"
           type="password"
           formControlName="password"
           class="form-control"
           placeholder="Enter new password"
         />
-      </div> -->
+      </div>
+      <button type="submit" (click)="onSubmit()" class="btn btn-primary">
+        <span
+          *ngIf="isLoading"
+          class="spinner-border spinner-border-sm"
+          role="status"
+          aria-hidden="true"
+        ></span>
+        {{ isLoading ? "Updating..." : "Update" }}
+      </button>
+
+      <div *ngIf="success" style="position: relative">
+        <div id="alert-btn" class="alert alert-success" role="alert">
+          Successfully updated user information!
+        </div>
+        <button
+          type="button"
+          class="btn-close p-0 rounded-circle"
+          aria-label="Close"
+          (click)="closeBtn()"
+          style="position: absolute; right: 0; top: 0"
+        ></button>
+      </div>
     </form>
-    <button type="submit" (click)="onSubmit()" class="btn btn-primary">
-      Update
-    </button>
   </div>
 </div>

@@ -6,5 +6,6 @@ export class NotificationModel {
         public post_id?: string,
         public isRead?: boolean,
         public datetimeCreated?: Date
+
     ) {}
 }
