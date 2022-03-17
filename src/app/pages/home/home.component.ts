@@ -7,7 +7,7 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { delay, Subscription } from 'rxjs';
 import { Post } from 'src/app/models/post';
 import { PostService } from 'src/app/services/post.service';
 
@@ -66,20 +66,16 @@ export class HomeComponent implements OnInit {
     }, options);
   }
 
-  apendPost() {
-    this.postService.getPostsPagination(this.currentPage).subscribe((res) => {
-      this.totalPages = res.totalPages;
-      res.content.forEach((post: Post) => this.posts.push(post));
-    });
-  }
-
   getPosts() {
     this.showSpinner = true;
-    this.postService.getPostsPagination(this.currentPage).subscribe((res) => {
-      this.showSpinner = false;
-      this.totalPages = res.totalPages;
-      res.content.forEach((post: Post) => this.posts.push(post));
-    });
+    this.postService
+      .getPostsPagination(this.currentPage)
+      .pipe(delay(1000))
+      .subscribe((res) => {
+        this.showSpinner = false;
+        this.totalPages = res.totalPages;
+        res.content.forEach((post: Post) => this.posts.push(post));
+      });
   }
 
   // use this for rerender
