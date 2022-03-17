@@ -3,7 +3,7 @@ export interface User {
   firstName: string;
   lastName: string;
   email: string;
-  // password: string, //should be omitted
+  // password: string; //should be omitted
   birthday: string;
   gender: string;
   mobileNumber: string;
