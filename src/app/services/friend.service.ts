@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
-import { Friend } from '../models/friend';
+import { Friend, friendStatus } from '../models/friend';
 import { User } from '../models/user';
 
 @Injectable({
@@ -25,6 +25,12 @@ export class FriendService {
   getFriends(pageId: number): Observable<User[]> {
     return this.http.get<User[]>(this.baseUrl + `/${pageId}`);
   }
+
+  // maybe can combine ^
+  getFriendStatus(pageId: string): Observable<friendStatus[]> {
+    return this.http.get<friendStatus[]>(this.baseUrl + `/${pageId}`);
+  }
+
 
   getOneFriend(requesterId: number, recipientId: number): Observable<Object> {
     return this.http.get<Friend>(this.baseUrl + `/${requesterId}/${recipientId}`);

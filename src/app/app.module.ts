@@ -30,6 +30,8 @@ import { ButtonComponent } from './components/button/button.component';
 import { TestingComponent } from './components/testing/testing.component';
 
 import { NotificationCardComponent } from './components/notification-card/notification-card.component';
+import { FriendsOnlineStatusComponent } from './components/friends-online-status/friends-online-status.component';
+import { FriendsOnlineStatusCardComponent } from './components/friends-online-status-card/friends-online-status-card.component';
 
 
 const appRoutes: Routes = [
@@ -37,10 +39,11 @@ const appRoutes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'settings', component: SettingsComponent },
-  { path: ':friendslist', component: FriendsListComponent },
-  { path: ':friendrequests', component: FriendRequestsComponent },
+  { path: 'friendsonline', component:FriendsOnlineStatusComponent},
   { path: 'testing', component: TestingComponent },
   { path: 'notFound', component: NotFoundComponent },
+  { path: ':profileUrl/friendslist', component: FriendsListComponent },
+  { path: ':profileUrl/friendrequests', component: FriendRequestsComponent },
   { path: ':profileUrl', component: ProfileComponent},
   { path: '**', component: NotFoundComponent }
 ];
@@ -67,7 +70,9 @@ const appRoutes: Routes = [
     ButtonComponent,
     ProfileComponent,
     TestingComponent,
-    NotificationCardComponent
+    NotificationCardComponent,
+    FriendsOnlineStatusComponent,
+    FriendsOnlineStatusCardComponent
   ],
   imports: [
     BrowserModule,

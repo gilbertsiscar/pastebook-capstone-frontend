@@ -7,3 +7,14 @@ export class Friend {
         public recipientId?: number
     ) {}
 }
+
+export class friendStatus {
+    constructor(
+        public id?: number,
+        public profileUrl?: string,
+        public online?: boolean,
+        public firstName?: string,
+        public lastName?: string,
+        public aboutMe?: string
+    ) {}
+}

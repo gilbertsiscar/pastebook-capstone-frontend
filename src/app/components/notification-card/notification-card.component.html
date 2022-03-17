@@ -5,6 +5,6 @@
       {{ notification.user }} {{ notification.action }}
     </h5>
     <p class="card-text">{{ notification.datetimeCreated }}</p>
-    <a routerLink="{{ notification.post_id }}" class="stretched-link"></a>
+    <a routerLink="post/{{ notification.post_id }}" class="stretched-link"></a>
   </div>
 </div>
