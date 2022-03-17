@@ -30,9 +30,17 @@ export class EditProfileComponent implements OnInit {
     });
 
     this.id = this.sessionService.getUserId();
+
+    this.getUserDetails();
+  }
+
+  getUserDetails() {
     this.userService.getUserById(this.id).subscribe((user: User) => {
-      const { firstName, lastName, birthday } = user;
-      this.editForm.setValue({ firstName, lastName, birthday });
+      this.editForm.patchValue({
+        firstName: user.firstName,
+        lastName: user.lastName,
+        birthday: user.birthday,
+      });
     });
   }
 
@@ -50,9 +58,10 @@ export class EditProfileComponent implements OnInit {
   onSuccess(updatedUser: User): void {
     this.success = true;
     this.isLoading = false;
-    const { firstName, lastName, birthday } = updatedUser;
-    this.sessionService.setName(`${firstName} ${lastName}`);
-    this.editForm.setValue({ firstName, lastName, birthday });
+    this.sessionService.setName(
+      `${updatedUser.firstName} ${updatedUser.lastName}`
+    );
+    this.getUserDetails();
   }
 
   closeBtn() {

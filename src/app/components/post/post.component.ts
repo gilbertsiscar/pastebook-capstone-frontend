@@ -42,9 +42,11 @@ export class PostComponent implements OnInit {
       );
     }
 
-    this.isLiked = this.post.likes.some(
-      (like) => like.id.toString() === this.sessionService.getUserId()
-    );
+    this.post.likes.forEach((like) => {
+      if (like.user.id.toString() === this.sessionService.getUserId()) {
+        this.isLiked = true;
+      }
+    });
   }
 
   getPost() {
@@ -65,12 +67,14 @@ export class PostComponent implements OnInit {
 
   like() {
     this.likeService.likePost(this.post.id).subscribe(() => {
+      this.isLiked = true;
       this.getPost();
     });
   }
 
   unlike() {
     this.likeService.unlikePost(this.post.id).subscribe(() => {
+      this.isLiked = false;
       this.getPost();
     });
   }

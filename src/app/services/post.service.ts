@@ -47,11 +47,12 @@ export class PostService {
   }
 
   getPostsPagination(page: number, size: number = 10): Observable<any> {
-    return this.http
-      .get(`${this.baseUrl}/pagination?page=${page}&size=${size}`, {
+    return this.http.get(
+      `${this.baseUrl}/pagination?page=${page}&size=${size}`,
+      {
         headers: this.httpHeaders,
-      })
-      .pipe(delay(1000));
+      }
+    );
   }
 
   // GET /posts/{postId}
