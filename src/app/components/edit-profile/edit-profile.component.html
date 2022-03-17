@@ -1,105 +1,63 @@
-<h3 class="text-center">Edit User Information</h3>
-
 <div class="card p-4">
-
-  <form #updateProfileForm="ngForm" (ngSubmit)="onSubmit(updateProfileForm)">
-
-    <div class="form-group">
-
-      <label>First Name:</label>
-
-      <input 
-        type="text" 
-        class="form-control" 
-        [(ngModel)]="user.firstName" 
-        name="firstName" 
-        placeholder="Enter new first name">
-
-    </div>
-  
-    <div class="form-group">
-
-      <label class="mt-3">Last Name:</label>
-
-      <input 
-      type="text" 
-      class="form-control" 
-      [(ngModel)]="user.lastName" name="lastName" 
-      placeholder="Enter new last name">
-
-    </div>
-  
-    <div>
-
-      <label class="mt-3">Gender:</label>
-
-      <div class="form-check">
-
-          <input 
-            class="form-check-input" 
-            type="radio" 
-            value="Male"
-            name="gender"
-            [(ngModel)]="user.gender" 
-            id="maleButton">
-
-          <label class="form-check-label">Male</label>
-
+  <h3 class="text-center">Edit User Information</h3>
+  <div class="card-body">
+    <form class="d-grid gap-3" [formGroup]="editForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label class="form-label" for="firstName">First Name:</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="firstName"
+          id="firstName"
+          placeholder="Enter new first name"
+        />
       </div>
-    
-      <div class="form-check">
-
-        <input 
-          class="form-check-input" 
-          type="radio" 
-          value="Female"
-          name="gender"
-          [(ngModel)]="user.gender" 
-          id="femaleButton" checked>
-
-        <label class="form-check-label" for="flexRadioDefault2">Female</label>
-
+      <div class="form-group">
+        <label class="form-label" for="lastName">Last Name:</label>
+        <input
+          id="lastName"
+          type="text"
+          class="form-control"
+          formControlName="lastName"
+          placeholder="Enter new last name"
+        />
       </div>
-    
-      <div class="form-check">
-
-        <input 
-          class="form-check-input" 
-          type="radio" 
-          value="Prefer Not to Say"
-          name="gender"
-          [(ngModel)]="user.gender" 
-          id="preferNotToSayButton" checked>
-
-        <label class="form-check-label" for="flexRadioDefault3">
-          Prefer not to say
-        </label>
-
+      <div class="form-group">
+        <label class="form-label">Gender:</label>
+        <select class="form-select" aria-label="Default select example">
+          <option selected>Open this select menu</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="others">Others</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Birthdate: </label>
+        <input type="date" class="form-control" formControlName="birthday" />
       </div>
 
-    </div>
-  
-    <div class="form-group">
+      <button type="submit" class="btn btn-primary mt-3" [disabled]="isLoading">
+        <span
+          *ngIf="isLoading"
+          class="spinner-border spinner-border-sm"
+          role="status"
+          aria-hidden="true"
+        ></span>
+        {{ isLoading ? "Updating..." : "Update" }}
+      </button>
 
-      <label class="mt-3">Birthdate: {{user.birthday}}</label>
-
-      <input 
-        type="date" 
-        class="form-control" 
-        [(ngModel)]="user.birthday"
-        name="birthday">
-
-    </div>
-  
-    <div class="mt-3">
-
-      <button type="save" class="btn btn-primary" (click)="onSubmit(updateProfileForm)" [disabled]="updateProfileForm.pristine || updateProfileForm.untouched">Save</button>
-
-    </div>
-  
-  </form>
-  
+      <div *ngIf="success" style="position: relative">
+        <div id="alert-btn" class="alert alert-success" role="alert">
+          Successfully updated user information!
+        </div>
+        <button
+          type="button"
+          class="btn-close p-0 rounded-circle"
+          aria-label="Close"
+          (click)="closeBtn()"
+          style="position: absolute; right: 0; top: 0"
+        ></button>
+      </div>
+    </form>
+  </div>
 </div>
-
-
-
