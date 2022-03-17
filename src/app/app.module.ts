@@ -46,7 +46,7 @@ const appRoutes: Routes = [
   { path: ':profileUrl/friendrequests', component: FriendRequestsComponent },
   { path: ':profileUrl/albums', component: AlbumsComponent },
   { path: 'testing', component: TestingComponent },
-  // { path: 'search', component: SearchUsersComponent },
+  { path: 'search', component: SearchUsersComponent },
   { path: 'notFound', component: NotFoundComponent },
   { path: ':profileUrl', component: ProfileComponent },
   { path: '**', component: NotFoundComponent },
