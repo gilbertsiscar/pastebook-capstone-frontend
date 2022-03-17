@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
@@ -36,6 +37,8 @@ import { CardComponent } from './components/card/card.component';
 import { AlbumsComponent } from './components/albums/albums.component';
 import { SearchTabComponent } from './components/search-tab/search-tab.component';
 import { PostPageComponent } from './pages/post-page/post-page.component';
+import { AlbumGalleryComponent } from './components/album-gallery/album-gallery.component';
+import { GalleryCarouselComponent } from './components/gallery-carousel/gallery-carousel.component';
 
 
 const appRoutes: Routes = [
@@ -81,11 +84,14 @@ const appRoutes: Routes = [
     SearchUsersComponent,
     CardComponent,
     AlbumsComponent,
-    SearchTabComponent
+    SearchTabComponent,
     PostPageComponent,
+    AlbumGalleryComponent,
+    GalleryCarouselComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
