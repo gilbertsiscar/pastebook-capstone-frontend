@@ -33,6 +33,11 @@ import { NotificationCardComponent } from './components/notification-card/notifi
 import { FriendsOnlineStatusComponent } from './components/friends-online-status/friends-online-status.component';
 import { FriendsOnlineStatusCardComponent } from './components/friends-online-status-card/friends-online-status-card.component';
 
+import { SearchUsersComponent } from './components/search-users/search-users.component';
+import { CardComponent } from './components/card/card.component';
+import { AlbumsComponent } from './components/albums/albums.component';
+import { SearchTabComponent } from './components/search-tab/search-tab.component';
+import { PostPageComponent } from './pages/post-page/post-page.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent }, // http://localhost:4200/,
@@ -40,12 +45,15 @@ const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'settings', component: SettingsComponent },
   { path: 'friendsonline', component:FriendsOnlineStatusComponent},
-  { path: 'testing', component: TestingComponent },
-  { path: 'notFound', component: NotFoundComponent },
+  { path: 'posts/:id', component: PostPageComponent },
   { path: ':profileUrl/friendslist', component: FriendsListComponent },
   { path: ':profileUrl/friendrequests', component: FriendRequestsComponent },
-  { path: ':profileUrl', component: ProfileComponent},
-  { path: '**', component: NotFoundComponent }
+  { path: ':profileUrl/albums', component: AlbumsComponent },
+  { path: 'testing', component: TestingComponent },
+  { path: 'search', component: SearchUsersComponent },
+  { path: 'notFound', component: NotFoundComponent },
+  { path: ':profileUrl', component: ProfileComponent },
+  { path: '**', component: NotFoundComponent },
 ];
 @NgModule({
   declarations: [
@@ -72,7 +80,14 @@ const appRoutes: Routes = [
     TestingComponent,
     NotificationCardComponent,
     FriendsOnlineStatusComponent,
-    FriendsOnlineStatusCardComponent
+    FriendsOnlineStatusCardComponent,
+    ProfileComponent,
+    SearchUsersComponent,
+    CardComponent,
+    AlbumsComponent,
+    SearchTabComponent,
+    PostPageComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,

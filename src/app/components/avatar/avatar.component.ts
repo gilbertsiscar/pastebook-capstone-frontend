@@ -6,7 +6,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./avatar.component.css'],
 })
 export class AvatarComponent implements OnInit {
-  @Input() imgUrl?: string;
+  @Input() imgUrl: string;
   @Input() width: number = 48;
   @Input() height: number = 48;
 

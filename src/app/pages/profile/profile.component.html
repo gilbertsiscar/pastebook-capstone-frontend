@@ -39,7 +39,7 @@
                   <!-- the code here is to dynamically see the changes in the 'friend status' -->
                   
                   <ng-template #displaypending>
-                      <button>Pending</button>
+                      <button class="btn btn-success btn-sm">Pending</button>
                   </ng-template>
               
               </ng-template>
@@ -93,10 +93,43 @@
               </a>
             </li>
             <li>
-              <a href="#" target="_blank">
-                <i class="glyphicon glyphicon-ok"></i>
-                Albums
-              </a>
+
+              <div *ngIf="isOwner(); else notTheOwner">
+                <a routerLink="/{{ getProfileUrl() }}/albums" target="_blank">
+                  <i class="glyphicon glyphicon-ok"></i>
+                  Albums
+                </a>
+              </div>
+
+              <div>
+                <ng-template #notTheOwner>
+                    <div *ngIf="oneFriend.active; else notfriend3"> 
+                      <a routerLink="/{{ getProfileUrl() }}/albums" target="_blank">
+                        <i class="glyphicon glyphicon-ok"></i>
+                        Albums
+                      </a>
+                    </div>
+        
+                    <div>
+                        <ng-template #notfriend3>
+                        </ng-template>
+                    </div>
+        
+                    <div *ngIf="oneFriend2.active; else notfriend4"> 
+                      <a routerLink="/{{ getProfileUrl() }}/albums" target="_blank">
+                        <i class="glyphicon glyphicon-ok"></i>
+                        Albums
+                      </a>
+                    </div>
+        
+                    <div>
+                        <ng-template #notfriend4>
+                        </ng-template>
+                    </div>
+      
+                </ng-template>
+              </div>
+              
             </li>
           </ul>
         </div>
@@ -157,4 +190,3 @@
     </div>
   </div>
 </div>
-

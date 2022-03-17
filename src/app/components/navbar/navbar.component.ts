@@ -15,6 +15,12 @@ import { TriggerNotificationsService } from 'src/app/services/trigger-notificati
 export class NavbarComponent implements OnInit {
   name: string = localStorage.getItem('name');
   token: boolean = localStorage.getItem('token') !== null;
+
+  // Code for searching users
+  searchTerm: string = "";
+  searchTerm2: string = "mikuuu";
+  // Code for searching users
+
   // March 14 2 pm add-ons
   ownerUrl:string = localStorage.getItem('profileUrl');
   user_id:string = localStorage.getItem('user_id');
@@ -54,5 +60,10 @@ export class NavbarComponent implements OnInit {
     this.sessionService.clear();
     this.ngOnInit();
     this.router.navigate(['/login']);
+  }
+
+  // routing to search component
+  routeToSearchComponent() {
+    this.router.navigate(['/search']);
   }
 }

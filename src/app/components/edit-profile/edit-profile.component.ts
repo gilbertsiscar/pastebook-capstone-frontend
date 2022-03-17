@@ -1,50 +1,70 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/models/user';
+import { SessionService } from 'src/app/services/session.service';
 import { UserService } from 'src/app/services/user.service';
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-edit-profile',
   templateUrl: './edit-profile.component.html',
-  styleUrls: ['./edit-profile.component.css']
+  styleUrls: ['./edit-profile.component.css'],
 })
 export class EditProfileComponent implements OnInit {
+  editForm: FormGroup;
 
-  user: User = new User();
+  success = false;
+  isLoading = false;
+  id: string;
 
   constructor(
+    private formBuilder: FormBuilder,
     private userService: UserService,
-    private router: Router,
-    private route: ActivatedRoute
-    ) {
-      let userId: number = this.route.snapshot.params['id'];
-
-      userService.getUser(userId).subscribe((response: Object) => {
-        this.user = response
-      })
-     }
+    private sessionService: SessionService
+  ) {}
 
   ngOnInit(): void {
+    this.editForm = this.formBuilder.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      birthday: ['', Validators.required],
+    });
+
+    this.id = this.sessionService.getUserId();
+
+    this.getUserDetails();
   }
 
-  onSubmit(updateProfileForm: NgForm): void {
-    this.userService.updatePersonalInfo(this.user).subscribe((response: Record<string, any>) => {
+  getUserDetails() {
+    this.userService.getUserById(this.id).subscribe((user: User) => {
+      this.editForm.patchValue({
+        firstName: user.firstName,
+        lastName: user.lastName,
+        birthday: user.birthday,
+      });
+    });
+  }
 
-      if (response['result'] === 'updated') {
+  onSubmit(): void {
+    if (this.editForm.valid) {
+      this.isLoading = true;
+      this.userService
+        .updatePersonalInfo(this.id, this.editForm.value)
+        .subscribe({
+          next: this.onSuccess.bind(this),
+        });
+    }
+  }
 
-        Swal.fire({
-          title: 'Update successful',
-          text: 'Your personal information has been updated successfully',
-          icon: 'success'
+  onSuccess(updatedUser: User): void {
+    this.success = true;
+    this.isLoading = false;
+    this.sessionService.setName(
+      `${updatedUser.firstName} ${updatedUser.lastName}`
+    );
+    this.getUserDetails();
+  }
 
-        }).then(() => {
-          this.router.navigate(['/settings']);
-          updateProfileForm.reset();
-          
-        })
-      }
-    })  
+  closeBtn() {
+    this.success = false;
   }
 }
