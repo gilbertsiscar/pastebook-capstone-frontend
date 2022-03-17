@@ -114,7 +114,7 @@ const appRoutes: Routes = [
     SearchTabComponent,
     PostPageComponent,
     AlbumGalleryComponent,
-    GalleryCarouselComponent
+    GalleryCarouselComponent,
     SettingsComponent,
   ],
   imports: [
