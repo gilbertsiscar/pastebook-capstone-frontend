@@ -35,20 +35,37 @@ import { CardComponent } from './components/card/card.component';
 import { AlbumsComponent } from './components/albums/albums.component';
 import { SearchTabComponent } from './components/search-tab/search-tab.component';
 import { PostPageComponent } from './pages/post-page/post-page.component';
+import { AuthGuard } from './services/auth.guard';
 
 const appRoutes: Routes = [
-  { path: '', component: HomeComponent }, // http://localhost:4200/,
+  { path: '', component: HomeComponent, canActivate: [AuthGuard] }, // http://localhost:4200/,
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'settings', component: SettingsComponent },
-  { path: 'posts/:id', component: PostPageComponent },
-  { path: ':profileUrl/friendslist', component: FriendsListComponent },
-  { path: ':profileUrl/friendrequests', component: FriendRequestsComponent },
-  { path: ':profileUrl/albums', component: AlbumsComponent },
+  { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
+  { path: 'posts/:id', component: PostPageComponent, canActivate: [AuthGuard] },
+  {
+    path: ':profileUrl/friendslist',
+    component: FriendsListComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: ':profileUrl/friendrequests',
+    component: FriendRequestsComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: ':profileUrl/albums',
+    component: AlbumsComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'testing', component: TestingComponent },
-  { path: 'search', component: SearchUsersComponent },
+  { path: 'search', component: SearchUsersComponent, canActivate: [AuthGuard] },
   { path: 'notFound', component: NotFoundComponent },
-  { path: ':profileUrl', component: ProfileComponent },
+  {
+    path: ':profileUrl',
+    component: ProfileComponent,
+    canActivate: [AuthGuard],
+  },
   { path: '**', component: NotFoundComponent },
 ];
 @NgModule({
