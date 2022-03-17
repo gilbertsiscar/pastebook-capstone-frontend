@@ -22,6 +22,8 @@ export class PostComponent implements OnInit {
 
   image: SafeResourceUrl;
 
+  profileUrl = this.sessionService.getProfileUrl();
+
   commentForm = this.fb.group({
     comment: ['', Validators.required],
   });
