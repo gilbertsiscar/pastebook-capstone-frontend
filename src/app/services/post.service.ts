@@ -24,17 +24,8 @@ export class PostService {
   ) {}
 
   // POST /api/posts
-  createPost(formData: any): Observable<any> {
-    const fd = new FormData();
-
-    if (formData.content) {
-      fd.append('content', formData.content);
-    }
-
-    if (formData.image) {
-      fd.append('image', formData.image);
-    }
-    return this.http.post<any>(`${this.baseUrl}`, fd, {
+  createPost(formData: FormData): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}`, formData, {
       headers: this.httpHeaders,
     });
   }
