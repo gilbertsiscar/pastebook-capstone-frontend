@@ -39,14 +39,13 @@ import { AlbumsComponent } from './components/albums/albums.component';
 import { SearchTabComponent } from './components/search-tab/search-tab.component';
 import { PostPageComponent } from './pages/post-page/post-page.component';
 import { AuthGuard } from './services/auth.guard';
-import { AlertComponent } from './components/alert/alert.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] }, // http://localhost:4200/,
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'settings', component: SettingsComponent },
-  { path: 'friendsonline', component:FriendsOnlineStatusComponent},
+  { path: 'friendsonline', component: FriendsOnlineStatusComponent },
   { path: 'posts/:id', component: PostPageComponent },
   { path: ':profileUrl/friendslist', component: FriendsListComponent },
   { path: ':profileUrl/friendrequests', component: FriendRequestsComponent },
@@ -111,7 +110,6 @@ const appRoutes: Routes = [
     SearchTabComponent,
     PostPageComponent,
     SettingsComponent,
-    AlertComponent,
   ],
   imports: [
     BrowserModule,
