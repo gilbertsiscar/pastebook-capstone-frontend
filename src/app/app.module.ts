@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
-import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -37,7 +36,6 @@ import { AlbumsComponent } from './components/albums/albums.component';
 import { SearchTabComponent } from './components/search-tab/search-tab.component';
 import { PostPageComponent } from './pages/post-page/post-page.component';
 
-
 const appRoutes: Routes = [
   { path: '', component: HomeComponent }, // http://localhost:4200/,
   { path: 'register', component: RegisterComponent },
@@ -48,7 +46,7 @@ const appRoutes: Routes = [
   { path: ':profileUrl/friendrequests', component: FriendRequestsComponent },
   { path: ':profileUrl/albums', component: AlbumsComponent },
   { path: 'testing', component: TestingComponent },
-  { path: 'search', component: SearchUsersComponent},
+  // { path: 'search', component: SearchUsersComponent },
   { path: 'notFound', component: NotFoundComponent },
   { path: ':profileUrl', component: ProfileComponent },
   { path: '**', component: NotFoundComponent },
@@ -81,16 +79,16 @@ const appRoutes: Routes = [
     SearchUsersComponent,
     CardComponent,
     AlbumsComponent,
-    SearchTabComponent
+    SearchTabComponent,
     PostPageComponent,
+    SettingsComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    Ng2SearchPipeModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
   ],
   providers: [],
   bootstrap: [AppComponent],
