@@ -25,14 +25,21 @@ export class NavbarComponent implements OnInit {
   ownerUrl:string = localStorage.getItem('profileUrl');
   user_id:string = localStorage.getItem('user_id');
   // March 14 2 pm add-ons
-  
+  id: string;
+  ws: WebSocketSubject<any>;
+              
+               
   notifications: NotificationModel[] = [];
   notification: NotificationModel;
   constructor(private sessionService: SessionService, 
               private router: Router,
               private notificationService: NotificationService,
-              private triggerNotifications: TriggerNotificationsService) {}
-
+              private triggerNotifications: TriggerNotificationsService) {
+                this.connect();
+                this.id = localStorage.getItem("user_id");
+                this.imOnline(this.id);
+              }
+              
   ngOnInit(): void {
       this.triggerNotifications.connect();
       this.sessionService.hasToken.subscribe((token) => {
@@ -43,9 +50,28 @@ export class NavbarComponent implements OnInit {
     //console.log("reloaded navbar test")
     this.getNotifications();
     console.log(this.user_id);
-    this.triggerNotifications.imOnline(this.user_id);
+    //this.triggerNotifications.imOnline(this.user_id);
     //console.log(this.notificationService.getNotificationShort(this.notification));
      // console.log(this.notifications)
+  }
+
+  connect() {
+    // use wss:// instead of ws:// for a secure connection, e.g. in production
+    
+    this.ws = webSocket('ws://localhost:8080/onlineconnection'); // returns a WebSocketSubject
+    
+    this.ws.subscribe(
+      // Called whenever there is a message from the server.
+      msg => console.log(msg),
+      // Called if at any point WebSocket API signals some kind of error.
+      err => console.log(err),  
+      () => console.log('complete') // Called when connection is closed (for whatever reason).
+    )
+
+    // this.setConnected(true);
+  }
+  imOnline(id:string):void{
+    this.ws.next({user_id:this.id});
   }
 
   getNotifications(){
