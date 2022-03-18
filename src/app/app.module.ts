@@ -64,6 +64,7 @@ const appRoutes: Routes = [
   { path: 'friends', component: OwnerFriendsListComponent},
   { path: 'search', component: SearchUsersComponent, canActivate: [AuthGuard] },
   { path: 'notifications', component:NotificationComponent},
+  // { path: ':profileUrl/album', component: AlbumsComponent },
   { path: 'notFound', component: NotFoundComponent },
   { path: ':profileUrl',component: ProfileComponent, canActivate: [AuthGuard],},
   { path: ':profileUrl/friendslist',component: FriendsListComponent, canActivate: [AuthGuard],},
