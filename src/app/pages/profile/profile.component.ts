@@ -116,11 +116,75 @@ export class ProfileComponent implements OnInit {
     //let profileUrl: string = this.route.snapshot.params['profileUrl'];
     //let userId: number = parseInt(profileUrl.replace(/\D/g, ''));
 
-    console.log(this.currentUserId+ " adding" + this.user.id)
+    //console.log(this.currentUserId+ " adding" + this.user.id)
     this.friendRequestService
       .sendFriendRequest(Number(this.currentUserId),  this.user.id)
       .subscribe((response:any)=>{
-        
+        this.ngOnInit();
+      },
+      error=>{
+        //ignore the errors lol
+        this.ngOnInit();
+      });
+
+    // need to add code here that changes the status of the button
+  }
+
+  removeFriend():void{
+    console.log(this.currentUserId+ " accepted friend request from" + this.user.id)
+    this.friendService.
+    //acceptFriend(requesterId: number, recipientId: number)
+      deleteFriend(Number(this.currentUserId),  this.user.id)
+      .subscribe((response:any)=>{
+        this.ngOnInit();
+      },
+      error=>{
+        //ignore the errors lol
+        this.ngOnInit();
+      });
+  }
+
+  acceptFriendRequest(): void {
+    //let profileUrl: string = this.route.snapshot.params['profileUrl'];
+    //let userId: number = parseInt(profileUrl.replace(/\D/g, ''));
+
+    console.log(this.currentUserId+ " accepted friend request from" + this.user.id)
+    this.friendService.
+    //acceptFriend(requesterId: number, recipientId: number)
+      acceptFriend(this.user.id,Number(this.currentUserId))
+      .subscribe((response:any)=>{
+        this.ngOnInit();
+      },
+      error=>{
+        //ignore the errors lol
+        this.ngOnInit();
+      });
+
+    // need to add code here that changes the status of the button
+  }
+
+  declineOrCancelFriendRequest(): void {
+    //let profileUrl: string = this.route.snapshot.params['profileUrl'];
+    //let userId: number = parseInt(profileUrl.replace(/\D/g, ''));
+    let senderId:number, receiver:number
+      if(this.requestPending){
+          senderId = Number(this.currentUserId);
+          receiver = this.user.id
+          //console.log(senderId+ " cancelled request from " + receiver)
+      }else{
+          senderId = this.user.id
+          receiver = Number(this.currentUserId);
+          //console.log(receiver+ " declined request from " + senderId)
+      }
+    
+    this.friendRequestService
+      .cancelFriendRequest(Number(this.currentUserId),  this.user.id)
+      .subscribe((response:any)=>{
+        this.ngOnInit();
+      },
+      error=>{
+        //ignore the errors lol
+        this.ngOnInit();
       });
 
     // need to add code here that changes the status of the button

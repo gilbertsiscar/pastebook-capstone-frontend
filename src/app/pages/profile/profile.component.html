@@ -25,31 +25,51 @@
 
           <ng-template #friendStatusCheck>
             <div *ngIf="isFriends; else checkingPendingRequest">
-              <button type="button" class="btn btn-success btn-sm">
+              <button
+                type="button"
+                class="btn btn-success btn-sm"
+                (click)="removeFriend()"
+              >
                 Remove Friend
               </button>
               <button type="button" class="btn btn-danger btn-sm">Block</button>
             </div>
             <ng-template #checkingPendingRequest>
               <ng-container *ngIf="requestPending; else getRequestComp">
-                <button type="button" class="btn btn-light btn-sm">
-                  Pending
+                <button
+                  type="button"
+                  class="btn btn-danger btn-sm"
+                  (click)="declineOrCancelFriendRequest()"
+                >
+                  Cancel Friend Request
                 </button>
               </ng-container>
             </ng-template>
 
             <ng-template #getRequestComp>
               <ng-container *ngIf="requestFromTheUserPending; else notFriends">
-                <button type="button" class="btn btn-success btn-sm">
+                <button
+                  type="button"
+                  class="btn btn-success btn-sm"
+                  (click)="acceptFriendRequest()"
+                >
                   Accept
                 </button>
-                <button type="button" class="btn btn-danger btn-sm">
+                <button
+                  type="button"
+                  class="btn btn-danger btn-sm"
+                  (click)="declineOrCancelFriendRequest()"
+                >
                   Reject
                 </button>
               </ng-container>
             </ng-template>
             <ng-template #notFriends>
-              <button type="button" class="btn btn-success btn-sm">
+              <button
+                type="button"
+                class="btn btn-success btn-sm"
+                (click)="sendFriendRequest()"
+              >
                 Add Friend
               </button>
               <button type="button" class="btn btn-danger btn-sm">Block</button>
