@@ -62,44 +62,51 @@ export class ProfileComponent implements OnInit {
   totalPages: number = 0;
   currentPage: number = 0;
 
+  friendName: string;
+  friendId: string;
+
   constructor(
     private userService: UserService,
     private router: Router,
     private route: ActivatedRoute,
     private friendRequestService: FriendRequestService,
     private friendService: FriendService,
-    private sanitizer:DomSanitizer,
+    private sanitizer: DomSanitizer,
     private postService: PostService,
     private cdRef: ChangeDetectorRef
-  ) {
-      
-    }
-     
+  ) {}
 
   ngOnInit(): void {
-      
-    this.route.params.subscribe(
-      params => {
-        
-      this.selectedFile=null;
-   
-      this.profileUrl = this.route.snapshot.params['profileUrl']
+    const url = localStorage.getItem('profileUrl');
+    if (this.router.url !== '/' + url) {
+      const friendUrl = this.router.url.replace('/', '');
+      const id = friendUrl.match(/\d+/g);
+
+      this.userService.getUserById(id[0]).subscribe((response: any) => {
+        this.friendName = response.firstName + ' ' + response.lastName;
+        this.friendId = response.id;
+      });
+    }
+
+    this.route.params.subscribe((params) => {
+      this.selectedFile = null;
+
+      this.profileUrl = this.route.snapshot.params['profileUrl'];
       // this.userId = profileUrlUser.replace(/\D/g, '');
       this.userService
         .getUserProfile(this.profileUrl)
         .subscribe((response: any) => {
           this.user = response;
-          
+
           //sconsole.log(this.user.image.picByte)
           if (this.user.image) {
-            console.log("cleaning")
+            console.log('cleaning');
             this.image = this.sanitizer.bypassSecurityTrustResourceUrl(
               'data:image/png;base64,' + this.user.image.picByte
             );
-            
+
             console.log(this.image);
           }
-      
         });
       // userService.getOne(Number(this.userId)).subscribe((response: any) => {
       //   this.user = response;
@@ -201,21 +208,19 @@ export class ProfileComponent implements OnInit {
       );
   }
 
-  addImage():void{
-    console.log("Upload")
+  addImage(): void {
+    console.log('Upload');
   }
 
-  onFileSelected(event){
+  onFileSelected(event) {
     console.log(event);
     this.selectedFile = event.target.files[0];
   }
 
-  onUpload(){
+  onUpload() {
     const fd = new FormData();
-    fd.append('image',this.selectedFile, this.selectedFile.name);
-    this.userService.uploadProfilePicture(fd).subscribe((response:any)=>{
-      
-    })
+    fd.append('image', this.selectedFile, this.selectedFile.name);
+    this.userService.uploadProfilePicture(fd).subscribe((response: any) => {});
     //this.http
   }
   acceptFriendRequest(): void {
