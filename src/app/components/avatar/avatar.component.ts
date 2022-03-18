@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-avatar',
@@ -6,7 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./avatar.component.css'],
 })
 export class AvatarComponent implements OnInit {
-  @Input() imgUrl: string;
+  @Input() imgUrl: SafeResourceUrl;
   @Input() width: number = 48;
   @Input() height: number = 48;
 
