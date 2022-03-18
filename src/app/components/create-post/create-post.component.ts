@@ -27,6 +27,7 @@ export class CreatePostComponent implements OnInit {
   displayTaggedLength = 0;
   imagePreview = '';
   isLoading: boolean = false;
+  profileUrl: string;
 
   postForm: FormGroup = this.fb.group(
     {
@@ -49,6 +50,7 @@ export class CreatePostComponent implements OnInit {
 
   ngOnInit(): void {
     this.name = this.sessionService.getName();
+    this.profileUrl = `/${this.sessionService.getProfileUrl()}`;
   }
 
   onSubmit() {
