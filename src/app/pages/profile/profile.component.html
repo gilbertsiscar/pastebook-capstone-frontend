@@ -193,7 +193,7 @@
             <h4 class="profile-desc-title">About Me</h4>
             <app-about-me></app-about-me>
             <span class="profile-desc-text"> {{ user.aboutMe }}</span>
-            <!-- <div class="margin-top-20 profile-desc-link">
+             <div class="margin-top-20 profile-desc-link">
               <i class="fa fa-globe"></i>
               <a href="https://www.apollowebstudio.com">apollowebstudio.com</a>
             </div>
@@ -211,8 +211,38 @@
       </ng-container>
     </div>
     <div class="profile-content col-xl">
-      <app-create-post class=""> </app-create-post>
-      <app-post-page></app-post-page>
+      <app-create-post></app-create-post>
+      <ng-container *ngIf="!rerender">
+        <div *ngIf="posts" class="d-grid gap-5 mt-5">
+          <div *ngFor="let post of posts; let i = index">
+            <app-post
+              *ngIf="i + 1 === posts.length"
+              #theLastList
+              [post]="post"
+              (delete)="onDelete($event)"
+            ></app-post>
+            <app-post
+              *ngIf="i + 1 !== posts.length"
+              [post]="post"
+              (delete)="onDelete($event)"
+            ></app-post>
+          </div>
+        </div>
+        <div
+          *ngIf="showSpinner"
+          class="hstack gap-2 justify-content-center mt-3"
+        >
+          <div *ngFor="let item of [].constructor(3)">
+            <div
+              class="spinner-grow text-muted"
+              role="status"
+              style="width: 10px; height: 10px"
+            >
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        </div>
+      </ng-container>
     </div>
   </div>
 </div>
