@@ -26,7 +26,7 @@ export class PostComponent implements OnInit {
 
   image: SafeResourceUrl;
 
-  profileUrl = this.sessionService.getProfileUrl();
+  profileUrl = '/' + this.sessionService.getProfileUrl();
 
   commentForm = this.fb.group({
     comment: ['', Validators.required],
@@ -73,7 +73,6 @@ export class PostComponent implements OnInit {
         //this.triggerNotif.triggerNotif(this.triggerNotif.ws);
         this.getPost();
       });
-    
   }
 
   like() {
