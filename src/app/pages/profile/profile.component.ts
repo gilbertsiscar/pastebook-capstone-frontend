@@ -6,6 +6,7 @@ import { FriendRequestService } from 'src/app/services/friend-request.service';
 import { FriendRequest } from 'src/app/models/friend-request';
 import { Friend } from 'src/app/models/friend';
 import { FriendService } from 'src/app/services/friend.service';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-profile',
@@ -35,14 +36,16 @@ export class ProfileComponent implements OnInit {
   requestFromTheUserPending:boolean;
   // March 14 2 pm add-ons
 
-
-
+  image: SafeResourceUrl;
+  //private sanitizer: DomSanitizer;
+  selectedFile;
   constructor(
     private userService: UserService,
     private router: Router,
     private route: ActivatedRoute,
     private friendRequestService: FriendRequestService,
-    private friendService: FriendService
+    private friendService: FriendService,
+    private sanitizer:DomSanitizer,
   ) {
       
     }
@@ -53,16 +56,26 @@ export class ProfileComponent implements OnInit {
       
     this.route.params.subscribe(
       params => {
-        this.profileUrl = this.route.snapshot.params['profileUrl']
+        
+      this.selectedFile=null;
+   
+      this.profileUrl = this.route.snapshot.params['profileUrl']
       // this.userId = profileUrlUser.replace(/\D/g, '');
       this.userService.getUserProfile(this.profileUrl).subscribe((response: any) => {
           this.user = response;
+          
+          //sconsole.log(this.user.image.picByte)
+          if (this.user.image) {
+            console.log("cleaning")
+            this.image = this.sanitizer.bypassSecurityTrustResourceUrl(
+              'data:image/png;base64,' + this.user.image.picByte
+            );
+            
+            console.log(this.image);
+          }
+      
         });
-      // userService.getOne(Number(this.userId)).subscribe((response: any) => {
-      //   this.user = response;
-      // });
-
-    // console.log(this.isOwner()); // this fires off upon loading the page (basically, put all the functions you want to be automatically called when you load the page)
+    
     this.requestPending = false;
     this.requestFromTheUserPending = false;  
     if(this.isOwner()){
@@ -144,6 +157,23 @@ export class ProfileComponent implements OnInit {
       });
   }
 
+  addImage():void{
+    console.log("Upload")
+  }
+
+  onFileSelected(event){
+    console.log(event);
+    this.selectedFile = event.target.files[0];
+  }
+
+  onUpload(){
+    const fd = new FormData();
+    fd.append('image',this.selectedFile, this.selectedFile.name);
+    this.userService.uploadProfilePicture(fd).subscribe((response:any)=>{
+      
+    })
+    //this.http
+  }
   acceptFriendRequest(): void {
     //let profileUrl: string = this.route.snapshot.params['profileUrl'];
     //let userId: number = parseInt(profileUrl.replace(/\D/g, ''));
