@@ -103,15 +103,12 @@ export class ProfileComponent implements OnInit {
         .getUserProfile(this.profileUrl)
         .subscribe((response: any) => {
           this.user = response;
-
           //sconsole.log(this.user.image.picByte)
           if (this.user.image) {
             console.log('cleaning');
             this.image = this.sanitizer.bypassSecurityTrustResourceUrl(
               'data:image/png;base64,' + this.user.image.picByte
             );
-
-            console.log(this.image);
           }
         });
       // userService.getOne(Number(this.userId)).subscribe((response: any) => {
