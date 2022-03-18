@@ -54,6 +54,8 @@ export class ProfileComponent implements OnInit {
       });
 
     this.getOneFriendTwice();
+
+    console.log("test");
     // March 14 2 pm add-ons
 
     // console.log("test")
@@ -78,6 +80,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     // this.getUserDetails(this.profileUrl);
     //sconsole.log(this.user.email)
+    console.log("test");
   }
 
   getUserDetails(profileUrl: string): void {

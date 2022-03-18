@@ -17,7 +17,7 @@ export class SearchUsersComponent implements OnInit {
     private userService: UserService,
     private sessionService: SessionService
   ) {
-    // this.getSearchedUsers();
+    
   }
 
   ngOnInit(): void {}
