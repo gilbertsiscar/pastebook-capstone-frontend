@@ -46,6 +46,7 @@ import { GalleryCarouselComponent } from './components/gallery-carousel/gallery-
 import { AuthGuard } from './services/auth.guard';
 import { NotificationComponent } from './pages/notification/notification.component';
 import { AboutMeComponent } from './components/about-me/about-me.component';
+import { AlertComponent } from './components/alert/alert.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] }, // http://localhost:4200/,
@@ -127,6 +128,7 @@ const appRoutes: Routes = [
     SettingsComponent,
     NotificationComponent,
     AboutMeComponent,
+    AlertComponent,
   ],
   imports: [
     BrowserModule,
