@@ -55,14 +55,11 @@ export class RegisterFormComponent implements OnInit {
 
   successfulRegister(response: Record<string, any>) {
     this.isLoading = false;
-    this.title = 'Account Created';
-    this.message =
-      'Your account has been created successfully, please login to continue';
-    // Swal.fire(
-    //   'Account Created',
-    //   'Your account has been created successfully, please login to continue',
-    //   'success'
-    // );
+    Swal.fire(
+      'Account Created',
+      'Your account has been created successfully, please login to continue',
+      'success'
+    );
     this.router.navigate(['/login']);
   }
 
