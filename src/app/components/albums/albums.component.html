@@ -53,12 +53,12 @@
                                         <label class="custom-file-label" for="inputGroupFile01">Choose File</label>
                                     </div> -->
 
-                                <input type="file" name="image" accept="image/png, image/jpeg" >
+                                <input id="file" type="file" name="image" accept="image/png, image/jpeg">
     
                                 <!-- need this to be hidden from view -->
                                 <input type="number" name="albumId" [(ngModel)]="album.id" hidden>
                             
-                                <input class="btn btn-primary" type="submit" value="Upload Photo">
+                                <input class="btn btn-primary" type="submit" value="Upload Photo" id="submit">
                             
                                 </form>
         

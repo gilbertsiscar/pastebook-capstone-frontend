@@ -27,7 +27,7 @@ export class AlbumsComponent implements OnInit {
 
   editBoolean: boolean = false; // setting to false so at reload, edit controls are hidden
   createBoolean: boolean = false;
-
+  
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -88,5 +88,4 @@ export class AlbumsComponent implements OnInit {
     this.createBoolean = !this.createBoolean;
     console.log(this.createBoolean);
   }
-
 }
