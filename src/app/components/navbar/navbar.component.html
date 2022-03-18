@@ -18,7 +18,7 @@
       *ngIf="token; else noToken"
     >
       <form class="d-flex">
-          <a routerLink="/search" class="btn btn-info btn-lg">Search</a>
+        <a routerLink="/search" class="btn btn-info btn-lg">Search</a>
       </form>
       <ul class="nav">
         <li class="nav-item me-3">
@@ -57,7 +57,6 @@
             <span
               class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
             >
-              5
             </span>
           </button>
           <ul
@@ -84,14 +83,17 @@
             type="button"
             id="notification"
             data-bs-toggle="dropdown"
+            (click)="seenNotifications()"
             aria-expanded="false"
           >
             N
-            <span
-              class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-            >
-              3
-            </span>
+            <ng-container *ngIf="newNotificationCount != 0">
+              <span
+                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+              >
+                {{ newNotificationCount }}
+              </span>
+            </ng-container>
           </button>
           <ul
             class="dropdown-menu dropdown-menu-end"
