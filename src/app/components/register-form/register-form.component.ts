@@ -14,6 +14,9 @@ export class RegisterFormComponent implements OnInit {
   submitted = false;
   isLoading = false;
 
+  title: string;
+  message: string;
+
   registerForm = this.formBuilder.group({
     firstName: ['', [Validators.required, this.noWhitespaceValidator]],
     lastName: ['', [Validators.required, this.noWhitespaceValidator]],
@@ -52,11 +55,14 @@ export class RegisterFormComponent implements OnInit {
 
   successfulRegister(response: Record<string, any>) {
     this.isLoading = false;
-    Swal.fire(
-      'Account Created',
-      'Your account has been created successfully, please login to continue',
-      'success'
-    );
+    this.title = 'Account Created';
+    this.message =
+      'Your account has been created successfully, please login to continue';
+    // Swal.fire(
+    //   'Account Created',
+    //   'Your account has been created successfully, please login to continue',
+    //   'success'
+    // );
     this.router.navigate(['/login']);
   }
 
