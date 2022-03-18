@@ -49,6 +49,9 @@ export class ProfileComponent implements OnInit {
   image: SafeResourceUrl;
   //private sanitizer: DomSanitizer;
   selectedFile;
+
+  isUploadSection: boolean;
+  
   @ViewChildren('theLastList', { read: ElementRef })
   theLastList: QueryList<ElementRef>;
 
@@ -82,7 +85,7 @@ export class ProfileComponent implements OnInit {
       params => {
         
       this.selectedFile=null;
-   
+      this.isUploadSection = false;
       this.profileUrl = this.route.snapshot.params['profileUrl']
       // this.userId = profileUrlUser.replace(/\D/g, '');
       this.userService
@@ -162,7 +165,9 @@ export class ProfileComponent implements OnInit {
       }
     });
   }
-
+  toggleUpload(){
+    this.isUploadSection = !this.isUploadSection;
+  }
   sendFriendRequest(): void {
     //let profileUrl: string = this.route.snapshot.params['profileUrl'];
     //let userId: number = parseInt(profileUrl.replace(/\D/g, ''));
@@ -201,9 +206,9 @@ export class ProfileComponent implements OnInit {
       );
   }
 
-  addImage():void{
-    console.log("Upload")
-  }
+  // addImage():void{
+  //   console.log("Upload")
+  // }
 
   onFileSelected(event){
     console.log(event);
@@ -214,7 +219,8 @@ export class ProfileComponent implements OnInit {
     const fd = new FormData();
     fd.append('image',this.selectedFile, this.selectedFile.name);
     this.userService.uploadProfilePicture(fd).subscribe((response:any)=>{
-      
+      this.toggleUpload();
+      this.ngOnInit();
     })
     //this.http
   }
