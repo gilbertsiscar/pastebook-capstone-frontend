@@ -57,6 +57,7 @@ export class ProfileComponent implements OnInit {
       // this.userId = profileUrlUser.replace(/\D/g, '');
       this.userService.getUserProfile(this.profileUrl).subscribe((response: any) => {
           this.user = response;
+          console.log(this.user);
         });
       // userService.getOne(Number(this.userId)).subscribe((response: any) => {
       //   this.user = response;
