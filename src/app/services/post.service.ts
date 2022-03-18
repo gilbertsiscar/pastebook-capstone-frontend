@@ -37,9 +37,13 @@ export class PostService {
     });
   }
 
-  getPostsPagination(page: number, size: number = 10): Observable<any> {
+  getPostsPagination(
+    userId: string,
+    page: number,
+    size: number = 10
+  ): Observable<any> {
     return this.http.get(
-      `${this.baseUrl}/pagination?page=${page}&size=${size}`,
+      `${this.baseUrl}/friends/${userId}?page=${page}&size=${size}`,
       {
         headers: this.httpHeaders,
       }
