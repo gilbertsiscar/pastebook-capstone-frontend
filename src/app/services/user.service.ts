@@ -50,6 +50,18 @@ export class UserService {
     });
   }
 
+  updateSecurityEmail(id: string, data: any) {
+    return this.http.put(`${this.baseUrl}/security/email/${id}`, data, {
+      headers: this.httpHeaders,
+    });
+  }
+
+  updateSecurityPassword(id: string, data: any) {
+    return this.http.put(`${this.baseUrl}/security/password/${id}`, data, {
+      headers: this.httpHeaders,
+    });
+  }
+
   updateSecurityInfo(id: string, user: any) {
     console.log('fetching');
 
@@ -85,5 +97,4 @@ export class UserService {
     return error.error;
   }
   // March 14 2pm add-ons
-
 }
