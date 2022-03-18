@@ -50,42 +50,24 @@ const appRoutes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] }, // http://localhost:4200/,
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'settings', component: SettingsComponent },
+  //{ path: 'settings', component: SettingsComponent },
   { path: 'friendsonline', component: FriendsOnlineStatusComponent },
   { path: 'posts/:id', component: PostPageComponent },
-  { path: ':profileUrl/friendslist', component: FriendsListComponent },
-  { path: ':profileUrl/friendrequests', component: FriendRequestsComponent },
-  { path: ':profileUrl/albums', component: AlbumsComponent },
+  // { path: ':profileUrl/friendslist', component: FriendsListComponent },
+  // { path: ':profileUrl/friendrequests', component: FriendRequestsComponent },
+  // { path: ':profileUrl/albums', component: AlbumsComponent },
   { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
-  { path: 'posts/:id', component: PostPageComponent, canActivate: [AuthGuard] },
-  {
-    path: ':profileUrl/friendslist',
-    component: FriendsListComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: ':profileUrl/friendrequests',
-    component: FriendRequestsComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: ':profileUrl/albums',
-    component: AlbumsComponent,
-    canActivate: [AuthGuard],
-  },
+ // { path: 'posts/:id', component: PostPageComponent, canActivate: [AuthGuard] },
   { path: 'testing', component: TestingComponent },
-
   { path: 'friends', component: OwnerFriendsListComponent},
-
   { path: 'search', component: SearchUsersComponent, canActivate: [AuthGuard] },
-
+  { path: 'notifications', component:NotificationComponent},
   { path: 'notFound', component: NotFoundComponent },
-  {path: 'notifications', component:NotificationComponent},
-  {
-    path: ':profileUrl',
-    component: ProfileComponent,
-    canActivate: [AuthGuard],
-  },
+  { path: ':profileUrl',component: ProfileComponent, canActivate: [AuthGuard],},
+  { path: ':profileUrl/friendslist',component: FriendsListComponent, canActivate: [AuthGuard],},
+  { path: ':profileUrl/friendrequests', component: FriendRequestsComponent, canActivate: [AuthGuard],},
+  { path: ':profileUrl/albums',component: AlbumsComponent, canActivate: [AuthGuard],},
+  
   { path: '**', component: NotFoundComponent },
 ];
 @NgModule({
@@ -114,7 +96,6 @@ const appRoutes: Routes = [
     NotificationCardComponent,
     FriendsOnlineStatusComponent,
     FriendsOnlineStatusCardComponent,
-    ProfileComponent,
     SearchUsersComponent,
     CardComponent,
     AlbumsComponent,

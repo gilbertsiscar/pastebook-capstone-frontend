@@ -37,10 +37,9 @@ export class UserService {
     });
   }
   // temp
-  getUserProfile(profileUrl: string): Observable<User> {
+  getUserProfile(profileUrl: string): Observable<any> {
     //console.log(this.sessionService.getToken());
-    console.log(this.http);
-    return this.http.get<User>(`${this.baseUrl}/profile/${profileUrl}`, {
+    return this.http.get<any>(`${this.baseUrl}/profile/${profileUrl}`, {
       headers: this.httpHeaders,
     });
   }
@@ -77,7 +76,9 @@ export class UserService {
 
   // get users for searching
   getUsers(searchText: string): Observable<User[]> {
-    return this.http.get<User[]>(this.baseUrl + `/search/${searchText}`);
+    return this.http.get<User[]>(this.baseUrl + `/search/${searchText}`, {
+      headers: this.httpHeaders,
+    });
   }
 
   private handleError(error: HttpErrorResponse) {
