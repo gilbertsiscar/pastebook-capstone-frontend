@@ -51,7 +51,7 @@ export class ProfileComponent implements OnInit {
   selectedFile;
 
   isUploadSection: boolean;
-  
+
   @ViewChildren('theLastList', { read: ElementRef })
   theLastList: QueryList<ElementRef>;
 
@@ -90,13 +90,11 @@ export class ProfileComponent implements OnInit {
         this.friendId = response.id;
       });
     }
-      
-    this.route.params.subscribe(
-      params => {
-        
-      this.selectedFile=null;
+
+    this.route.params.subscribe((params) => {
+      this.selectedFile = null;
       this.isUploadSection = false;
-      this.profileUrl = this.route.snapshot.params['profileUrl']
+      this.profileUrl = this.route.snapshot.params['profileUrl'];
 
       // this.userId = profileUrlUser.replace(/\D/g, '');
       this.userService
@@ -175,7 +173,7 @@ export class ProfileComponent implements OnInit {
       }
     });
   }
-  toggleUpload(){
+  toggleUpload() {
     this.isUploadSection = !this.isUploadSection;
   }
   sendFriendRequest(): void {
@@ -227,11 +225,11 @@ export class ProfileComponent implements OnInit {
 
   onUpload() {
     const fd = new FormData();
-    fd.append('image',this.selectedFile, this.selectedFile.name);
-    this.userService.uploadProfilePicture(fd).subscribe((response:any)=>{
+    fd.append('image', this.selectedFile, this.selectedFile.name);
+    this.userService.uploadProfilePicture(fd).subscribe((response: any) => {
       this.toggleUpload();
       this.ngOnInit();
-    })
+    });
     //this.http
   }
   acceptFriendRequest(): void {
@@ -332,9 +330,13 @@ export class ProfileComponent implements OnInit {
 
   fetchPosts() {
     this.currentPage = 0;
-    this.postService
-      .getPostsPagination(this.id, 0)
-      .subscribe((res) => (this.posts = res));
+    this.postService.getPostsPagination(this.id, 0).subscribe((res) => {
+      this.posts = res;
+      this.posts.sort(
+        (a: Post, b: Post) =>
+          <any>new Date(b.datetimeCreated) - <any>new Date(a.datetimeCreated)
+      );
+    });
   }
 
   onDelete(id: string) {

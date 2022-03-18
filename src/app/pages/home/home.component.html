@@ -1,10 +1,4 @@
-<div
-  class="container-fluid d-flex justify-content-between g-0"
-  style="position: relative; left: 0"
->
-  <div class="col-xl-2 h-100" style="position: fixed; left: 0; z-index: 999">
-    <div class="card h-100" style="border: none">test</div>
-  </div>
+<div class="container-fluid d-flex justify-content-between g-0">
   <div class="col-md-10 col-xl-6 mt-5 mx-auto">
     <app-create-post (refresh)="onRefresh()"></app-create-post>
     <ng-container *ngIf="!rerender">
@@ -35,33 +29,5 @@
         </div>
       </div>
     </ng-container>
-  </div>
-
-  <div class="col-xl-2 h-100" style="position: fixed; right: 0; z-index: 1000">
-    <div class="card h-100 p-4" style="border: none">
-      <div>
-        <div class="d-flex justify-content-between">
-          <p class="fw-bold">Friend Request</p>
-          <a href="#">see all</a>
-        </div>
-        <div></div>
-      </div>
-      <div>
-        <p class="fw-bold">Contacts</p>
-        <div class="d-grid gap-3">
-          <div *ngFor="let friend of friendsList" class="d-flex gap-3">
-            <a [routerLink]="'/' + friend.profileUrl">
-              <app-avatar></app-avatar>
-            </a>
-            <div>
-              <p class="mb-0 fw-bolder">
-                {{ friend.lastName + " " + friend.lastName }}
-              </p>
-              <span>{{ friend.online }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </div>

@@ -88,9 +88,13 @@ export class HomeComponent implements OnInit {
   // use this for rerender
   fetchPosts() {
     this.currentPage = 0;
-    this.postService
-      .getPostsPagination(this.id, 0)
-      .subscribe((res) => (this.posts = res));
+    this.postService.getPostsPagination(this.id, 0).subscribe((res) => {
+      this.posts = res;
+      this.posts.sort(
+        (a: Post, b: Post) =>
+          <any>new Date(b.datetimeCreated) - <any>new Date(a.datetimeCreated)
+      );
+    });
   }
 
   onDelete(id: string) {
