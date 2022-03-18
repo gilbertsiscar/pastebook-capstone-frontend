@@ -127,50 +127,8 @@ export class ProfileComponent implements OnInit {
         this.ngOnInit();
       });
 
-//     this.getOneFriendTwice();
-
-//     console.log("test");
-//     // March 14 2 pm add-ons
-
-//     // console.log("test")
-//     // this.user = {
-//     //   id: 1,
-//     //   firstName: "Alexis",
-//     //   lastName: "Sales",
-//     //   email: "test1@gmail.com",
-//     //   //password?: string, //should be omitted
-//     //   birthday: "10-9-1997",
-//     //   gender: "Male",
-//     //   mobileNumber: "09270753456",
-//     //   isOnline: true,
-//     //   datetimeCreated: "3-1-2022",
-//     //   profilePic: null,
-//     //   aboutMe: "Hello this is me!",
-//     //   profileUrl: "url for pic"
-//     // }
-//     // this.profileUrl = this.route.snapshot.params['profileUrl'];
-//   }
-
-//   ngOnInit(): void {
-//     // this.getUserDetails(this.profileUrl);
-//     //sconsole.log(this.user.email)
-//     console.log("test");
-//   }
-
-//   getUserDetails(profileUrl: string): void {
-//     // this.userService.getUserProfile(profileUrl).subscribe((response: User) => {
-//     //   this.user = response;
-//     // })
-//     // this.userService.getUserProfile(profileUrl).subscribe({
-//     //   next: this.pageFound.bind(this),
-//     //   error: this.pageNotFound.bind(this)
-//     // });
-//   }
-
-//   pageFound(user: User) {
-//     this.user = user;
     // need to add code here that changes the status of the button
- // }
+  }
 
   removeFriend():void{
     console.log(this.currentUserId+ " accepted friend request from" + this.user.id)
