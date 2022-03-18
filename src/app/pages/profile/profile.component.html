@@ -52,7 +52,10 @@
           <!-- END SIDEBAR USER TITLE -->
           <!-- SIDEBAR BUTTONS -->
           <!-- INSERT CONDITIONS HERE THAT IF USER IS THE CURRENTLY LOGGED IN USER, HE CAN'T SEE THE BUTTONS -->
-          <div *ngIf="isOwner(); else friendStatusCheck">
+          <div
+            class="d-flex justify-content-center"
+            *ngIf="isOwner(); else friendStatusCheck"
+          >
             <!-- <button
               type="button"
               class="btn btn-success btn-sm"
@@ -60,22 +63,36 @@
             >
               Change profile picture
             </button> -->
-            <input
-              type="file"
-              accept="image/*"
-              (change)="onFileSelected($event)"
-            />
-            <button
-              type="button"
-              class="btn btn-success btn-sm"
-              (click)="onUpload()"
-            >
-              Upload
-            </button>
+            <div *ngIf="isUploadSection; else showEdit">
+              <input
+                type="file"
+                accept="image/*"
+                (change)="onFileSelected($event)"
+              />
+              <button
+                type="button"
+                class="btn btn-success btn-sm"
+                (click)="onUpload()"
+              >
+                Upload
+              </button>
+            </div>
+            <ng-template #showEdit>
+              <button
+                type="button"
+                class="btn btn-success btn-sm"
+                (click)="toggleUpload()"
+              >
+                Change Profile Picture
+              </button>
+            </ng-template>
           </div>
 
           <ng-template #friendStatusCheck>
-            <div *ngIf="isFriends; else checkingPendingRequest">
+            <div
+              class="d-flex justify-content-center"
+              *ngIf="isFriends; else checkingPendingRequest"
+            >
               <button
                 type="button"
                 class="btn btn-success btn-sm"
@@ -83,7 +100,7 @@
               >
                 Remove Friend
               </button>
-              <button type="button" class="btn btn-danger btn-sm">Block</button>
+              <!-- <button type="button" class="btn btn-danger btn-sm">Block</button> -->
             </div>
             <ng-template #checkingPendingRequest>
               <ng-container *ngIf="requestPending; else getRequestComp">
@@ -123,7 +140,7 @@
               >
                 Add Friend
               </button>
-              <button type="button" class="btn btn-danger btn-sm">Block</button>
+              <!-- <button type="button" class="btn btn-danger btn-sm">Block</button> -->
             </ng-template>
           </ng-template>
 
@@ -140,18 +157,20 @@
                 </a>
               </li>
               <li if>
-                <a href="#">
-                  <i class="glyphicon glyphicon-user"></i>
-                  Account Settings
-                </a>
+                <div *ngIf="isOwner()">
+                  <a routerLink="../settings">
+                    <i class="glyphicon glyphicon-user"></i>
+                    Account Settings
+                  </a>
+                </div>
               </li>
               <li>
-                <!-- <div *ngIf="isOwner(); else notTheOwner"> -->
-                <a routerLink="/{{ getProfileUrl() }}/albums" target="_blank">
-                  <i class="glyphicon glyphicon-ok"></i>
-                  Albums
-                </a>
-                <!-- </div> -->
+                <div *ngIf="isFriends || isOwner()">
+                  <a routerLink="/{{ getProfileUrl() }}/albums" target="_blank">
+                    <i class="glyphicon glyphicon-ok"></i>
+                    Albums
+                  </a>
+                </div>
 
                 <!-- <div>
                 <ng-template #notTheOwner>
@@ -188,7 +207,7 @@
 
           <div class="portlet light bordered">
             <!-- STAT -->
-            <div class="row list-separated profile-stat">
+            <!-- <div class="row list-separated profile-stat">
               <div class="col-md-4 col-sm-4 col-xs-6">
                 <div class="uppercase profile-stat-title">2</div>
                 <div class="uppercase profile-stat-text">Posts</div>
@@ -201,7 +220,7 @@
                 <div class="uppercase profile-stat-title">1</div>
                 <div class="uppercase profile-stat-text">Friends</div>
               </div>
-            </div>
+            </div> -->
             <!-- END STAT -->
             <div>
               <h4 class="profile-desc-title">Email</h4>
