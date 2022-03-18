@@ -75,6 +75,16 @@ export class PostComponent implements OnInit {
       });
   }
 
+  parseDate(formatDate: string) {
+    const [date, time] = formatDate.split(' ');
+    const [year, month, day] = date.split('/');
+    return new Date(`${month}/${day}/${year}`)
+      .toUTCString()
+      .split(' ')
+      .slice(0, 4)
+      .join(' ');
+  }
+
   like() {
     this.likeService.likePost(this.post.id).subscribe(() => {
       this.isLiked = true;
