@@ -47,6 +47,7 @@ import { AuthGuard } from './services/auth.guard';
 import { NotificationComponent } from './pages/notification/notification.component';
 import { AboutMeComponent } from './components/about-me/about-me.component';
 import { AlertComponent } from './components/alert/alert.component';
+import { NotificationPageCardComponent } from './components/notification-page-card/notification-page-card.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] }, // http://localhost:4200/,
@@ -111,6 +112,7 @@ const appRoutes: Routes = [
     NotificationComponent,
     AboutMeComponent,
     AlertComponent,
+    NotificationPageCardComponent,
   ],
   imports: [
     BrowserModule,
