@@ -3,7 +3,7 @@
   style="position: relative; left: 0"
 >
   <div class="col-xl-2 h-100" style="position: fixed; left: 0; z-index: 999">
-    <div class="card h-100" style="border: none">test</div>
+    <div class="card h-100" style="border: none"></div>
   </div>
   <div class="col-md-10 col-xl-6 mt-5 mx-auto">
     <app-create-post (refresh)="onRefresh()"></app-create-post>
@@ -48,16 +48,26 @@
       </div>
       <div>
         <p class="fw-bold">Contacts</p>
+
         <div class="d-grid gap-3">
           <div *ngFor="let friend of friendsList" class="d-flex gap-3">
             <a [routerLink]="'/' + friend.profileUrl">
               <app-avatar></app-avatar>
             </a>
+
             <div>
-              <p class="mb-0 fw-bolder">
-                {{ friend.lastName + " " + friend.lastName }}
-              </p>
-              <span>{{ friend.online }}</span>
+              <p class="card-title">{{ friend.firstName }} {{ friend.lastName }}</p>
+  
+              <div *ngIf="friend.online == true" >
+                <span class="green-dot"></span>
+                <span class="card-text text-success"> Online</span>
+              </div>
+  
+              <div *ngIf="friend.online == false">
+                <span class="red-dot"></span>
+                <span class="card-text text-danger"> Offline</span>
+              </div>
+
             </div>
           </div>
         </div>

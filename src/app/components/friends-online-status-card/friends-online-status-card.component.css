@@ -25,11 +25,11 @@
     display: inline-block;
   }
 
-  .red-dot {
+.red-dot {
     height: 15px;
     width: 15px;
     background-color: rgb(228, 35, 35);
     border-radius: 50%;
     display: inline-block;
-  }
+}
 

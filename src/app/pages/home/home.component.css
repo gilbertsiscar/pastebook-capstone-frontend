@@ -1,0 +1,23 @@
+.card-title {
+    font-weight: bold;
+}
+
+.card-text {
+    font-size: small;
+}
+
+.green-dot {
+    height: 10px;
+    width: 10px;
+    background-color: rgb(21, 139, 47);
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+.red-dot {
+    height: 10px;
+    width: 10px;
+    background-color: rgb(228, 35, 35);
+    border-radius: 50%;
+    display: inline-block;
+}
