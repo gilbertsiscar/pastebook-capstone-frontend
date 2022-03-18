@@ -40,7 +40,7 @@ export class PostComponent implements OnInit {
     private postService: PostService,
     private sessionService: SessionService,
     private fb: FormBuilder,
-    private sanitizer: DomSanitizer
+    public sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -55,6 +55,10 @@ export class PostComponent implements OnInit {
         this.isLiked = true;
       }
     });
+
+    if (this.post.comments.length > 0) {
+      this.post.comments.forEach((comment) => {});
+    }
   }
 
   getPost() {
