@@ -12,6 +12,7 @@ import { UserService } from 'src/app/services/user.service';
 export class EditProfileComponent implements OnInit {
   editForm: FormGroup;
 
+  submitted = false;
   success = false;
   isLoading = false;
   id: string;
@@ -49,6 +50,7 @@ export class EditProfileComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.submitted = true;
     if (this.editForm.valid) {
       this.isLoading = true;
       this.userService
@@ -70,5 +72,21 @@ export class EditProfileComponent implements OnInit {
 
   closeBtn() {
     this.success = false;
+  }
+
+  get mobileNumber() {
+    return this.editForm.get('mobileNumber');
+  }
+
+  get firstName() {
+    return this.editForm.get('firstName');
+  }
+
+  get lastName() {
+    return this.editForm.get('lastName');
+  }
+
+  get birthday() {
+    return this.editForm.get('birthday');
   }
 }
