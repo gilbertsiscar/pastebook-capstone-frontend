@@ -22,13 +22,6 @@ import { SessionService } from 'src/app/services/session.service';
 
 import Swal from 'sweetalert2';
 
-/**
- * Todo:
- * [] Implement remember me functionality
- * [] Implement forgot password functionality
- * [x] Implement a more robust input validation
- * [x] Refactor login handling
- */
 @Component({
   selector: 'app-login-form',
   templateUrl: './login-form.component.html',
@@ -88,9 +81,6 @@ export class LoginFormComponent implements OnInit, OnChanges {
     this.sessionService.setIdNumber(response['idNumber']);
     this.sessionService.setProfileUrl(response['profileUrl']);
     this.router.navigate(['']);
-    // this.router.navigate(['']).then(() => {
-    // setTimeout(this.reloadPage, 2000);
-    // });
   }
 
   failedLogin(error: ApiError) {
