@@ -45,7 +45,7 @@ export class HomeComponent implements OnInit {
     this.getPosts();
     this.intersectionObserver();
 
-    this.getFriendStatus(this.id);
+    // this.getFriendStatus(this.id);
   }
 
   ngAfterViewInit() {
@@ -60,7 +60,7 @@ export class HomeComponent implements OnInit {
     let options = {
       root: null,
       rootMargin: '0px',
-      threshold: 0.8,
+      threshold: 0.5,
     };
 
     this.observer = new IntersectionObserver((entries) => {
@@ -79,8 +79,9 @@ export class HomeComponent implements OnInit {
       .getPostsPagination(this.id, this.currentPage)
       .pipe(delay(1000))
       .subscribe((res) => {
+        console.log(res);
         this.showSpinner = false;
-        this.totalPages = res.totalPages;
+        this.totalPages = 10;
         res.forEach((post: Post) => this.posts.push(post));
       });
   }
@@ -90,10 +91,10 @@ export class HomeComponent implements OnInit {
     this.currentPage = 0;
     this.postService.getPostsPagination(this.id, 0).subscribe((res) => {
       this.posts = res;
-      this.posts.sort(
-        (a: Post, b: Post) =>
-          <any>new Date(b.datetimeCreated) - <any>new Date(a.datetimeCreated)
-      );
+      // this.posts.sort(
+      //   (a: Post, b: Post) =>
+      //     <any>new Date(b.datetimeCreated) - <any>new Date(a.datetimeCreated)
+      // );
     });
   }
 

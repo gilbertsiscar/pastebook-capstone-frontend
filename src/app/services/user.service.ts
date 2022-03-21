@@ -46,7 +46,7 @@ export class UserService {
   }
 
   updatePersonalInfo(id: string, user: User): Observable<Object> {
-    return this.http.put(`${this.baseUrl}/details/${id}`, user, {
+    return this.http.put(`${this.baseUrl}/${id}`, user, {
       headers: this.httpHeaders,
     });
   }
@@ -93,8 +93,10 @@ export class UserService {
       headers: this.httpHeaders,
     });
   }
-  uploadProfilePicture(fd: FormData): Observable<Object>{
-    return this.http.put(this.baseUrl + `/profilePicture` , fd ,{headers: this.httpHeaders});
+  uploadProfilePicture(fd: FormData): Observable<Object> {
+    return this.http.put(this.baseUrl + `/profilePicture`, fd, {
+      headers: this.httpHeaders,
+    });
   }
   private handleError(error: HttpErrorResponse) {
     return error.error;
