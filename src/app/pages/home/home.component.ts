@@ -81,7 +81,7 @@ export class HomeComponent implements OnInit {
       .subscribe((res) => {
         console.log(res);
         this.showSpinner = false;
-        this.totalPages = 10;
+        this.totalPages = res.length;
         res.forEach((post: Post) => this.posts.push(post));
       });
   }
