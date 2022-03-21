@@ -17,8 +17,10 @@ import {
 } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Image } from 'src/app/models/image';
+import { User } from 'src/app/models/user';
 import { PostService } from 'src/app/services/post.service';
 import { SessionService } from 'src/app/services/session.service';
+import { UserService } from 'src/app/services/user.service';
 import { Friends } from '../tag-friends/tag-friends.component';
 
 @Component({
@@ -56,6 +58,7 @@ export class CreatePostComponent implements OnInit, OnChanges {
     private fb: FormBuilder,
     private postService: PostService,
     private sessionService: SessionService,
+    private userService: UserService,
     private sanitizer: DomSanitizer
   ) {}
 
@@ -67,9 +70,12 @@ export class CreatePostComponent implements OnInit, OnChanges {
     this.name = this.sessionService.getName();
     this.profileUrl = `/${this.sessionService.getProfileUrl()}`;
 
-    // this.profilePic = this.sanitizer.bypassSecurityTrustResourceUrl(
-    //   'data:image/png;base64,' +
-    // );
+    const id = this.sessionService.getUserId();
+    this.userService.getUserById(id).subscribe((res: User) => {
+      this.profilePic = this.sanitizer.bypassSecurityTrustResourceUrl(
+        'data:image/png;base64,' + res.image.picByte
+      );
+    });
   }
 
   onSubmit() {

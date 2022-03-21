@@ -21,113 +21,106 @@ export class NavbarComponent implements OnInit {
   token: boolean = localStorage.getItem('token') !== null;
 
   // Code for searching users
-  searchTerm: string = "";
-  searchTerm2: string = "mikuuu";
+  searchTerm: string = '';
+  searchTerm2: string = 'mikuuu';
   // Code for searching users
 
-  ownerUrl:string = localStorage.getItem('profileUrl');
-  user_id:string = localStorage.getItem('user_id');
-  
+  ownerUrl: string = localStorage.getItem('profileUrl');
+  user_id: string = localStorage.getItem('user_id');
+
   id: string;
   ws: WebSocketSubject<any>;
-  user:User;
+  user: User;
   image: SafeResourceUrl;
   newNotificationCount: number = 0;
-             
-               
+
   notifications: NotificationModel[] = [];
   notification: NotificationModel;
-  constructor(private sessionService: SessionService, 
-              private router: Router,
-              private notificationService: NotificationService,
-              private triggerNotifications: TriggerNotificationsService,
-              private userService: UserService,
-              private sanitizer:DomSanitizer,
-              ) {
-                this.connect();
-                this.id = localStorage.getItem("user_id");
-                this.imOnline(this.id);
-              }
-              
+  constructor(
+    private sessionService: SessionService,
+    private router: Router,
+    private notificationService: NotificationService,
+    private triggerNotifications: TriggerNotificationsService,
+    private userService: UserService,
+    private sanitizer: DomSanitizer
+  ) {
+    this.connect();
+    this.id = localStorage.getItem('user_id');
+    this.imOnline(this.id);
+  }
+
   ngOnInit(): void {
-      this.triggerNotifications.connect();
-      this.sessionService.hasToken.subscribe((token) => {
+    this.triggerNotifications.connect();
+    this.sessionService.hasToken.subscribe((token) => {
       this.token = token;
       this.name = this.sessionService.getName();
-
     });
-    
 
-    this.userService
-        .getUserById(this.id)
-        .subscribe((response: any) => {
-          this.user = response;
-          
-          //sconsole.log(this.user.image.picByte)
-          if (this.user.image) {
-            console.log("cleaning")
-            this.image = this.sanitizer.bypassSecurityTrustResourceUrl(
-              'data:image/png;base64,' + this.user.image.picByte
-            );
-            
-            //console.log(this.image);
-          }
-      
-        });
+    if (this.sessionService.getToken()) {
+      this.getNotifications();
+      this.getUser();
+    }
+  }
 
-    //console.log("reloaded navbar test")
-    this.getNotifications();
-    console.log(this.user_id);
-    //this.triggerNotifications.imOnline(this.user_id);
-    //console.log(this.notificationService.getNotificationShort(this.notification));
-     // console.log(this.notifications)
+  getUser() {
+    this.userService.getUserById(this.id).subscribe((response: any) => {
+      this.user = response;
+      if (this.user.image) {
+        this.image = this.sanitizer.bypassSecurityTrustResourceUrl(
+          'data:image/png;base64,' + this.user.image.picByte
+        );
+      }
+    });
   }
 
   connect() {
     // use wss:// instead of ws:// for a secure connection, e.g. in production
-    
+
     this.ws = webSocket('ws://localhost:8080/onlineconnection'); // returns a WebSocketSubject
-    
+
     this.ws.subscribe(
       // Called whenever there is a message from the server.
-      msg => this.update(),
+      (msg) => this.update(),
       // Called if at any point WebSocket API signals some kind of error.
-      err => console.log(err),  
+      (err) => console.log(err),
       () => console.log('complete') // Called when connection is closed (for whatever reason).
-    )
+    );
 
     // this.setConnected(true);
   }
 
-  update(){
-    this.getNotifications()
+  update() {
+    this.getNotifications();
   }
-  imOnline(id:string):void{
-    this.ws.next({user_id:this.id});
+  imOnline(id: string): void {
+    this.ws.next({ user_id: this.id });
   }
 
-  seenNotifications(){
-    this.notificationService.seenNotificationShort(this.notifications).subscribe((response: any) => {
-      this.newNotificationCount = 0;
-      
-    })
+  seenNotifications() {
+    this.notificationService
+      .seenNotificationShort(this.notifications)
+      .subscribe((response: any) => {
+        this.newNotificationCount = 0;
+      });
     this.newNotificationCount = 0;
     this.getNotifications();
   }
 
-  getNotifications(){
-    this.notificationService.getNotificationShort().subscribe((response: any) => {
-      console.log("Reloading Navbar")
-      console.log(response);
-      this.notifications = response;
-      for (const notification of this.notifications) {
-        if(!notification.isRead){
-          this.newNotificationCount += 1;
+  getNotifications() {
+    this.notificationService
+      .getNotificationShort()
+      .subscribe((response: any) => {
+        console.log('Reloading Navbar');
+        console.log(response);
+        this.notifications = response;
+        for (const notification of this.notifications) {
+          if (!notification.isRead) {
+            this.newNotificationCount += 1;
+          }
         }
-      }
-    })
+      });
   }
- 
+
   logout() {
     this.sessionService.clear();
     this.ngOnInit();
@@ -138,5 +131,4 @@ export class NavbarComponent implements OnInit {
   routeToSearchComponent() {
     this.router.navigate(['/search']);
   }
-
 }
