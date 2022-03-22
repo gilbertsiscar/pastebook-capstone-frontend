@@ -20,6 +20,7 @@ export class EditSecurityComponent {
 
   id: string;
   isLoading: boolean = false;
+  submitted: boolean = false;
   success: boolean = false;
 
   isEmailEdit: boolean = false;
@@ -39,9 +40,11 @@ export class EditSecurityComponent {
     });
 
     this.passwordChangeForm = this.formBuilder.group({
-      currentPassword: ['', Validators.required],
+      password: ['', Validators.required],
       newPassword: ['', [Validators.required, Validators.minLength(8)]],
       confirmPassword: ['', Validators.required],
+    }, {
+      validator: this.MustMatch('newPassword', 'confirmPassword')
     });
 
     this.id = this.sessionService.getUserId();
@@ -54,9 +57,38 @@ export class EditSecurityComponent {
     });
   }
 
+  MustMatch(controlName: string, matchingControlName: string) {
+    return (formGroup: FormGroup) => {
+        const control = formGroup.controls[controlName];
+        const matchingControl = formGroup.controls[matchingControlName];
+
+        if (matchingControl.errors && !matchingControl.errors['mustMatch']) {
+            // return if another validator has already found an error on the matchingControl
+            return;
+        }
+
+        // set error on matchingControl if validation fails
+        if (control.value !== matchingControl.value) {
+            matchingControl.setErrors({ mustMatch: true });
+        } else {
+            matchingControl.setErrors(null);
+        }
+    }
+  }
+
+  get newEmail() {
+    return this.emailChangeForm.get('newEmail');
+  }
+
+  get password() {
+    return this.emailChangeForm.get('password');
+  }
+
   onEmailSubmit() {
-    this.isLoading = true;
+    this.submitted = true;
+    
     if (this.emailChangeForm.valid) {
+      this.isLoading = true;
       this.userService
         .updateSecurityEmail(this.id, this.emailChangeForm.value)
         .subscribe({
@@ -67,20 +99,38 @@ export class EditSecurityComponent {
   }
 
   onEmailSuccess(response: any) {
+    this.success = true;
     this.isLoading = false;
     this.sessionService.setId(response['id']);
     this.sessionService.setEmail(response['email']);
     this.sessionService.setToken(response['token']);
+
   }
 
   onEmailFail(response: any) {
     this.isLoading = false;
-    console.log(response);
+    
+  }
+
+  // Changing Password
+
+  get currentPassword() {
+    return this.passwordChangeForm.get('currentPassword');
+  }
+
+  get newPassword() {
+    return this.passwordChangeForm.get('newPassword');
+  }
+
+  get confirmPassword() {
+    return this.passwordChangeForm.get('confirmPassword');
   }
 
   onPasswordSubmit() {
-    this.isLoading = true;
+    this.submitted = true;
+    
     if (this.passwordChangeForm.valid) {
+      this.isLoading = true;
       this.userService
         .updateSecurityPassword(this.id, this.passwordChangeForm.value)
         .subscribe({
@@ -92,12 +142,12 @@ export class EditSecurityComponent {
 
   onPasswordSuccess(response: any) {
     this.isLoading = false;
-    console.log(response);
+    this.success = true;
   }
 
   onPasswordFail(response: any) {
     this.isLoading = false;
-    console.log(response);
+    this.success = false;
   }
 
   closeBtn() {

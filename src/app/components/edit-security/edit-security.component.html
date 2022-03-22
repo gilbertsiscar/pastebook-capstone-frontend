@@ -1,53 +1,111 @@
-<!-- <div class="card p-4">
-  <h3 class="text-center mb-4">Edit Security Information</h3>
+<div class="card p-4">
   <div class="card-body">
+    <h3>Edit Security Info</h3>
+
+    <div class="hstack justify-content-between">
+
+      <div>Change Email</div>
+
+      <button class="btn btn-primary" (click)="toggleEmail()">
+        {{ isEmailEdit ? "Close" : "Edit" }}
+      </button>
+
+    </div>
+
+    <hr class="m-0" />
+
     <form
-      [formGroup]="securityForm"
-      (ngSubmit)="onSubmit()"
-      class="d-grid gap-3"
+      *ngIf="isEmailEdit"
+      [formGroup]="emailChangeForm"
+      (ngSubmit)="onEmailSubmit()"
     >
+
       <div class="form-group">
-        <label class="form-label">Email Address</label>
+
+        <label for="currentEmail" class="form-label">Current</label>
+
         <input
-          autocomplete="off"
           type="email"
-          formControlName="email"
+          readonly
+          id="currentEmail"
           class="form-control"
+          formControlName="currentEmail"
+          placeholder="Enter current email"
+
         />
+  
       </div>
+
       <div class="form-group">
-        <label class="form-label">Mobile Number</label>
+
+        <label for="newEmail" class="form-label">New</label>
+
         <input
-          type="text"
-          formControlName="mobileNumber"
+          type="email"
           class="form-control"
-          placeholder="Enter new mobile number"
+          formControlName="newEmail"
+          placeholder="Enter new email"
+          [ngClass]="{
+            '': !submitted,
+            'is-invalid':
+              newEmail?.dirty && newEmail?.invalid,
+            'is-valid': newEmail?.valid && submitted
+          }"
         />
+
+        <span *ngIf="newEmail?.errors?.['required'] " class="invalid-feedback">
+          This field is required
+        </span>
+
+        <span *ngIf="newEmail?.errors?.['email'] " class="invalid-feedback">
+          Please enter an email format.
+        </span>
       </div>
+
       <div class="form-group">
-        <label class="form-label">Password</label>
+
+        <label for="password" class="form-label">Password</label>
         <input
-          autocomplete="new-password"
           type="password"
-          formControlName="password"
           class="form-control"
-          placeholder="Enter new password"
+          placeholder="Enter current password"
+          formControlName="password"
+          autocomplete="new-password"
+          [ngClass]="{
+            '': !submitted,
+            'is-invalid':
+              password?.dirty && password?.invalid,
+            'is-valid': password?.valid && submitted
+          }"
         />
+
+        <span *ngIf="password?.errors?.['required'] " class="invalid-feedback">
+          Current password is required to change email.
+        </span>
+
       </div>
-      <button type="submit" (click)="onSubmit()" class="btn btn-primary">
+
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="emailChangeForm.invalid || isLoading"
+      >
         <span
-          *ngIf="isLoading"
-          class="spinner-border spinner-border-sm"
-          role="status"
-          aria-hidden="true"
-        ></span>
-        {{ isLoading ? "Updating..." : "Update" }}
+        *ngIf="isLoading"
+        class="spinner-border spinner-border-sm"
+        role="status"
+        aria-hidden="true"
+      ></span>
+      {{ isLoading ? "Saving..." : "Save" }}
+
       </button>
 
       <div *ngIf="success" style="position: relative">
+
         <div id="alert-btn" class="alert alert-success" role="alert">
-          Successfully updated user information!
+          Successfully updated email!
         </div>
+
         <button
           type="button"
           class="btn-close p-0 rounded-circle"
@@ -55,110 +113,131 @@
           (click)="closeBtn()"
           style="position: absolute; right: 0; top: 0"
         ></button>
+        
       </div>
-    </form>
-  </div>
-</div> -->
 
-<div class="card p-4">
-  <div class="card-body">
-    <h3>Edit Security Info</h3>
-
-    <div class="hstack justify-content-between">
-      <div>Change Email</div>
-      <button class="btn btn-primary" (click)="toggleEmail()">
-        {{ isEmailEdit ? "Close" : "Edit" }}
-      </button>
-    </div>
-    <hr class="m-0" />
-    <form
-      *ngIf="isEmailEdit"
-      [formGroup]="emailChangeForm"
-      (ngSubmit)="onEmailSubmit()"
-    >
-      <div class="form-group">
-        <label for="currentEmail" class="form-label">Current</label
-        ><input
-          type="currentEmail"
-          class="form-control"
-          formControlName="currentEmail"
-          placeholder="Enter current email"
-        />
-      </div>
-      <div class="form-group">
-        <label for="newEmail" class="form-label">New</label
-        ><input
-          type="newEmail"
-          class="form-control"
-          formControlName="newEmail"
-          placeholder="Enter new email"
-        />
-      </div>
-      <div class="form-group">
-        <label for="password" class="form-label">Password</label
-        ><input
-          type="password"
-          class="form-control"
-          placeholder="Enter current password"
-          formControlName="password"
-          autocomplete="new-password"
-        />
-      </div>
-      <button
-        type="submit"
-        class="btn btn-primary"
-        [disabled]="emailChangeForm.invalid || isLoading"
-      >
-        Save
-      </button>
     </form>
 
     <div class="hstack justify-content-between">
+      
       <div>Change Password</div>
+
       <button class="btn btn-primary" (click)="togglePassword()">
         {{ isPasswordEdit ? "Close" : "Edit" }}
       </button>
+
     </div>
+
     <hr class="m-0" />
+
     <form
       *ngIf="isPasswordEdit"
       [formGroup]="passwordChangeForm"
       (ngSubmit)="onPasswordSubmit()"
     >
+
       <div class="form-group">
-        <label for="current-password" class="form-label">Current</label
-        ><input
-          id="current-password"
+
+        <label for="password" class="form-label">Current Password</label>
+        <input
           type="password"
           class="form-control"
+          placeholder="Enter current password"
           formControlName="currentPassword"
           autocomplete="new-password"
-          placeholder="Enter current password"
+          [ngClass]="{
+            '': !submitted,
+            'is-invalid':
+            currentPassword?.dirty && currentPassword?.invalid,
+            'is-valid': currentPassword?.valid && submitted
+          }"
         />
+
+        <span *ngIf="currentPassword?.errors?.['required'] " class="invalid-feedback">
+          Current password is required to change email.
+        </span>
       </div>
+
       <div class="form-group">
-        <label for="new-password" class="form-label">New</label
-        ><input
+
+        <label for="new-password" class="form-label">New</label>
+        <input
           id="new-password"
           type="password"
           class="form-control"
           formControlName="newPassword"
           autoComplete="new-password"
           placeholder="Enter new password"
+
+          [ngClass]="{
+            '': !submitted,
+            'is-invalid':
+            newPassword?.dirty && newPassword?.invalid,
+            'is-valid': newPassword?.valid && submitted
+          }"
         />
+
+        <span *ngIf="newPassword?.errors?.['required'] " class="invalid-feedback">
+          This field is required.
+        </span>
+
       </div>
+
       <div class="form-group">
-        <label for="confirm-password" class="form-label">Re-Type Password</label
-        ><input
+
+        <label for="confirm-password" class="form-label">Re-Type Password</label>
+        <input
           id="confirm-password"
           type="password"
           class="form-control"
           formControlName="confirmPassword"
           autocomplete="new-password"
           placeholder="Re-type new password"
+
+          [ngClass]="{
+            '': !submitted,
+            'is-invalid':
+            confirmPassword?.dirty && confirmPassword?.invalid,
+            'is-valid': confirmPassword?.valid && submitted
+          }"
         />
+
+        <span *ngIf="confirmPassword?.errors?.['mustMatch'] " class="invalid-feedback">
+          Retyped password does not match the new password.
+        </span>
       </div>
-      <button type="submit" class="btn btn-primary">Save</button>
+
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="passwordChangeForm.invalid || isLoading"
+      >
+        <span
+        *ngIf="isLoading"
+        class="spinner-border spinner-border-sm"
+        role="status"
+        aria-hidden="true"
+      ></span>
+      {{ isLoading ? "Saving..." : "Save" }}
+
+      </button>
+
+      <div *ngIf="success" style="position: relative">
+
+        <div id="alert-btn" class="alert alert-success" role="alert">
+          Successfully updated password!
+        </div>
+
+        <button
+          type="button"
+          class="btn-close p-0 rounded-circle"
+          aria-label="Close"
+          (click)="closeBtn()"
+          style="position: absolute; right: 0; top: 0"
+        ></button>
+        
+      </div>
+
     </form>
   </div>
 </div>

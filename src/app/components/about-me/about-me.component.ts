@@ -28,8 +28,7 @@ export class AboutMeComponent implements OnInit {
     this.characters = "";
   } 
 
-  toggleIsFormVisible()
-{
+  toggleIsFormVisible() {
     this.isFormVisible = !this.isFormVisible;
 }
 

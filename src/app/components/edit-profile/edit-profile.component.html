@@ -1,13 +1,17 @@
 <div class="card p-4">
   <h3 class="text-center">Edit User Information</h3>
+
   <div class="card-body">
     <form
       class="d-grid gap-3 needs-validation"
       [formGroup]="editForm"
       (ngSubmit)="onSubmit()"
     >
+
       <div class="form-group">
+
         <label class="form-label" for="firstName">First Name:</label>
+
         <input
           type="text"
           class="form-control"
@@ -21,12 +25,17 @@
             'is-valid': firstName?.valid && submitted
           }"
         />
+
         <span *ngIf="firstName?.errors?.['required'] " class="invalid-feedback">
           This field is required
         </span>
+
       </div>
+
       <div class="form-group">
+
         <label class="form-label" for="lastName">Last Name:</label>
+
         <input
           id="lastName"
           type="text"
@@ -40,21 +49,29 @@
             'is-valid': lastName?.valid && submitted
           }"
         />
+
         <span *ngIf="lastName?.errors?.['required'] " class="invalid-feedback">
           This field is required
         </span>
+
       </div>
       <div class="form-group">
+
         <label class="form-label">Gender:</label>
+
         <select class="form-select" aria-label="Default select example">
           <option selected>Open this select menu</option>
           <option value="male">Male</option>
           <option value="female">Female</option>
           <option value="others">Others</option>
         </select>
+
       </div>
+
       <div class="form-group">
+
         <label class="form-label">Birthdate: </label>
+
         <input
           type="date"
           class="form-control"
@@ -66,12 +83,17 @@
             'is-valid': birthday?.valid && submitted
           }"
         />
+
         <span *ngIf="birthday?.errors?.['required'] " class="invalid-feedback">
           This field is required
         </span>
+
       </div>
+
       <div class="form-group">
+
         <label class="form-label">Mobile Number: </label>
+
         <input
           type="tel"
           class="form-control"
@@ -85,15 +107,18 @@
             'is-valid': mobileNumber?.valid && submitted
           }"
         />
+
         <span
           *ngIf="mobileNumber?.errors?.['required'] "
           class="invalid-feedback"
         >
           This field is required
         </span>
+
       </div>
 
       <button type="submit" class="btn btn-primary mt-3" [disabled]="isLoading">
+
         <span
           *ngIf="isLoading"
           class="spinner-border spinner-border-sm"
@@ -101,12 +126,15 @@
           aria-hidden="true"
         ></span>
         {{ isLoading ? "Updating..." : "Update" }}
+
       </button>
 
       <div *ngIf="success" style="position: relative">
+
         <div id="alert-btn" class="alert alert-success" role="alert">
           Successfully updated user information!
         </div>
+
         <button
           type="button"
           class="btn-close p-0 rounded-circle"
@@ -114,6 +142,7 @@
           (click)="closeBtn()"
           style="position: absolute; right: 0; top: 0"
         ></button>
+        
       </div>
     </form>
   </div>
