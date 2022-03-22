@@ -86,13 +86,13 @@ export class LoginFormComponent implements OnInit, OnChanges {
   failedLogin(error: ApiError) {
     this.isLoading = false;
     const { status } = error;
-    if (status) {
+    if (status === 401) {
       Swal.fire(
         'Login Failed',
         'You have entered incorrect credentials, please try again',
         'error'
       );
-    } else {
+    } else if (status === 400) {
       Swal.fire(
         'Login Failed',
         'User does not exist, please try again.',
