@@ -37,7 +37,7 @@ export class UserService {
       headers: this.httpHeaders,
     });
   }
-  // temp
+
   getUserProfile(profileUrl: string): Observable<any> {
     //console.log(this.sessionService.getToken());
     return this.http.get<any>(`${this.baseUrl}/profile/${profileUrl}`, {
