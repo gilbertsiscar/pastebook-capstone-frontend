@@ -6,11 +6,9 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
-import { delay, Subscription } from 'rxjs';
-import { friendStatus } from 'src/app/models/friend';
 import { Post } from 'src/app/models/post';
-import { FriendService } from 'src/app/services/friend.service';
 import { PostService } from 'src/app/services/post.service';
+import { SessionService } from 'src/app/services/session.service';
 
 @Component({
   selector: 'app-home',
@@ -28,24 +26,21 @@ export class HomeComponent implements OnInit {
 
   observer: IntersectionObserver;
 
-  rerender: boolean = false;
+  rerender: boolean;
   showSpinner: boolean = false;
 
   id: string = localStorage.getItem('user_id');
-  friendsList: friendStatus[] = [];
 
   constructor(
     private postService: PostService,
     private cdRef: ChangeDetectorRef,
-    private friendService: FriendService
+    private sessionSerive: SessionService
   ) {}
 
   ngOnInit(): void {
-    this.id = localStorage.getItem('user_id');
+    this.id = this.sessionSerive.getUserId();
     this.getPosts();
     this.intersectionObserver();
-
-    // this.getFriendStatus(this.id);
   }
 
   ngAfterViewInit() {
@@ -77,9 +72,7 @@ export class HomeComponent implements OnInit {
     this.showSpinner = true;
     this.postService
       .getPostsPagination(this.id, this.currentPage)
-      .pipe(delay(1000))
       .subscribe((res) => {
-        console.log(res);
         this.showSpinner = false;
         this.totalPages = res.length;
         res.forEach((post: Post) => this.posts.push(post));
@@ -91,10 +84,6 @@ export class HomeComponent implements OnInit {
     this.currentPage = 0;
     this.postService.getPostsPagination(this.id, 0).subscribe((res) => {
       this.posts = res;
-      // this.posts.sort(
-      //   (a: Post, b: Post) =>
-      //     <any>new Date(b.datetimeCreated) - <any>new Date(a.datetimeCreated)
-      // );
     });
   }
 
@@ -109,11 +98,5 @@ export class HomeComponent implements OnInit {
     this.rerender = true;
     this.cdRef.detectChanges();
     this.rerender = false;
-  }
-
-  getFriendStatus(id: string) {
-    this.friendService
-      .getFriendStatus(id)
-      .subscribe((response) => (this.friendsList = response));
   }
 }

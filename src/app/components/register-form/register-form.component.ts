@@ -66,7 +66,7 @@ export class RegisterFormComponent implements OnInit {
   failedRegister(error: ApiError) {
     this.isLoading = false;
     if (error) {
-      Swal.fire('Registration Failed', 'Email number already exists', 'error');
+      Swal.fire('Registration Failed', 'Email address already exists', 'error');
       this.email.setErrors({ emailExists: true });
     }
   }

@@ -104,8 +104,12 @@ export class UserService {
   // March 14 2pm add-ons
 
   updateAboutMe(aboutMe: string, userId: string): Observable<Object> {
-    return this.http.put(this.baseUrl + `/aboutme/${userId}`, {"aboutme": aboutMe}, {
-      headers: this.httpHeaders})
-
+    return this.http.put(
+      this.baseUrl + `/aboutme/${userId}`,
+      { aboutme: aboutMe },
+      {
+        headers: this.httpHeaders,
+      }
+    );
   }
 }

@@ -42,6 +42,7 @@ export class PostService {
     page: number,
     size: number = 10
   ): Observable<any> {
+    console.log(localStorage.getItem('token'));
     return this.http.get(
       `${this.baseUrl}/friends/${userId}?page=${page}&size=${size}`,
       {

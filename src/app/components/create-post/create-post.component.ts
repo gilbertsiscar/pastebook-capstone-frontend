@@ -70,12 +70,12 @@ export class CreatePostComponent implements OnInit, OnChanges {
     this.name = this.sessionService.getName();
     this.profileUrl = `/${this.sessionService.getProfileUrl()}`;
 
-    const id = this.sessionService.getUserId();
-    this.userService.getUserById(id).subscribe((res: User) => {
-      this.profilePic = this.sanitizer.bypassSecurityTrustResourceUrl(
-        'data:image/png;base64,' + res.image.picByte
-      );
-    });
+    // const id = this.sessionService.getUserId();
+    // this.userService.getUserById(id).subscribe((res: User) => {
+    //   this.profilePic = this.sanitizer.bypassSecurityTrustResourceUrl(
+    //     'data:image/png;base64,' + res.image.picByte
+    //   );
+    // });
   }
 
   onSubmit() {
@@ -115,7 +115,6 @@ export class CreatePostComponent implements OnInit, OnChanges {
     }
 
     if (this.isFriendProfile) {
-      console.log('friendId', this.friendId);
       fd.append('tagged', this.friendId);
     }
 
@@ -155,17 +154,17 @@ export class CreatePostComponent implements OnInit, OnChanges {
   }
 
   // Tag Friends
-  ngDoCheck(): void {
-    this.postForm.valueChanges.subscribe((data) => {
-      this.displayTagged = data['tagged'];
-      if (this.displayTagged) {
-        this.displayTaggedLength = this.displayTagged.length;
-      }
-    });
-  }
+  // ngDoCheck(): void {
+  //   this.postForm.valueChanges.subscribe((data) => {
+  //     this.displayTagged = data['tagged'];
+  //     if (this.displayTagged) {
+  //       this.displayTaggedLength = this.displayTagged.length;
+  //     }
+  //   });
+  // }
 
-  getTaggedFriends(friends: Friends[]) {
-    console.log(friends);
-    this.tagged.setValue(friends);
-  }
+  // getTaggedFriends(friends: Friends[]) {
+  //   console.log(friends);
+  //   this.tagged.setValue(friends);
+  // }
 }
