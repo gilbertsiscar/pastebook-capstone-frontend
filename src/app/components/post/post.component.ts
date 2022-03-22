@@ -7,9 +7,6 @@ import { Post } from 'src/app/models/post';
 import { CommentService } from 'src/app/services/comment.service';
 import { LikeService } from 'src/app/services/like.service';
 
-import { LoginService } from 'src/app/services/login.service';
-import { TriggerNotificationsService } from 'src/app/services/trigger-notifications.service';
-
 import { PostService } from 'src/app/services/post.service';
 import { SessionService } from 'src/app/services/session.service';
 
@@ -35,8 +32,6 @@ export class PostComponent implements OnInit {
   constructor(
     private likeService: LikeService,
     private commentService: CommentService,
-    private triggerNotif: TriggerNotificationsService,
-
     private postService: PostService,
     private sessionService: SessionService,
     private fb: FormBuilder,
@@ -74,7 +69,6 @@ export class PostComponent implements OnInit {
       .subscribe(() => {
         this.commentForm.reset();
         this.ngOnInit();
-        //this.triggerNotif.triggerNotif(this.triggerNotif.ws);
         this.getPost();
       });
   }

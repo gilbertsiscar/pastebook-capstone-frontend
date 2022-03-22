@@ -57,9 +57,7 @@ export class CreatePostComponent implements OnInit, OnChanges {
   constructor(
     private fb: FormBuilder,
     private postService: PostService,
-    private sessionService: SessionService,
-    private userService: UserService,
-    private sanitizer: DomSanitizer
+    private sessionService: SessionService
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -69,13 +67,6 @@ export class CreatePostComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.name = this.sessionService.getName();
     this.profileUrl = `/${this.sessionService.getProfileUrl()}`;
-
-    // const id = this.sessionService.getUserId();
-    // this.userService.getUserById(id).subscribe((res: User) => {
-    //   this.profilePic = this.sanitizer.bypassSecurityTrustResourceUrl(
-    //     'data:image/png;base64,' + res.image.picByte
-    //   );
-    // });
   }
 
   onSubmit() {
@@ -152,19 +143,4 @@ export class CreatePostComponent implements OnInit, OnChanges {
   get tagged() {
     return this.postForm.get('tagged');
   }
-
-  // Tag Friends
-  // ngDoCheck(): void {
-  //   this.postForm.valueChanges.subscribe((data) => {
-  //     this.displayTagged = data['tagged'];
-  //     if (this.displayTagged) {
-  //       this.displayTaggedLength = this.displayTagged.length;
-  //     }
-  //   });
-  // }
-
-  // getTaggedFriends(friends: Friends[]) {
-  //   console.log(friends);
-  //   this.tagged.setValue(friends);
-  // }
 }
