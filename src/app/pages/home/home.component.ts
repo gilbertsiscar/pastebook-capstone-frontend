@@ -6,6 +6,7 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
+import { delay } from 'rxjs';
 import { Post } from 'src/app/models/post';
 import { PostService } from 'src/app/services/post.service';
 import { SessionService } from 'src/app/services/session.service';
@@ -55,12 +56,12 @@ export class HomeComponent implements OnInit {
     let options = {
       root: null,
       rootMargin: '0px',
-      threshold: 0.5,
+      threshold: 0.8,
     };
 
     this.observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
-        if (this.currentPage < this.totalPages && this.posts.length >= 10) {
+        if (this.posts.length % 10 === 0) {
           this.currentPage++;
           this.getPosts();
         }
@@ -72,6 +73,7 @@ export class HomeComponent implements OnInit {
     this.showSpinner = true;
     this.postService
       .getPostsPagination(this.id, this.currentPage)
+      .pipe(delay(1000))
       .subscribe((res) => {
         this.showSpinner = false;
         this.totalPages = res.length;

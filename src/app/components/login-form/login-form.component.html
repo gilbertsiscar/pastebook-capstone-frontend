@@ -1,4 +1,4 @@
-<div class="card p-4" style="width: 30%">
+<div class="card p-4" style="width: 40%">
   <h3 class="card-title text-center mb-3">Log In</h3>
 
   <!-- Method Selector -->
@@ -48,24 +48,27 @@
             <label class="form-label" [for]="input.id">
               {{ input.label }}</label
             >
-            <input
-              class="form-control"
-              [formControlName]="input.name"
-              [type]="input.type"
-              [id]="input.id"
-              [ngClass]="
-                handleError(loginForm.get(input.name)) ? 'is-invalid' : ''
-              "
-            />
-            <span
-              class="invalid-feedback"
-              *ngIf="
-                handleError(loginForm.get(input.name)) &&
-                loginForm.get(input.name).errors['required']
-              "
-            >
-              This field is required
-            </span>
+            <div class="input-group">
+              <span class="input-group-text">+63</span>
+              <input
+                class="form-control"
+                [formControlName]="input.name"
+                [type]="input.type"
+                [id]="input.id"
+                [ngClass]="
+                  handleError(loginForm.get(input.name)) ? 'is-invalid' : ''
+                "
+              />
+              <span
+                class="invalid-feedback"
+                *ngIf="
+                  handleError(loginForm.get(input.name)) &&
+                  loginForm.get(input.name).errors['required']
+                "
+              >
+                This field is required
+              </span>
+            </div>
           </div>
         </ng-template>
         <ng-template [ngSwitchCase]="'email'">
